@@ -62,6 +62,8 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscr
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_numberOfParticipants';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_customEmailDomains'] = 'subscription_emailDomains';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_uniqueEmails,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_fields,subscription_waitingList,subscription_disableReminders';
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_customNotifications';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_customNotifications'] = 'subscription_subscribeNotification,subscription_unsubscribeNotification,subscription_listUpdateNotification,subscription_notification';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_numberOfParticipants'] = 'subscription_numberOfParticipantsLimit';
@@ -112,6 +114,13 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_customEmailDoma
     'sql' => ['type' => Types::BOOLEAN, 'default' => false],
 ];
 
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_customNotifications'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_customNotifications'],
+    'inputType' => 'checkbox',
+    'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
+    'sql' => ['type' => Types::BOOLEAN, 'default' => false],
+];
+
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_emailDomains'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_emailDomains'],
     'inputType' => 'listWizard',
@@ -131,6 +140,38 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_disableReminder
     'inputType' => 'checkbox',
     'eval' => ['tl_class' => 'clr'],
     'sql' => ['type' => Types::BOOLEAN, 'default' => false],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_subscribeNotification'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeNotification'],
+    'inputType' => 'select',
+    'options_callback' => ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'getSubscribeNotifications'],
+    'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_unsubscribeNotification'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeNotification'],
+    'inputType' => 'select',
+    'options_callback' => ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'getUnsubscribeNotifications'],
+    'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_listUpdateNotification'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_listUpdateNotification'],
+    'inputType' => 'select',
+    'options_callback' => ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'getListUpdateNotifications'],
+    'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_notification'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_notification'],
+    'inputType' => 'select',
+    'options_callback' => ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'getNotifications'],
+    'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_memberGroupsLimit'] = [
