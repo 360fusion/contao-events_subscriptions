@@ -54,6 +54,8 @@ class EventNavigationModule extends Events
 
     protected function compile()
     {
+        $GLOBALS['TL_CSS']['event_navigation'] = 'bundles/codefogeventssubscriptions/event-navigation.css|static';
+
         $db = Database::getInstance();
         $ids = implode(',', array_map('intval', $this->cal_calendar));
         $calendars = $db->query("SELECT id, title, alias FROM tl_calendar WHERE id IN ($ids) ORDER BY title")->fetchAllAssoc();

@@ -7,6 +7,7 @@ use Codefog\EventsSubscriptionsBundle\Event\ExportEvent;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\Subscription\ExportAwareInterface;
 use Codefog\EventsSubscriptionsBundle\Subscription\SubscriptionInterface;
+use Codefog\EventsSubscriptionsBundle\Model\EventGroupModel;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\Config;
@@ -149,6 +150,21 @@ class Exporter
 
         [$data] = $this->collectEventsData($events, $startTstamp, $endTstamp);
 
+        return $this->exportData($data, $format);
+    }
+
+    /**
+     * Export the subscriptions of all events of an event group into one file
+     */
+    public function exportByEventGroup(EventGroupModel $eventGroup, $startTstamp = null, $endTstamp = null, $format = self::FORMAT_CSV): \SplFileInfo
+    {
+        [$data] = $this->collectEventsData(CalendarEventsModel::findBy('eventGroup', (int) $eventGroup->id, ['order' => 'startTime']), $startTstamp, $endTstamp);
+
+        return $this->exportData($data, $format);
+    }
+
+    private function exportData(array $data, string $format): \SplFileInfo
+    {
         return match ($format) {
             self::FORMAT_CSV => $this->exportToCsv($data),
             self::FORMAT_EXCEL => $this->exportToExcel($data),
@@ -246,6 +262,7 @@ class Exporter
             'subscription_date'        => $headerFields['subscription_date'],
             'subscription_type'        => $headerFields['subscription_type'],
             'subscription_waitingList' => $headerFields['subscription_waitingList'],
+            'subscription_attended'    => $headerFields['subscription_attended'],
             'subscription_firstname'   => $headerFields['subscription_firstname'],
             'subscription_lastname'    => $headerFields['subscription_lastname'],
             'subscription_email'       => $headerFields['subscription_email'],
@@ -306,6 +323,7 @@ class Exporter
                     'subscription_date'        => Date::parse(Config::get('datimFormat'), $model->dateCreated),
                     'subscription_type'        => $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types']['reference'][$model->type],
                     'subscription_waitingList' => $subscription->isOnWaitingList() ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'],
+                    'subscription_attended'    => $model->attended ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'],
                 ]
             );
 

@@ -66,18 +66,13 @@ class NotificationSender
     public function sendByType($type, SubscriptionModel $model)
     {
         // Check if there is a custom notification set in the event or calendar settings
-        if (($event = $model->getEvent()) !== null && ($calendar = $event->getRelated('pid')) !== null) {
+        if (($event = $model->getEvent()) !== null && $event->getRelated('pid') !== null) {
             $notificationType = substr($type, 21); // strip events_subscriptions_ prefix
             $field = sprintf('subscription_%sNotification', $notificationType);
 
-            if ($event->subscription_customNotifications && $event->$field) {
-                $this->send($event->$field, $model);
-
-                return;
-            }
-
-            if ($calendar->$field) {
-                $this->send($calendar->$field, $model);
+            // The event's, its event group's or the calendar's notification
+            if ($notification = EventConfig::create($event->id)->getNotification($field)) {
+                $this->send($notification, $model);
 
                 return;
             }
@@ -152,6 +147,7 @@ class NotificationSender
         // Generate event tokens
         $tokens = array_merge($tokens, $this->getModelTokens($event, 'event_'));
         $tokens['event_link'] = Events::generateEventUrl($event, true);
+        $tokens['event_ics_link'] = $tokens['event_link'].(str_contains($tokens['event_link'], '?') ? '&' : '?').'ics=1';
 
         // Generate calendar tokens
         if (($calendar = CalendarModel::findByPk($event->pid)) !== null) {

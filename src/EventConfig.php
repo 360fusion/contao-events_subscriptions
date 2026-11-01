@@ -11,6 +11,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle;
 
+use Codefog\EventsSubscriptionsBundle\Model\EventGroupModel;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\StringUtil;
@@ -32,6 +33,8 @@ class EventConfig
      */
     private $extras = [];
 
+    private EventGroupModel|false|null $eventGroup = false;
+
     /**
      * EventConfig constructor.
      *
@@ -51,11 +54,43 @@ class EventConfig
      */
     public function get($key)
     {
-        if ($this->event->subscription_override) {
-            return $this->event->$key;
+        return $this->getSettingsSource('subscription_override')->$key;
+    }
+
+    /**
+     * Get the notification ID of a notification field (e.g. "subscription_subscribeNotification")
+     */
+    public function getNotification(string $field): int
+    {
+        return (int) ($this->getSettingsSource('subscription_customNotifications')->$field ?: $this->calendar->$field);
+    }
+
+    /**
+     * Get the event group of the event, if any
+     */
+    public function getEventGroup(): EventGroupModel|null
+    {
+        if (false === $this->eventGroup) {
+            $this->eventGroup = $this->event->eventGroup ? EventGroupModel::findByPk($this->event->eventGroup) : null;
         }
 
-        return $this->calendar->$key;
+        return $this->eventGroup;
+    }
+
+    /**
+     * The event, its event group or the calendar: the first one that has the override turned on
+     */
+    private function getSettingsSource(string $override): object
+    {
+        if ($this->event->$override) {
+            return $this->event;
+        }
+
+        if (($group = $this->getEventGroup()) !== null && $group->$override) {
+            return $group;
+        }
+
+        return $this->calendar;
     }
 
     /**
@@ -148,7 +183,7 @@ class EventConfig
      */
     public function getAllowedEmailDomains(): array
     {
-        $source = $this->event->subscription_customEmailDomains ? $this->event : $this->calendar;
+        $source = $this->getSettingsSource('subscription_customEmailDomains');
 
         // Empty rows of the list wizard are saved as empty entries
         return array_values(array_filter(StringUtil::trimsplit(',', (string) $source->subscription_emailDomains)));
@@ -259,7 +294,7 @@ class EventConfig
     {
         $data = StringUtil::deserialize($data, true);
 
-        if ($data['value']) {
+        if ($data['value'] ?? null) {
             $time = (int)strtotime(sprintf('-%s %s', $data['value'], $data['unit']), $time);
         }
 

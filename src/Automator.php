@@ -124,8 +124,8 @@ class Automator
                 }
             }
 
-            // An event can use its own reminder notification
-            $notification = ($event['subscription_customNotifications'] ?? false) && $event['subscription_notification'] ? $event['subscription_notification'] : $calendar->subscription_notification;
+            // An event or its event group can use its own reminder notification
+            $notification = EventConfig::create($event['id'])->getNotification('subscription_notification');
 
             $this->sender->send($notification, $subscriptionModel);
 

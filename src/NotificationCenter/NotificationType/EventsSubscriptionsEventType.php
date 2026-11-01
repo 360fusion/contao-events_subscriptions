@@ -33,6 +33,7 @@ class EventsSubscriptionsEventType implements NotificationTypeInterface
 
             $this->factory->create(TextTokenDefinition::class, 'days_before_event', ''),
             $this->factory->create(TextTokenDefinition::class, 'event_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'event_ics_link', ''),
         ];
     }
 }

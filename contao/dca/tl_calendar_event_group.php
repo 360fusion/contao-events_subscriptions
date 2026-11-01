@@ -40,6 +40,10 @@ $GLOBALS['TL_DCA']['tl_calendar_event_group'] = [
             'copy',
             'delete',
             'toggle',
+            'export' => [
+                'href' => 'key=subscriptions_exportEventGroup',
+                'icon' => 'theme_import.svg',
+            ],
             'show',
         ],
     ],
@@ -93,3 +97,36 @@ $GLOBALS['TL_DCA']['tl_calendar_event_group'] = [
         ],
     ],
 ];
+
+// Booking settings: the same overrides as an event, used by the events of the group that do not override them
+\Contao\Controller::loadDataContainer('tl_calendar_events');
+\Contao\System::loadLanguageFile('tl_calendar_events');
+
+foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['fields'] as $name => $field) {
+    if (str_starts_with($name, 'subscription_')) {
+        $GLOBALS['TL_DCA']['tl_calendar_event_group']['fields'][$name] = $field;
+
+        // The override toggles have their own wording, the other fields use the event labels
+        if (\in_array($name, ['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_override'], true)) {
+            $GLOBALS['TL_DCA']['tl_calendar_event_group']['fields'][$name]['label'] = &$GLOBALS['TL_LANG']['tl_calendar_event_group'][$name];
+        } else {
+            $GLOBALS['TL_DCA']['tl_calendar_event_group']['fields'][$name]['label'] = $GLOBALS['TL_LANG']['tl_calendar_events'][$name] ?? $field['label'] ?? null;
+        }
+    }
+}
+
+foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes'] as $selector => $subpalette) {
+    if (str_starts_with($selector, 'subscription_')) {
+        $GLOBALS['TL_DCA']['tl_calendar_event_group']['palettes']['__selector__'][] = $selector;
+        $GLOBALS['TL_DCA']['tl_calendar_event_group']['subpalettes'][$selector] = $subpalette;
+    }
+}
+
+$overrides = array_intersect(['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_override'], array_keys($GLOBALS['TL_DCA']['tl_calendar_event_group']['fields']));
+
+if ($overrides) {
+    $GLOBALS['TL_DCA']['tl_calendar_event_group']['palettes']['default'] = str_replace('{publish_legend}', '{subscription_legend},'.implode(',', $overrides).';{publish_legend}', $GLOBALS['TL_DCA']['tl_calendar_event_group']['palettes']['default']);
+}
+
+unset($name, $field, $selector, $subpalette, $overrides);
+

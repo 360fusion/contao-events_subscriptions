@@ -13,6 +13,10 @@
     <p class="location"><?= $this->location ?><?php if ($this->address): ?> (<?= $this->address ?>)<?php endif; ?></p>
   <?php endif; ?>
 
+  <?php if ($this->icsHref): ?>
+    <p class="ics"><a href="<?= $this->icsHref ?>" download><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.addToCalendar'] ?></a></p>
+  <?php endif; ?>
+
   <?php if ($this->details): ?>
     <?= $this->details ?>
   <?php else: ?>

@@ -18,6 +18,7 @@ use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\Events
 use Codefog\EventsSubscriptionsBundle\Backend\UpcomingController;
 use Contao\Backend;
 use Contao\Database;
+use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
 use Contao\Message;
@@ -37,6 +38,36 @@ class CalendarContainer
             StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['tl_calendar']['showEvents'], $row['id'])),
             '' !== (string) $row['title'] ? StringUtil::specialchars($row['title']) : '#'.$row['id'],
         );
+    }
+
+    /**
+     * Pre-select the user groups that can manage events in the "Back end permissions" of a new calendar
+     */
+    public function preselectPermissions(DataContainer|null $dc = null): void
+    {
+        if (isset($GLOBALS['TL_DCA']['tl_calendar']['fields']['_permissions'])) {
+            $GLOBALS['TL_DCA']['tl_calendar']['fields']['_permissions']['load_callback'][] = [self::class, 'loadNewCalendarPermissions'];
+        }
+    }
+
+    public function loadNewCalendarPermissions($value, DataContainer $dc): array
+    {
+        $value = StringUtil::deserialize($value, true);
+
+        // Only new calendars, an admin can still untick the groups before saving
+        if ($dc->activeRecord?->tstamp) {
+            return $value;
+        }
+
+        $groups = Database::getInstance()->query("SELECT id, modules FROM tl_user_group WHERE disable=0");
+
+        while ($groups->next()) {
+            if (\in_array('calendar', StringUtil::deserialize($groups->modules, true), true)) {
+                $value[] = 'g'.$groups->id;
+            }
+        }
+
+        return array_values(array_unique($value));
     }
 
     /**

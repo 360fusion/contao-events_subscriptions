@@ -1,0 +1,12 @@
+/* Default styles of the event navigation module, override them in the theme */
+.mod_event_navigation ul{list-style:none;margin:0;padding:0}
+.mod_event_navigation li a{display:block;padding:.5em 0;border-bottom:1px solid rgba(0,0,0,.15)}
+.mod_event_navigation ul.level_2{padding-left:1.5em;font-size:.9em}
+.mod_event_navigation li.active>a,.mod_event_navigation li a[aria-current]{font-weight:bold;color:inherit}
+.mod_event_navigation .count{opacity:.65;font-size:.85em;font-weight:normal}
+.event-filter{display:flex;flex-wrap:wrap;gap:1em;align-items:flex-end;margin:0 0 1.5em}
+.event-filter .widget{display:flex;flex-direction:column;gap:.25em;flex:1 1 12em;margin:0}
+.event-filter .widget-submit{flex:0 0 auto;flex-direction:row;align-items:center;gap:1em}
+.event-filter select{width:100%;padding:.4em;font:inherit}
+.event-filter button{padding:.45em 1.2em;font:inherit;cursor:pointer}
+.event-group-description{margin:0 0 1.5em}

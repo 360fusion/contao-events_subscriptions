@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\Backend;
 
+use Codefog\EventsSubscriptionsBundle\Model\EventGroupModel;
 use Codefog\EventsSubscriptionsBundle\Exporter;
 use Codefog\EventsSubscriptionsBundle\ExporterHelper;
 use Codefog\EventsSubscriptionsBundle\Model\CalendarGroupModel;
@@ -45,6 +46,8 @@ class ExportCalendarController
         if (Input::get('key') === 'subscriptions_exportGroup' && ($groupModel = CalendarGroupModel::findByPk(Input::get('id'))) !== null) {
             $subject = CalendarModel::findBy('calendarGroup', $groupModel->id)?->getModels() ?? [];
             $title = $groupModel->title;
+        } elseif (Input::get('key') === 'subscriptions_exportEventGroup' && ($subject = EventGroupModel::findByPk(Input::get('id'))) !== null) {
+            $title = $subject->title;
         } elseif (Input::get('key') === 'subscriptions_exportCalendar' && ($subject = CalendarModel::findByPk(Input::get('id'))) !== null) {
             $title = $subject->title;
         } else {
@@ -53,6 +56,7 @@ class ExportCalendarController
 
         System::loadLanguageFile('tl_calendar');
         System::loadLanguageFile('tl_calendar_group');
+        System::loadLanguageFile('tl_calendar_event_group');
 
         /** @var Widget $startDateWidget */
         $startDateWidget = new $GLOBALS['BE_FFL']['text'](Widget::getAttributesFromDca([
@@ -84,7 +88,7 @@ class ExportCalendarController
     /**
      * Create the template
      */
-    protected function createTemplate(CalendarModel|array $subject, string $title, Widget $startDateWidget, Widget $endDateWidget, $formSubmit)
+    protected function createTemplate(CalendarModel|EventGroupModel|array $subject, string $title, Widget $startDateWidget, Widget $endDateWidget, $formSubmit)
     {
         $calendarData = ['title' => $title];
 
@@ -98,7 +102,11 @@ class ExportCalendarController
         $template = new BackendTemplate('be_events_subscriptions_export_calendar');
         $template->backUrl = Backend::getReferer();
         $template->calendar = $calendarData;
-        $template->explanation = $subject instanceof CalendarModel ? null : $GLOBALS['TL_LANG']['tl_calendar_group']['export.explanation'];
+        $template->explanation = match (true) {
+            $subject instanceof CalendarModel => null,
+            $subject instanceof EventGroupModel => $GLOBALS['TL_LANG']['tl_calendar_event_group']['export.explanation'],
+            default => $GLOBALS['TL_LANG']['tl_calendar_group']['export.explanation'],
+        };
         $template->action = Environment::get('request');
         $template->formSubmit = $formSubmit;
         $template->excelFormatSupport = true;
@@ -112,7 +120,7 @@ class ExportCalendarController
     /**
      * Process the form
      */
-    protected function processForm(CalendarModel|array $subject, string $title, Widget $startDateWidget, Widget $endDateWidget)
+    protected function processForm(CalendarModel|EventGroupModel|array $subject, string $title, Widget $startDateWidget, Widget $endDateWidget)
     {
         if (isset($_POST['export_excel'])) {
             $format = Exporter::FORMAT_EXCEL;
@@ -139,9 +147,11 @@ class ExportCalendarController
             } catch (\OutOfBoundsException $e) {}
         }
 
-        $file = $subject instanceof CalendarModel
-            ? $this->exporter->exportByCalendar($subject, $startTstamp, $endTstamp, $format)
-            : $this->exporter->exportByCalendars($subject, $startTstamp, $endTstamp, $format);
+        $file = match (true) {
+            $subject instanceof CalendarModel => $this->exporter->exportByCalendar($subject, $startTstamp, $endTstamp, $format),
+            $subject instanceof EventGroupModel => $this->exporter->exportByEventGroup($subject, $startTstamp, $endTstamp, $format),
+            default => $this->exporter->exportByCalendars($subject, $startTstamp, $endTstamp, $format),
+        };
 
         $fileName = sprintf(
             '%s_%s.%s',

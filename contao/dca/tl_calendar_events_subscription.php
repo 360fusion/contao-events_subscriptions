@@ -59,6 +59,11 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
         ],
         'operations' => [
             'edit',
+            'attended' => [
+                'href' => 'act=toggle&amp;field=attended',
+                'icon' => 'member.svg',
+                'primary' => true,
+            ],
             'delete',
             'show',
         ],
@@ -67,9 +72,9 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
     // Palettes
     'palettes' => [
         '__selector__' => ['type'],
-        'default' => '{type_legend},type,addedBy,numberOfParticipants,disableReminders',
-        'guest' => '{type_legend},type,addedBy,numberOfParticipants,disableReminders;{guest_legend},firstname,lastname,email',
-        'member' => '{type_legend},type,addedBy,numberOfParticipants,disableReminders;{member_legend},member',
+        'default' => '{type_legend},type,addedBy,numberOfParticipants,disableReminders,attended',
+        'guest' => '{type_legend},type,addedBy,numberOfParticipants,disableReminders,attended;{guest_legend},firstname,lastname,email',
+        'member' => '{type_legend},type,addedBy,numberOfParticipants,disableReminders,attended;{member_legend},member',
     ],
 
     // Fields
@@ -123,6 +128,13 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'filter' => true,
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
+            'sql' => ['type' => Types::BOOLEAN, 'default' => false],
+        ],
+        'attended' => [
+            'filter' => true,
+            'toggle' => true,
+            'inputType' => 'checkbox',
+            'eval' => ['doNotCopy' => true, 'tl_class' => 'w50 m12'],
             'sql' => ['type' => Types::BOOLEAN, 'default' => false],
         ],
         'sendNotification' => [

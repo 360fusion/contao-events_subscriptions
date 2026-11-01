@@ -12,6 +12,7 @@
 namespace Codefog\EventsSubscriptionsBundle\FrontendModule;
 
 use Codefog\EventsSubscriptionsBundle\Services;
+use Codefog\EventsSubscriptionsBundle\IcsGenerator;
 use Contao\BackendTemplate;
 use Contao\Database;
 use Contao\Calendar;
@@ -20,6 +21,7 @@ use Contao\CalendarModel;
 use Contao\ContentModel;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\CoreBundle\Exception\RedirectResponseException;
+use Contao\CoreBundle\Exception\ResponseException;
 use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
 use Contao\CoreBundle\Util\UrlUtil;
 use Contao\Date;
@@ -34,6 +36,8 @@ use Contao\System;
 use Contao\Template;
 use Contao\UserModel;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class EventReaderModule extends ModuleEventReader
 {
@@ -99,6 +103,16 @@ class EventReaderModule extends ModuleEventReader
             case 'article':
             case 'external':
                 throw new RedirectResponseException($urlGenerator->generate($objEvent, array(), UrlGeneratorInterface::ABSOLUTE_URL), 301);
+        }
+
+        // "Add to calendar" file
+        if (Input::get('ics') !== null)
+        {
+            $response = new Response(IcsGenerator::generate($objEvent->row(), $urlGenerator->generate($objEvent, array(), UrlGeneratorInterface::ABSOLUTE_URL), time()));
+            $response->headers->set('Content-Type', 'text/calendar; charset=utf-8');
+            $response->headers->set('Content-Disposition', $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, ($objEvent->alias ?: 'event-'.$objEvent->id).'.ics'));
+
+            throw new ResponseException($response);
         }
 
         // Overwrite the page metadata (see #2853, #4955 and #87)
@@ -231,6 +245,7 @@ class EventReaderModule extends ModuleEventReader
         }
 
         $objTemplate = new FrontendTemplate($this->cal_template ?: 'event_full');
+        $objTemplate->icsHref = $urlGenerator->generate($objEvent, array('ics' => 1));
         $objTemplate->setData($objEvent->row());
         $objTemplate->date = $strDate;
         $objTemplate->time = $strTime;

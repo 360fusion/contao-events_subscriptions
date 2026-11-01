@@ -146,3 +146,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.noRecipient
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.confirmation'] = '%s notifications sent successfully!';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.lastNotificationDate'] = 'Last notification sent at %s.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['registration_fields_legend'] = 'Registration fields';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['attended'] = ['Attended', 'Tick once the person has attended the event. Shown in the exports.', 'Mark subscription ID %s as attended', 'Attended', 'Not attended'];

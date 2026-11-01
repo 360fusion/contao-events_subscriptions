@@ -12,10 +12,12 @@
 namespace Codefog\EventsSubscriptionsBundle\FrontendModule;
 
 use Codefog\EventsSubscriptionsBundle\Services;
+use Codefog\EventsSubscriptionsBundle\EventGroupFilter;
 use Contao\BackendTemplate;
 use Contao\Database;
 use Contao\CalendarEventsModel;
 use Contao\Config;
+use Contao\CoreBundle\Routing\ResponseContext\HtmlHeadBag\HtmlHeadBag;
 use Contao\CoreBundle\Exception\PageNotFoundException;
 use Contao\Date;
 use Contao\Environment;
@@ -419,12 +421,57 @@ class EventListModule extends ModuleEventlist
         $this->Template->events = $strEvents;
         $this->Template->eventCount = $eventCount;
 
+        $this->addFilterHeading();
+
         // Clear the $_GET array (see #2445)
         if ($blnClearInput)
         {
             Input::setGet('year', null);
             Input::setGet('month', null);
             Input::setGet('day', null);
+        }
+    }
+
+    /**
+     * Show the event group (or calendar) chosen with "Filter by URL" as headline, description and page title
+     */
+    private function addFilterHeading(): void
+    {
+        if (!$this->cal_filterByUrl) {
+            return;
+        }
+
+        $db = Database::getInstance();
+        $record = null;
+
+        if (($group = EventGroupFilter::resolve(Input::get('group'), EventGroupFilter::idsByAlias($db->query('SELECT id, alias FROM tl_calendar_event_group WHERE published=1')->fetchAllAssoc()))) > 0) {
+            $record = $db->prepare('SELECT title, description FROM tl_calendar_event_group WHERE id=?')->execute($group)->row();
+        } elseif (($calendar = EventGroupFilter::resolve(Input::get('calendar'), EventGroupFilter::idsByAlias($db->query('SELECT id, alias FROM tl_calendar')->fetchAllAssoc()))) > 0) {
+            $record = $db->prepare('SELECT title, NULL AS description FROM tl_calendar WHERE id=?')->execute($calendar)->row();
+        }
+
+        if (!$record) {
+            return;
+        }
+
+        $this->Template->headline = $record['title'];
+        $this->Template->filterTitle = $record['title'];
+        $this->Template->filterDescription = $record['description'];
+
+        if ($record['description']) {
+            $this->Template->events = "\n".'<div class="event-group-description">'.$record['description'].'</div>'."\n".$this->Template->events;
+        }
+
+        $responseContext = System::getContainer()->get('contao.routing.response_context_accessor')->getResponseContext();
+
+        if ($responseContext?->has(HtmlHeadBag::class)) {
+            $htmlDecoder = System::getContainer()->get('contao.string.html_decoder');
+            $htmlHeadBag = $responseContext->get(HtmlHeadBag::class);
+            $htmlHeadBag->setTitle($htmlDecoder->inputEncodedToPlainText($record['title']));
+
+            if ($record['description']) {
+                $htmlHeadBag->setMetaDescription($htmlDecoder->htmlToPlainText($record['description']));
+            }
         }
     }
 }
