@@ -1,0 +1,67 @@
+<?php
+
+namespace Codefog\EventsSubscriptionsBundle\Backend;
+
+use Codefog\EventsSubscriptionsBundle\DataContainer\EventEmailContainer;
+use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
+use Codefog\EventsSubscriptionsBundle\NotificationCenterHelper;
+use Codefog\EventsSubscriptionsBundle\Services;
+use Contao\BackendUser;
+use Contao\Controller;
+use Contao\Input;
+use Contao\Message;
+use Contao\System;
+use Symfony\Component\Security\Csrf\CsrfToken;
+
+/**
+ * "Send me a test": sends an event e-mail to the logged-in user, filled with the details of the latest guest booking
+ */
+class EventEmailTestController
+{
+    public function run(): void
+    {
+        $container = System::getContainer();
+        $backUrl = $container->get('router')->generate('contao_backend', ['do' => 'calendar', 'table' => 'tl_nc_notification']);
+        $L = $GLOBALS['TL_LANG']['tl_nc_notification'];
+
+        if (!EventEmailContainer::canManage() || !$container->get('contao.csrf.token_manager')->isTokenValid(new CsrfToken($container->getParameter('contao.csrf_token_name'), (string) Input::get('rt')))) {
+            Controller::redirect($backUrl);
+        }
+
+        $id = (int) Input::get('id');
+        $email = (string) BackendUser::getInstance()->email;
+        $language = (new EventEmailContainer())->getLanguage($id);
+
+        if ('' === $email || null === $language) {
+            Message::addError($L['emailTestNotPossible']);
+            Controller::redirect($backUrl);
+        }
+
+        // Never send a test to anyone else: the e-mail may only go to the booker
+        $recipients = trim(str_replace(['##recipient_email##', '##subscription_email##', ','], '', $language['recipients'].$language['email_recipient_cc'].$language['email_recipient_bcc']));
+
+        if ('' !== $recipients) {
+            Message::addError(sprintf($L['emailTestOtherRecipients'], $recipients));
+            Controller::redirect($backUrl);
+        }
+
+        $booking = SubscriptionModel::findOneBy(['type=?'], ['guest'], ['order' => 'id DESC']);
+        $tokens = $booking ? Services::getNotificationSender()->getTokensForSubscription($booking) : null;
+
+        if (null === $tokens) {
+            Message::addError($L['emailTestNotPossible']);
+            Controller::redirect($backUrl);
+        }
+
+        $tokens['recipient_email'] = $tokens['subscription_email'] = $email;
+
+        try {
+            $container->get(NotificationCenterHelper::class)->sendNotification($id, $tokens);
+            Message::addConfirmation(sprintf($L['emailTestSent'], $email, $booking->id));
+        } catch (\Throwable $e) {
+            Message::addError(sprintf($L['emailTestFailed'], $e->getMessage()));
+        }
+
+        Controller::redirect($backUrl);
+    }
+}

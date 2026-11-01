@@ -92,6 +92,14 @@ class NotificationSender
             ->sendNotificationsByType($type, $tokens);
     }
 
+    /**
+     * The notification tokens of a subscription, null if it cannot be notified
+     */
+    public function getTokensForSubscription(SubscriptionModel $model): array|null
+    {
+        return $this->generateTokensFromSubscriptionModel($model);
+    }
+
     private function generateTokensFromSubscriptionModel(SubscriptionModel $model): array|null
     {
         try {

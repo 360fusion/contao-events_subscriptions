@@ -104,3 +104,37 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMessage'] = [
     'unpaid' => 'Ihre Zahlung ist noch nicht abgeschlossen. <a href="%s">Jetzt bezahlen</a>.',
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'] = 'Kartenzahlungen sind im Moment nicht möglich. Bitte versuchen Sie es später erneut oder wählen Sie eine andere Zahlungsart.';
+
+// Veranstaltungen › E-Mails
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
+    'events_subscriptions_subscribe' => 'Bei einer Anmeldung',
+    'events_subscriptions_unsubscribe' => 'Bei einer Abmeldung',
+    'events_subscriptions_listUpdate' => 'Beim Nachrücken von der Warteliste',
+    'events_subscriptions_reminder' => 'Erinnerung vor der Veranstaltung',
+    'events_subscription_event' => 'Manuell aus der Anmeldeliste gesendet',
+];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['booking' => 'Anmeldung', 'event' => 'Veranstaltung', 'links' => 'Links', 'payment' => 'Zahlung'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
+    'subscription_firstname' => 'Vorname',
+    'subscription_lastname' => 'Nachname',
+    'subscription_email' => 'E-Mail-Adresse',
+    'subscription_numberOfParticipants' => 'Anzahl Teilnehmer',
+    'event_title' => 'Titel der Veranstaltung',
+    'event_startDate' => 'Startdatum',
+    'event_startTime' => 'Startzeit',
+    'event_endDate' => 'Enddatum',
+    'event_endTime' => 'Endzeit',
+    'event_location' => 'Ort',
+    'event_address' => 'Adresse',
+    'event_teaser' => 'Teasertext',
+    'days_before_event' => 'Tage bis zur Veranstaltung',
+    'calendar_title' => 'Kalender',
+    'event_link' => 'Link zur Veranstaltung',
+    'event_ics_link' => 'Link "Zum Kalender hinzufügen"',
+    'unsubscribe_link' => 'Link zum Abmelden',
+    'payment_amount' => 'Betrag',
+    'payment_status' => 'Zahlungsstatus',
+    'payment_method' => 'Zahlungsart',
+    'purchase_order' => 'Bestellnummer / Kostenstelle',
+    'payment_link' => 'Link "Jetzt bezahlen"',
+];

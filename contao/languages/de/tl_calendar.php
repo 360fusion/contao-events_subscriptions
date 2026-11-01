@@ -119,3 +119,4 @@ $GLOBALS['TL_LANG']['tl_calendar']['event_groups'] = ['Veranstaltungsgruppen', '
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.eventGroup'] = 'Veranstaltungsgruppe';
 $GLOBALS['TL_LANG']['tl_calendar']['payments'] = ['Zahlungen', 'Alle Zahlungen anzeigen'];
 $GLOBALS['TL_LANG']['tl_calendar']['payment_providers'] = ['Zahlungsanbieter', 'Die Zahlungsanbieter einrichten'];
+$GLOBALS['TL_LANG']['tl_calendar']['emails'] = ['E-Mails', 'Die E-Mails zu den Anmeldungen bearbeiten'];

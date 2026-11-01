@@ -105,3 +105,37 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMessage'] = [
     'unpaid' => 'Your payment has not been completed yet. <a href="%s">Pay now</a>.',
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'] = 'Card payments are not available at the moment, please try again later or choose another payment method.';
+
+// Events › E-mails
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
+    'events_subscriptions_subscribe' => 'When someone books',
+    'events_subscriptions_unsubscribe' => 'When someone cancels',
+    'events_subscriptions_listUpdate' => 'When someone gets a place from the waiting list',
+    'events_subscriptions_reminder' => 'Reminder before the event',
+    'events_subscription_event' => 'Sent by hand from the subscriptions list',
+];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['booking' => 'Booking', 'event' => 'Event', 'links' => 'Links', 'payment' => 'Payment'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
+    'subscription_firstname' => 'First name',
+    'subscription_lastname' => 'Last name',
+    'subscription_email' => 'E-mail address',
+    'subscription_numberOfParticipants' => 'Number of participants',
+    'event_title' => 'Event title',
+    'event_startDate' => 'Start date',
+    'event_startTime' => 'Start time',
+    'event_endDate' => 'End date',
+    'event_endTime' => 'End time',
+    'event_location' => 'Location',
+    'event_address' => 'Address',
+    'event_teaser' => 'Teaser',
+    'days_before_event' => 'Days until the event',
+    'calendar_title' => 'Calendar',
+    'event_link' => 'Event page link',
+    'event_ics_link' => 'Add to calendar link',
+    'unsubscribe_link' => 'Cancel booking link',
+    'payment_amount' => 'Amount',
+    'payment_status' => 'Payment status',
+    'payment_method' => 'Payment method',
+    'purchase_order' => 'Purchase order / cost centre',
+    'payment_link' => 'Pay now link',
+];

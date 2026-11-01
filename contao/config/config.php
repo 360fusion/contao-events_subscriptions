@@ -7,6 +7,7 @@ $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_group';
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_event_group';
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_payment_provider';
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_payment';
+$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_nc_notification';
 
 $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_export'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\ExportController',
@@ -38,6 +39,10 @@ $GLOBALS['BE_MOD']['content']['calendar']['payment_refund'] = [
 ];
 $GLOBALS['BE_MOD']['content']['calendar']['payment_markPaid'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\PaymentController',
+    'run',
+];
+$GLOBALS['BE_MOD']['content']['calendar']['event_emailTest'] = [
+    'Codefog\EventsSubscriptionsBundle\Backend\EventEmailTestController',
     'run',
 ];
 $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_upcoming'] = [

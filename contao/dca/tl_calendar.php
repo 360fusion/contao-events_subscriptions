@@ -18,6 +18,12 @@ use Doctrine\DBAL\Types\Types;
 ]);
 
 \Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 1, [
+    'emails' => [
+        'href' => 'table=tl_nc_notification',
+        'icon' => 'news.svg',
+        'primary' => true,
+        'attributes' => 'data-action="contao--scroll-offset#store"',
+    ],
     'payments' => [
         'href' => 'table=tl_calendar_events_payment',
         'icon' => 'tablewizard.svg',
@@ -31,6 +37,13 @@ use Doctrine\DBAL\Types\Types;
         'attributes' => 'data-action="contao--scroll-offset#store"',
     ],
 ]);
+
+// Only users who may manage the notifications see the e-mails
+$GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = static function (): void {
+    if (!\Codefog\EventsSubscriptionsBundle\DataContainer\EventEmailContainer::canManage()) {
+        unset($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations']['emails']);
+    }
+};
 
 // Calendar groups (System › Settings)
 if (\Contao\Config::get('eventsSubscriptionsCalendarGroups')) {

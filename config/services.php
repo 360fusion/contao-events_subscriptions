@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Codefog\EventsSubscriptionsBundle\Cache\RegistrationFieldsCacheWarmer;
+use Codefog\EventsSubscriptionsBundle\EventListener\EventEmailsListener;
 use Codefog\EventsSubscriptionsBundle\EventListener\NewCalendarPermissionsListener;
 use Codefog\EventsSubscriptionsBundle\ExporterHelper;
 use Codefog\EventsSubscriptionsBundle\NotificationCenterHelper;
@@ -39,6 +40,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set(NewCalendarPermissionsListener::class)
         ->autoconfigure(false)
         ->tag('contao.hook', ['hook' => 'loadDataContainer', 'priority' => -100])
+    ;
+
+    // Events › E-mails: after the Notification Center's own callbacks
+    $services
+        ->set(EventEmailsListener::class)
+        ->autoconfigure(false)
+        ->tag('contao.hook', ['hook' => 'loadDataContainer', 'priority' => -200])
     ;
 
     // Must run after Contao's cache warmer (priority 0), which writes the DCA extracts

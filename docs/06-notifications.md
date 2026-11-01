@@ -110,3 +110,19 @@ The list of available tokens in every notification:
 9. `days_before_event`
 
    A number of days before the event, `0` if the event is past.
+
+## E-mails (simple editor)
+
+"E-mails" above the calendar list shows the event notifications as a plain list: the name, when the e-mail is
+sent, how many calendars, event groups and events use it, its subject, and a warning when an e-mail is not set up
+(nothing is sent) or switched off. It is shown to users who may access the Notification Center.
+
+Editing an e-mail shows one form: name, when it is sent, subject, format (plain or formatted text) and the message,
+with the sender and an on/off switch under "More options". Click one of the available tags to insert it where the
+cursor is; only the tags the e-mail type provides are listed, including the registration fields. "Send me a test"
+sends the e-mail to your own address, filled with the details of the latest booking (not sent if the e-mail also
+goes to other fixed addresses).
+
+The form edits the main language of the e-mail's first message in the Notification Center and creates them if they
+are missing, so sending is unchanged. Use the Notification Center for anything else (more languages, CC/BCC,
+attachments).

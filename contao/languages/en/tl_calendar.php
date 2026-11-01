@@ -120,3 +120,4 @@ $GLOBALS['TL_LANG']['tl_calendar']['event_groups'] = ['Event groups', 'Manage th
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.eventGroup'] = 'Event group';
 $GLOBALS['TL_LANG']['tl_calendar']['payments'] = ['Payments', 'Show all payments'];
 $GLOBALS['TL_LANG']['tl_calendar']['payment_providers'] = ['Payment providers', 'Set up the payment providers'];
+$GLOBALS['TL_LANG']['tl_calendar']['emails'] = ['E-mails', 'Edit the e-mails sent for bookings'];
