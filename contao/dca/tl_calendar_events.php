@@ -115,7 +115,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_customEmailDoma
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_emailDomains'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_emailDomains'],
     'inputType' => 'listWizard',
-    'eval' => ['csv' => ',', 'tl_class' => 'clr'],
+    'eval' => ['multiple' => true, 'csv' => ',', 'tl_class' => 'clr'],
     'sql' => ['type' => Types::TEXT, 'notnull' => false],
 ];
 
