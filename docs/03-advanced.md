@@ -52,6 +52,34 @@ Possible scenarios:
   the form to subscribe to the waiting list (if its limit allows that).
 
 
+### Registration fields
+
+Since version 3.1.0, you can ask guests for more than their name and e-mail address. Open the "Registration
+fields" list from the calendar overview and create the fields you need, for example "Job title" or
+"Dietary requirements". Each field has:
+
+- a label, shown on the form, in the export and in the backend
+- a field key, used for the notification token and to store the answers (generated from the label if left empty)
+- a field type: text, textarea, e-mail address, number, select menu, radio buttons or a single checkbox (yes/no)
+- the choices, for select menus and radio buttons
+- whether it is required by default
+
+Then pick the fields in the "Registration fields" setting of a calendar, in the order they should appear on the
+form. For every field you can keep its default or make it required or optional. An event can use its own selection
+by checking "Override the subscription settings", like all other subscription settings.
+
+The answers can be viewed and edited in the backend subscription form, are added to the CSV/Excel export (one
+column per field) and are available in notifications as `subscription_field_<key>` (see
+[notifications](06-notifications.md#available-tokens)).
+
+To stop using a field without losing the answers already given, disable it instead of deleting it. A disabled field
+is no longer shown on forms or in the field selection, but its answers are kept and still exported. When a field is
+deleted, its answers are removed the next time a subscription is saved in the backend. Changing the field key later
+has the same effect on the answers stored under the old key.
+
+Registration fields apply to guest subscriptions only.
+
+
 ## Waiting list
 
 Sometimes you may want to limit the maximum number of subscriptions but still allow the users to subscribe

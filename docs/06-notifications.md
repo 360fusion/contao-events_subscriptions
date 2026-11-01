@@ -88,6 +88,11 @@ The list of available tokens in every notification:
 7. `unsubscribe_link`
 
    A unique link that allows the user to immediately unsubscribe from the event.
+
+8. `subscription_field_*`
+
+   The answer to a [registration field](03-advanced.md#registration-fields) of a guest subscription. Enter the
+   field key in place of asterisk, e.g. `subscription_field_job_title`. Checkboxes are rendered as yes/no.
    
 8. `event_link`
 
