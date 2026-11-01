@@ -102,3 +102,5 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['status'] = [
 ];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsVenues'] = ['Veranstaltungsorte', 'Eine Liste der Orte führen, an denen Veranstaltungen stattfinden. Fügt der Seite Einstellungen die Kachel Veranstaltungsorte und bei jeder Veranstaltung die Auswahl eines Ortes hinzu, die Ort und Adresse auf der Website ausfüllt.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTrainers'] = ['Trainer', 'Eine Liste von Trainern mit E-Mail-Adressen führen. Fügt der Seite Einstellungen die Kachel Trainer und bei Veranstaltungen und Kursen die Auswahl eines Trainers hinzu, verwendet für die Trainer-Mail.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['explainShow'] = 'Details anzeigen';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['explainHide'] = 'Details ausblenden';

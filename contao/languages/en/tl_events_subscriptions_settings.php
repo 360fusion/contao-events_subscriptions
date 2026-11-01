@@ -102,3 +102,5 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['status'] = [
 ];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsVenues'] = ['Venues and locations', 'Keep a list of the places events are held. Adds Venues and locations to the Settings page and a Venue choice on every event, which fills in the location and address shown on the website.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTrainers'] = ['Trainers', 'Keep a list of trainers with their e-mail addresses. Adds Trainers to the Settings page and a Trainer choice on events and courses, used for the trainer pack e-mail.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['explainShow'] = 'Show details';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['explainHide'] = 'Hide details';

@@ -81,14 +81,19 @@ class SettingsContainer
             return $text;
         };
 
+        $render = static fn (string $type, string|array $content): string => match ($type) {
+            'h' => '<p style="margin:14px 0 4px"><strong>'.$linked($content).'</strong></p>',
+            'ul', 'ol' => '<'.$type.' style="margin:4px 0 4px 22px;padding:0;list-style:'.('ul' === $type ? 'disc' : 'decimal').'">'.implode('', array_map(static fn (string $item) => '<li style="margin:4px 0">'.$linked($item).'</li>', $content)).'</'.$type.'>',
+            default => '<p style="margin:6px 0">'.$linked($content).'</p>',
+        };
+
+        // The first paragraph is always shown, the rest opens with "Show details" (and the choice is remembered for next time)
+        $blocks = $L['explain'][$page] ?? [];
+        $intro = $blocks && 'p' === $blocks[0][0] ? $render(...array_shift($blocks)) : '';
         $html = '';
 
-        foreach ($L['explain'][$page] ?? [] as [$type, $content]) {
-            $html .= match ($type) {
-                'h' => '<p style="margin:14px 0 4px"><strong>'.$linked($content).'</strong></p>',
-                'ul', 'ol' => '<'.$type.' style="margin:4px 0 4px 22px;padding:0;list-style:'.('ul' === $type ? 'disc' : 'decimal').'">'.implode('', array_map(static fn (string $item) => '<li style="margin:4px 0">'.$linked($item).'</li>', $content)).'</'.$type.'>',
-                default => '<p style="margin:6px 0">'.$linked($content).'</p>',
-            };
+        foreach ($blocks as [$type, $content]) {
+            $html .= $render($type, $content);
         }
 
         $status = array_filter($this->getStatus($page), static fn (string $line) => '' !== $line);
@@ -97,7 +102,11 @@ class SettingsContainer
             $html .= '<p style="margin:14px 0 4px"><strong>'.$L['statusTitle'].'</strong></p><ul style="margin:4px 0 4px 22px;padding:0;list-style:disc">'.implode('', array_map(static fn (string $line) => '<li style="margin:4px 0">'.$linked($line).'</li>', $status)).'</ul>';
         }
 
-        Message::addRaw('<div class="tl_info" style="padding:14px 18px;line-height:1.5">'.$html.'</div>');
+        $details = '' === $html ? '' : '<details class="events-explain" data-page="'.$page.'"><summary style="cursor:pointer;font-weight:600;margin-top:4px"><span class="when-closed">'.$L['explainShow'].' ▾</span><span class="when-open">'.$L['explainHide'].' ▴</span></summary>'.$html.'</details>'
+            .'<style>.events-explain .when-open,.events-explain[open] .when-closed{display:none}.events-explain[open] .when-open{display:inline}</style>'
+            .'<script>(()=>{const d=document.querySelector("details.events-explain");if(!d)return;const k="events-explain-"+d.dataset.page;try{d.open="1"===localStorage.getItem(k)}catch(e){}d.addEventListener("toggle",()=>{try{localStorage.setItem(k,d.open?"1":"0")}catch(e){}})})()</script>';
+
+        Message::addRaw('<div class="tl_info" style="padding:14px 18px;line-height:1.5">'.$intro.$details.'</div>');
     }
 
     /**
