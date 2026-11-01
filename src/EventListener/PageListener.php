@@ -18,6 +18,7 @@ use Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Codefog\HasteBundle\UrlParser;
 use Contao\Controller;
+use Contao\CoreBundle\Event\LayoutEvent;
 use Contao\CoreBundle\Exception\RedirectResponseException;
 use Contao\Input;
 use Contao\PageModel;
@@ -26,6 +27,15 @@ use Contao\System;
 
 class PageListener
 {
+    /**
+     * Pages with a "Twig layout with slots", for which Contao does not run the
+     * generatePage hook.
+     */
+    public function onLayout(LayoutEvent $event): void
+    {
+        $this->onGeneratePage();
+    }
+
     /**
      * On generate the page
      */

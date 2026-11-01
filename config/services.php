@@ -6,8 +6,10 @@ use Codefog\EventsSubscriptionsBundle\Cache\RegistrationFieldsCacheWarmer;
 use Codefog\EventsSubscriptionsBundle\EventListener\BackendMenuListener;
 use Codefog\EventsSubscriptionsBundle\EventListener\EventEmailsListener;
 use Codefog\EventsSubscriptionsBundle\EventListener\NewCalendarPermissionsListener;
+use Codefog\EventsSubscriptionsBundle\EventListener\PageListener;
 use Codefog\EventsSubscriptionsBundle\ExporterHelper;
 use Codefog\EventsSubscriptionsBundle\NotificationCenterHelper;
+use Contao\CoreBundle\Event\LayoutEvent;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 
 return static function (ContainerConfigurator $containerConfigurator): void {
@@ -55,6 +57,14 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set(BackendMenuListener::class)
         ->autoconfigure(false)
         ->tag('kernel.event_listener', ['event' => 'contao.backend_menu_build', 'priority' => -100])
+    ;
+
+    // Cancel link and payment return on pages with a Twig layout; legacy layouts use
+    // the generatePage hook
+    $services
+        ->set(PageListener::class)
+        ->autoconfigure(false)
+        ->tag('kernel.event_listener', ['event' => LayoutEvent::class, 'method' => 'onLayout'])
     ;
 
     // Must run after Contao's cache warmer (priority 0), which writes the DCA extracts
