@@ -81,3 +81,10 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
     'months'  => 'month(s)',
     'years'   => 'year(s)',
 ];
+
+// Notifications per event
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_customNotifications'] = ['Custom notifications', 'Use other notifications for this event than the calendar\'s, e.g. to send an information pack for this event. Fields left empty use the calendar\'s notification.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeNotification'] = ['Subscribe notification', 'The notification sent on subscription. Leave empty to use the calendar\'s.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeNotification'] = ['Unsubscribe notification', 'The notification sent on unsubscription. Leave empty to use the calendar\'s.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_listUpdateNotification'] = ['Waiting list promotion notification', 'The notification sent when a subscriber moves up from the waiting list. Leave empty to use the calendar\'s.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_notification'] = ['Reminder notification', 'The reminder notification, if the calendar sends reminders. Leave empty to use the calendar\'s.'];

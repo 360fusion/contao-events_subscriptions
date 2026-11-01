@@ -124,7 +124,10 @@ class Automator
                 }
             }
 
-            $this->sender->send($calendar->subscription_notification, $subscriptionModel);
+            // An event can use its own reminder notification
+            $notification = ($event['subscription_customNotifications'] ?? false) && $event['subscription_notification'] ? $event['subscription_notification'] : $calendar->subscription_notification;
+
+            $this->sender->send($notification, $subscriptionModel);
 
             // Update the database
             $subscriptionModel->lastReminder = time();

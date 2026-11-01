@@ -54,6 +54,13 @@ the subscriptions in the calendar settings and choose the appropriate notificati
 sent out (standard behavior)!
 
 
+## Custom notifications per event
+
+To send other notifications for a single event, e.g. a different information pack, check "Custom notifications" in the
+event settings and choose its subscribe, unsubscribe, waiting list promotion and reminder notifications. Fields left
+empty use the calendar's notification. This is independent of "Override subscription settings". Reminders are still
+only sent for calendars that have reminders enabled.
+
 ## Available tokens
 
 The list of available tokens in every notification:

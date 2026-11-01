@@ -65,10 +65,16 @@ class NotificationSender
      */
     public function sendByType($type, SubscriptionModel $model)
     {
-        // Check if there is a custom notification set in the calendar settings
+        // Check if there is a custom notification set in the event or calendar settings
         if (($event = $model->getEvent()) !== null && ($calendar = $event->getRelated('pid')) !== null) {
             $notificationType = substr($type, 21); // strip events_subscriptions_ prefix
             $field = sprintf('subscription_%sNotification', $notificationType);
+
+            if ($event->subscription_customNotifications && $event->$field) {
+                $this->send($event->$field, $model);
+
+                return;
+            }
 
             if ($calendar->$field) {
                 $this->send($calendar->$field, $model);

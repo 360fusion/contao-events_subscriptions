@@ -78,3 +78,10 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
     'months'  => 'Monat(e)',
     'years'   => 'Jahr(e)',
 ];
+
+// Notifications per event
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_customNotifications'] = ['Eigene Benachrichtigungen', 'Für dieses Event andere Benachrichtigungen als die des Kalenders verwenden, z. B. um ein Infopaket zu diesem Event zu senden. Leere Felder verwenden die Benachrichtigung des Kalenders.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeNotification'] = ['Anmelde-Benachrichtigung', 'Die Benachrichtigung bei der Anmeldung. Leer lassen, um die des Kalenders zu verwenden.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeNotification'] = ['Abmelde-Benachrichtigung', 'Die Benachrichtigung bei der Abmeldung. Leer lassen, um die des Kalenders zu verwenden.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_listUpdateNotification'] = ['Nachrück-Benachrichtigung', 'Die Benachrichtigung, wenn jemand von der Warteliste nachrückt. Leer lassen, um die des Kalenders zu verwenden.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_notification'] = ['Erinnerungs-Benachrichtigung', 'Die Erinnerungs-Benachrichtigung, sofern der Kalender Erinnerungen sendet. Leer lassen, um die des Kalenders zu verwenden.'];
