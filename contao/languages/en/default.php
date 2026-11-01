@@ -59,3 +59,6 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.memberExportHeaderFields'] = [
     'member_id'       => 'Member ID',
     'member_username' => 'Member username',
 ];
+
+// Registration fields
+$GLOBALS['TL_LANG']['MSC']['subscriptionFieldDeleteConfirm'] = 'Delete this field? Answers already given to it are removed when a registration is next saved in the backend. To keep them, disable the field instead.';

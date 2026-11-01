@@ -2,6 +2,7 @@
 
 // Backend modules
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subscription';
+$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subscription_field';
 
 $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_export'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\ExportController',
@@ -62,6 +63,7 @@ $GLOBALS['TL_HOOKS']['getAllEvents'][] = [
 
 // Models
 $GLOBALS['TL_MODELS']['tl_calendar_events_subscription'] = 'Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel';
+$GLOBALS['TL_MODELS']['tl_calendar_events_subscription_field'] = 'Codefog\EventsSubscriptionsBundle\Model\SubscriptionFieldModel';
 
 // Cron jobs
 $GLOBALS['TL_CRON']['hourly'][] = ['Codefog\EventsSubscriptionsBundle\EventListener\CronListener', 'onHourlyJob'];

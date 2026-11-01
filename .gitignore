@@ -1,2 +1,4 @@
 composer.lock
 config/runonce.php
+/vendor/
+/.phpunit.result.cache

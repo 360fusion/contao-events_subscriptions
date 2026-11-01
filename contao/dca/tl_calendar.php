@@ -7,6 +7,15 @@ use Doctrine\DBAL\Types\Types;
 \Contao\Controller::loadDataContainer('tl_calendar_events');
 \Contao\System::loadLanguageFile('tl_calendar_events');
 
+// Global operations
+\Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 0, [
+    'registration_fields' => [
+        'href' => 'table=tl_calendar_events_subscription_field',
+        'icon' => 'modules.svg',
+        'attributes' => 'data-action="contao--scroll-offset#store"',
+    ],
+]);
+
 // List operations
 $GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['subscriptions_overview'] = [
     'href' => 'key=subscriptions_overview',

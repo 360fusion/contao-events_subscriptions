@@ -81,3 +81,8 @@ $GLOBALS['TL_LANG']['tl_calendar']['export.excel'] = 'Export als Excel';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.headline'] = 'Anmeldeübersicht für Kalender "%s"';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.empty'] = 'Derzeit gibt es keine Anmeldungen.';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.waitingList'] = 'Warteliste';
+
+/**
+ * Global operations
+ */
+$GLOBALS['TL_LANG']['tl_calendar']['registration_fields'] = ['Anmeldefelder', 'Die zusätzlichen Felder des Gast-Anmeldeformulars verwalten'];
