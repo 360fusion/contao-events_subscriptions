@@ -150,7 +150,8 @@ class EventConfig
     {
         $source = $this->event->subscription_customEmailDomains ? $this->event : $this->calendar;
 
-        return StringUtil::trimsplit(',', (string) $source->subscription_emailDomains);
+        // Empty rows of the list wizard are saved as empty entries
+        return array_values(array_filter(StringUtil::trimsplit(',', (string) $source->subscription_emailDomains)));
     }
 
     /**
