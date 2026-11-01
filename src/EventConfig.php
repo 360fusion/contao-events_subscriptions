@@ -133,13 +133,16 @@ class EventConfig
     }
 
     /**
-     * Get the e-mail domains guests may subscribe with (empty for all)
+     * Get the e-mail domains guests may subscribe with (empty for all). Events use their calendar's list unless they
+     * have a custom one, independent of overriding the other subscription settings.
      *
      * @return array<string>
      */
     public function getAllowedEmailDomains(): array
     {
-        return StringUtil::trimsplit(',', (string) $this->get('subscription_emailDomains'));
+        $source = $this->event->subscription_customEmailDomains ? $this->event : $this->calendar;
+
+        return StringUtil::trimsplit(',', (string) $source->subscription_emailDomains);
     }
 
     /**

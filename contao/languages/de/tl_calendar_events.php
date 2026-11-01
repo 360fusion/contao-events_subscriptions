@@ -79,3 +79,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
     'years'   => 'Jahr(e)',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_emailDomains'] = ['Erlaubte E-Mail-Domains', 'Nur Gäste mit einer E-Mail-Adresse aus einer dieser Domains können sich anmelden. Eine Domain pro Zeile: "example.com" erlaubt auch Subdomains, "@example.com" nur genau diese Domain. Leer lassen, um alle E-Mail-Adressen zu erlauben.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_customEmailDomains'] = ['Eigene E-Mail-Domains', 'Für dieses Event eine eigene Liste erlaubter E-Mail-Domains statt der Liste des Kalenders verwenden. Eine leere Liste erlaubt alle E-Mail-Adressen.'];
