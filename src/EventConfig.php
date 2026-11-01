@@ -133,6 +133,16 @@ class EventConfig
     }
 
     /**
+     * Get the e-mail domains guests may subscribe with (empty for all)
+     *
+     * @return array<string>
+     */
+    public function getAllowedEmailDomains(): array
+    {
+        return StringUtil::trimsplit(',', (string) $this->get('subscription_emailDomains'));
+    }
+
+    /**
      * Get the maximum subscriptions
      *
      * @return int

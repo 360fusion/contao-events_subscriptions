@@ -89,3 +89,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef'][''
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef']['1'] = 'Pflichtfeld';
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef']['0'] = 'Optional';
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_disabled'] = '%s (deaktiviert)';
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_emailDomains'] = ['Erlaubte E-Mail-Domains', 'Nur Gäste mit einer E-Mail-Adresse aus einer dieser Domains können sich anmelden. Eine Domain pro Zeile: "example.com" erlaubt auch Subdomains, "@example.com" nur genau diese Domain. Leer lassen, um alle E-Mail-Adressen zu erlauben.'];

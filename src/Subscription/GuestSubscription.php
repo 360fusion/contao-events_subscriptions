@@ -5,6 +5,7 @@ namespace Codefog\EventsSubscriptionsBundle\Subscription;
 use Codefog\EventsSubscriptionsBundle\EventConfig;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\RegistrationFields;
+use Codefog\EventsSubscriptionsBundle\Services;
 use Codefog\HasteBundle\Form\Form;
 use Codefog\HasteBundle\Util\ArrayPosition;
 use Contao\System;
@@ -106,6 +107,17 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'label'     => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.email'],
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true, 'rgxp' => 'email'],
+                    'save_callback' => [
+                        static function ($value) use ($event) {
+                            $domains = $event->getAllowedEmailDomains();
+
+                            if (!Services::getSubscriptionValidator()->isEmailDomainAllowed((string) $value, $domains)) {
+                                throw new \RuntimeException(sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailDomainError'], implode(', ', $domains)));
+                            }
+
+                            return $value;
+                        },
+                    ],
                 ],
                 $position
             );

@@ -26,6 +26,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.canSubscribeUntil']       = 'An
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.canUnsubscribeUntil']     = 'Abmeldung möglich bis: %s';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants']    = 'Anzahl der Teilnehmer';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsLimit'] = 'Sie können bis zu %d Teilnehmer für diese Veranstaltung anmelden.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailDomainError'] = 'Nur E-Mail-Adressen aus diesen Domains können sich anmelden: %s';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsExceeded'] = 'Leider können Sie sich nicht anmelden, da die maximale Teilnehmerzahl für dieses Event %d beträgt.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsExceededWaitingList'] = 'Leider können Sie sich nicht anmelden, da die maximale Teilnehmerzahl für dieses Event %d beträgt mit einer zusätzlichen Warteliste von %d Plätzen.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipantsSubscribeToWaitingList'] = 'Leider können Sie sich nicht anmelden, da die maximale Teilnehmerzahl für dieses Event %d beträgt. Für eine Anmeldung auf die Warteliste senden Sie das Formular bitte erneut.';
