@@ -52,6 +52,13 @@ Possible scenarios:
   the form to subscribe to the waiting list (if its limit allows that).
 
 
+### One subscription per e-mail address
+
+Check "One subscription per e-mail address" in the calendar or event settings to prevent the same guest e-mail
+address from subscribing to an event more than once. The guest then sees an error message instead. Subscriptions
+added in the backend are not checked.
+
+
 ## Waiting list
 
 Sometimes you may want to limit the maximum number of subscriptions but still allow the users to subscribe

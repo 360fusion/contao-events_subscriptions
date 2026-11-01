@@ -95,6 +95,15 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'label'     => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.guestForm.email'],
                     'inputType' => 'text',
                     'eval'      => ['mandatory' => true, 'rgxp' => 'email'],
+                    'save_callback' => [
+                        static function ($value) use ($event) {
+                            if ($event->hasUniqueGuestEmails() && SubscriptionModel::countBy(['pid=?', 'type=?', 'email=?'], [$event->getEvent()->id, 'guest', $value]) > 0) {
+                                throw new \RuntimeException($GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailUniqueError']);
+                            }
+
+                            return $value;
+                        },
+                    ],
                 ],
                 $position
             )->addFormField(

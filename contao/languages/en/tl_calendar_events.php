@@ -81,3 +81,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
     'months'  => 'month(s)',
     'years'   => 'year(s)',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_uniqueEmails'] = ['One subscription per e-mail address', 'Allow a guest e-mail address to subscribe to an event only once.'];
