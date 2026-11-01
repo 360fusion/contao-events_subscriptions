@@ -83,11 +83,8 @@ class EventEmailContainer
         $message = Database::getInstance()->prepare('SELECT published FROM tl_nc_message WHERE pid=? ORDER BY id LIMIT 1')->execute($row['id']);
         $L = $GLOBALS['TL_LANG']['tl_nc_notification'];
 
-        $info = [$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'][$row['type']] ?? $row['type']];
-
-        if (EventsSubscriptionsEventType::NAME !== $row['type']) {
-            $info[] = sprintf($L['emailUsedBy'], $this->countUsage((int) $row['id']));
-        }
+        // When it is sent is the group heading
+        $info = EventsSubscriptionsEventType::NAME !== $row['type'] ? [sprintf($L['emailUsedBy'], $this->countUsage((int) $row['id']))] : [];
 
         $status = match (true) {
             null === $language => '<span class="tl_red">'.$L['emailNotSetUp'].'</span>',
@@ -96,10 +93,10 @@ class EventEmailContainer
         };
 
         return sprintf(
-            '<strong>%s</strong> %s<br><span class="tl_gray">%s</span>%s',
+            '<strong>%s</strong> %s%s%s',
             $row['title'] ?: '-',
             $status,
-            implode(' · ', $info),
+            $info ? '<br><span class="tl_gray">'.implode(' · ', $info).'</span>' : '',
             $language ? '<br><span class="tl_gray">'.$L['emailSubject'][0].': '.StringUtil::specialchars((string) $language['email_subject']).'</span>' : '',
         );
     }

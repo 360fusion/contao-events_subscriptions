@@ -27,12 +27,12 @@ class EventEmailsListener
 
         $dca['list']['sorting'] = [
             'mode' => DataContainer::MODE_SORTED,
-            'fields' => ['title'],
-            'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
+            // Grouped by when the e-mail is sent, the headings use the readable type names (reference)
+            'fields' => ['type', 'title'],
+            'flag' => DataContainer::SORT_ASC,
             'panelLayout' => 'search,limit',
             'defaultSearchField' => 'title',
             'filter' => [['type LIKE ?', 'events_subscription%']],
-            'disableGrouping' => true,
         ];
         $dca['list']['label'] = ['fields' => ['title'], 'label_callback' => [$container, 'generateLabel']];
         // Contao has already expanded the default operations at this point: keep edit, copy and delete, no children
