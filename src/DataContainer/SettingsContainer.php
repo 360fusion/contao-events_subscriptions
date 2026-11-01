@@ -8,6 +8,7 @@ use Contao\Config;
 use Contao\Database;
 use Contao\Input;
 use Contao\Message;
+use Contao\StringUtil;
 use Contao\System;
 
 class SettingsContainer
@@ -32,10 +33,8 @@ class SettingsContainer
         $page = self::PAGES[(string) Input::get('do')] ?? 'default';
         $dca['palettes']['default'] = $dca['palettes'][$page];
 
-        if ('payments' === $page && Features::payments()) {
-            System::loadLanguageFile('tl_events_subscriptions_settings');
-            Message::addInfo(sprintf($GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['paymentsHint'], System::getContainer()->get('router')->generate('contao_backend', ['do' => 'event_payment_providers'])));
-        }
+        System::loadLanguageFile('tl_events_subscriptions_settings');
+        $this->explain($page);
     }
 
     /**
@@ -46,6 +45,108 @@ class SettingsContainer
         $result = Database::getInstance()->query('SELECT id, title FROM tl_calendar WHERE subscription_enable=1 ORDER BY title');
 
         return array_combine($result->fetchEach('id'), $result->fetchEach('title')) ?: [];
+    }
+
+    /**
+     * The back end modules the explanations link to
+     */
+    private const LINKS = [
+        'subscribers' => 'event_subscribers',
+        'emails' => 'event_emails',
+        'calendars' => 'calendar',
+        'general' => 'event_settings',
+        'mailings' => 'event_settings_mailings',
+        'providers' => 'event_payment_providers',
+        'retention' => 'event_retention',
+        'reports' => 'event_reports',
+    ];
+
+    /**
+     * Above the form: what the page is for, how it works and where to go to set things up, then how things stand now
+     */
+    private function explain(string $page): void
+    {
+        $L = $GLOBALS['TL_LANG']['tl_events_subscriptions_settings'];
+        $router = System::getContainer()->get('router');
+
+        // {name} becomes a link to the back end module
+        $linked = static function (string $text) use ($router, $L): string {
+            foreach (self::LINKS as $name => $module) {
+                $label = $L['sections'][$module] ?? $GLOBALS['TL_LANG']['MOD'][$module][0];
+                $text = str_replace('{'.$name.'}', '<a href="'.StringUtil::specialchars($router->generate('contao_backend', ['do' => $module])).'">'.$label.'</a>', $text);
+            }
+
+            return $text;
+        };
+
+        $html = '';
+
+        foreach ($L['explain'][$page] ?? [] as [$type, $content]) {
+            $html .= match ($type) {
+                'h' => '<p style="margin:14px 0 4px"><strong>'.$linked($content).'</strong></p>',
+                'ul', 'ol' => '<'.$type.' style="margin:4px 0 4px 22px;padding:0;list-style:'.('ul' === $type ? 'disc' : 'decimal').'">'.implode('', array_map(static fn (string $item) => '<li style="margin:4px 0">'.$linked($item).'</li>', $content)).'</'.$type.'>',
+                default => '<p style="margin:6px 0">'.$linked($content).'</p>',
+            };
+        }
+
+        $status = array_filter($this->getStatus($page), static fn (string $line) => '' !== $line);
+
+        if ($status) {
+            $html .= '<p style="margin:14px 0 4px"><strong>'.$L['statusTitle'].'</strong></p><ul style="margin:4px 0 4px 22px;padding:0;list-style:disc">'.implode('', array_map(static fn (string $line) => '<li style="margin:4px 0">'.$linked($line).'</li>', $status)).'</ul>';
+        }
+
+        Message::addRaw('<div class="tl_info" style="padding:14px 18px;line-height:1.5">'.$html.'</div>');
+    }
+
+    /**
+     * Lines about the current situation, shown under the explanation
+     *
+     * @return list<string>
+     */
+    private function getStatus(string $page): array
+    {
+        $L = $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['status'];
+        $db = Database::getInstance();
+        $escape = static fn (string $value) => StringUtil::specialchars($value);
+        $lines = [];
+
+        switch ($page) {
+            case 'emails':
+                $rows = $db->query("SELECT l.email_sender_name AS name, l.email_sender_address AS address, CONCAT(COALESCE(l.email_text, ''), COALESCE(l.email_html, '')) AS body FROM tl_nc_language l JOIN tl_nc_message m ON m.id=l.pid JOIN tl_nc_notification n ON n.id=m.pid WHERE n.type LIKE 'events_subscription%'")->fetchAllAssoc();
+
+                if ($rows) {
+                    $senders = array_values(array_unique(array_map(static fn (array $row) => trim($row['name'].' <'.$row['address'].'>'), $rows)));
+                    $withSignature = \count(array_filter($rows, static fn (array $row) => str_contains($row['body'], '##signature')));
+                    $lines[] = 1 === \count($senders)
+                        ? sprintf($L['senderOne'], \count($rows), $escape($senders[0]))
+                        : sprintf($L['senderMany'], \count($rows), \count($senders), '<br>'.implode('<br>', array_map($escape, $senders)));
+                    $lines[] = $withSignature ? sprintf($L['signatureUse'], $withSignature, \count($rows)) : sprintf($L['signatureNone'], \count($rows));
+                }
+
+                $GLOBALS['TL_DCA']['tl_events_subscriptions_settings']['fields']['eventsSubscriptionsSignature']['eval']['placeholder'] = $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['signaturePlaceholder'];
+                break;
+
+            case 'payments':
+                $providers = (int) $db->query('SELECT COUNT(*) AS n FROM tl_calendar_events_payment_provider')->n;
+                $lines[] = Features::payments()
+                    ? ($providers ? sprintf($L['paymentsOn'], $providers) : $L['paymentsOnNoProvider'])
+                    : $L['paymentsOff'];
+                break;
+
+            case 'certificates':
+                $lines[] = Features::attendance()
+                    ? sprintf($L['attended'], number_format((int) $db->query('SELECT COUNT(*) AS n FROM tl_calendar_events_subscription WHERE attended=1')->n))
+                    : $L['attendanceOff'];
+                break;
+
+            case 'mailings':
+                $count = static fn (string $type) => (int) $db->prepare('SELECT COUNT(*) AS n FROM tl_nc_notification WHERE type=?')->execute($type)->n;
+                $lines[] = sprintf($L['mailingsReady'], $count('events_subscriptions_trainer'), $count('events_subscriptions_followUp'));
+                $lines[] = sprintf($L['trainerEvents'], (int) $db->prepare("SELECT COUNT(*) AS n FROM tl_calendar_events e WHERE e.published=1 AND e.startTime>? AND (e.subscription_trainerEmail!='' OR (e.eventGroup>0 AND EXISTS (SELECT 1 FROM tl_calendar_event_group g WHERE g.id=e.eventGroup AND g.subscription_trainerEmail!='')))")->execute(time())->n);
+                break;
+        }
+
+        return $lines;
     }
 
     public function getTrainerNotifications(): array

@@ -10,9 +10,9 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retention_legend'] = 'A
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsPayments'] = ['Zahlungen', 'Veranstaltungen können einen Preis haben, bezahlt per Karte oder Rechnung. Zeigt den Menüpunkt Zahlungen und die Preiseinstellungen.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsAttendance'] = ['Teilnahme', 'In der Anmeldeliste markieren, wer teilgenommen hat, mit Filter und Exportspalte.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCalendarGroups'] = ['Kalendergruppen', 'Kalender gruppieren: unter ihrer Gruppe auflisten, kommende Veranstaltungen nach Gruppe filtern und die Anmeldungen einer Gruppe in eine Datei exportieren.'];
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsSenderName'] = ['Absendername', 'Beim Speichern wird der Absender aller Veranstaltungs-E-Mails aktualisiert.'];
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsSenderAddress'] = ['Absenderadresse', 'Beim Speichern wird der Absender aller Veranstaltungs-E-Mails aktualisiert.'];
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsSignature'] = ['Signatur', 'In eine E-Mail mit "Platzhalter einfügen › Signatur" (##signature##) einfügen. Eine Änderung hier gilt für alle E-Mails, die sie verwenden.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsSenderName'] = ['Absendername', 'Der Name, den Empfänger im Posteingang sehen, zum Beispiel "South Tees Events". Beim Speichern wird der Absendername aller Veranstaltungs-E-Mails ersetzt. Leer lassen, um jede E-Mail unverändert zu lassen.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsSenderAddress'] = ['Absenderadresse', 'Die Adresse, von der die E-Mails gesendet werden. Ihr Mailserver muss von ihr senden dürfen. Beim Speichern wird die Absenderadresse aller Veranstaltungs-E-Mails ersetzt. Leer lassen, um jede E-Mail unverändert zu lassen.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsSignature'] = ['Signatur', 'Ein Textblock, den Sie einmal festlegen, wie eine Outlook-Signatur: Teamname und Kontaktdaten. Er wird nicht von selbst angehängt. Klicken Sie beim Bearbeiten einer E-Mail auf Tag einfügen › Signatur, wo er stehen soll, meist am Ende. Änderungen hier gelten für alle E-Mails, die ihn verwenden. Zeilenumbrüche bleiben erhalten.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextIntro'] = ['Über dem Anmeldeformular', 'Leer lassen, um den grau angezeigten Standardtext zu verwenden.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextClosed'] = ['Anmeldung geschlossen', 'Leer lassen, um den grau angezeigten Standardtext zu verwenden.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextFull'] = ['Veranstaltung ausgebucht', 'Leer lassen, um den grau angezeigten Standardtext zu verwenden.'];
@@ -41,8 +41,8 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTrai
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTrainerHour'] = ['Trainer-Mail senden um (Uhr)', 'Stunde des Tages, 0 bis 23. Standard 16.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsFollowUpNotification'] = ['E-Mail nach der Veranstaltung', 'Wird am Folgetag an alle gesendet, die teilgenommen haben, mit Teilnahmebescheinigung und Feedback-Link. Leer lassen zum Ausschalten.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificate'] = ['Teilnahmebescheinigungen', 'Wer als teilgenommen markiert ist, kann eine druckbare Bescheinigung öffnen. Benötigt Teilnahme.'];
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificateOrganisation'] = ['Name der Organisation auf der Bescheinigung', ''];
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificateSignedBy'] = ['Unterzeichnet von', ''];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificateOrganisation'] = ['Name der Organisation auf der Bescheinigung', 'Steht oben auf der Bescheinigung'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificateSignedBy'] = ['Unterzeichnet von', 'Steht unten auf der Bescheinigung neben dem Ausstellungsdatum'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsNoShowLimit'] = ['Wiederholt nicht erschienen ab', 'In Veranstaltungen › Berichte Personen auflisten, die in den letzten 12 Monaten so viele Termine gebucht und nicht besucht haben.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['mailings_legend'] = 'Vor und nach der Veranstaltung';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['certificate_legend'] = 'Bescheinigung';
@@ -51,4 +51,50 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['sections'] = ['event_se
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['setupSections'] = ['settings' => 'Buchungseinstellungen', 'tools' => 'Werkzeuge und Daten'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['setupStatus'] = ['on' => 'An', 'off' => 'Aus', 'mailings' => '%s von 2 an'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['payments_legend'] = 'Zahlungen';
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['paymentsHint'] = 'Die Konten für Kartenzahlungen richten Sie unter <a href="%s">Zahlungsanbieter</a> ein.';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['signaturePlaceholder'] = "Mit freundlichen Grüßen\nDas Bildungsteam\nTel.: 01234 567890\nbildung@example.de";
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['statusTitle'] = 'So ist der aktuelle Stand';
+
+// Above each settings page: what it is for, how it works and where to go
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['explain'] = [
+    'default' => [
+        ['p', 'Diese Einstellungen gelten für das gesamte Buchungssystem. Einstellungen für einen einzelnen Kalender, Kurs oder eine Veranstaltung (Plätze, Fristen, Warteliste, Anmeldefelder, Erinnerungen) nehmen Sie dort vor, wo Sie diesen Kalender, Kurs oder die Veranstaltung in {calendars} bearbeiten.'],
+        ['ul', ['<strong>Funktionen</strong>: <em>Teilnahme</em> fügt Anmeldungen ein Teilgenommen-Häkchen, einen Filter und eine Exportspalte hinzu. Sie wird für Check-in, Bescheinigungen und die Nicht-erschienen-Zahlen in {reports} benötigt. <em>Kalendergruppen</em> listet Kalender unter ihrer Gruppe auf. <em>Eine Buchung pro Kurs</em> verhindert, dass jemand zwei Termine desselben Kurses bucht.', '<strong>Neue Kalender</strong>: wählen Sie einen Kalender zum Kopieren. Jeder neue Kalender startet mit dessen Buchungseinstellungen und kann danach geändert werden.', '<strong>Berichte</strong>: wie viele verpasste Veranstaltungen jemanden zum wiederholt Nichterschienenen machen. Sie stehen in {reports} und sind in {subscribers} markiert.', '<strong>Texte des Buchungsformulars</strong>: der Wortlaut auf der Veranstaltungsseite. Ein leeres Feld verwendet den grau angezeigten Standardtext.', '<strong>Aufbewahrung der Anmeldedaten</strong>: aktivieren Sie sie, um Namen, E-Mail-Adressen und Antworten alter Anmeldungen automatisch zu anonymisieren oder zu löschen. Sie können sie jederzeit auch von Hand in {retention} prüfen und löschen.']],
+    ],
+    'payments' => [
+        ['p', 'Mit Zahlungen können ein Kalender, Kurs oder eine Veranstaltung einen Preis haben. Man zahlt online per Karte oder gibt eine Rechnungs-, Bestell- oder Kostenstellennummer an. Alles Weitere bleibt verborgen, bis Sie das Kästchen aktivieren und speichern.'],
+        ['h', 'Was Sie erhalten, wenn es aktiv ist'],
+        ['ul', ['<strong>Zahlungsanbieter</strong>: verbinden Sie Stripe, PayPal, Mollie oder GOV.UK Pay in {providers}. Jeder hat einen Testmodus, einen Livemodus und eine Währung. Kartendaten werden auf der Seite des Anbieters eingegeben, nie auf dieser Seite.', '<strong>Preise</strong>: legen Sie beim Bearbeiten eines Kalenders, Kurses oder einer Veranstaltung in {calendars} den Preis, die Zahlungsarten (Karte, Rechnung), den Anbieter und die E-Mail-Domains fest, die kostenlos buchen, etwa nhs.net. Eine Veranstaltung verwendet den Preis ihres Kurses, ein Kurs den seines Kalenders.', '<strong>Zahlungsliste</strong>: im Menü Veranstaltungen erscheint Zahlungen mit jeder Zahlung, auch stornierter Anmeldungen: wer, welche Veranstaltung, Betrag, Anbieter und Status.', '<strong>Erstattungen</strong>: ein Administrator kann eine Kartenzahlung in der Zahlungsliste vollständig erstatten; das Geld geht über den Anbieter zurück. Eine Stornierung erstattet nie von selbst.', '<strong>Rechnungen</strong>: per Rechnung oder Bestellnummer bezahlte Anmeldungen sind sofort bestätigt. Markieren Sie sie in der Zahlungsliste als bezahlt, wenn das Geld eingeht.', '<strong>Warteliste</strong>: auf der Warteliste zahlt niemand. Wer einen Platz erhält, bekommt einen Zahlungslink (<code>##payment_link##</code>). Eine unbezahlte Kartenbuchung hält den Platz 30 Minuten und wird dann storniert.']],
+        ['h', 'So richten Sie es ein'],
+        ['ol', ['Aktivieren Sie unten <em>Zahlungen</em> und speichern Sie.', 'Fügen Sie in {providers} einen Anbieter hinzu. Tragen Sie die dort angezeigte Webhook-Adresse in den Einstellungen des Anbieters ein, damit Anmeldungen auch bestätigt werden, wenn der Zahlende den Browser schließt. Beginnen Sie mit den Testschlüsseln.', 'Legen Sie in {calendars} einen Preis für einen Kalender, Kurs oder eine Veranstaltung fest.', 'Machen Sie eine Testbuchung mit der Testkarte des Anbieters und prüfen Sie sie in der Zahlungsliste. Schalten Sie den Anbieter erst auf live, wenn das funktioniert.']],
+    ],
+    'emails' => [
+        ['p', 'Diese Einstellungen gelten für jede Veranstaltungs-E-Mail: Anmeldebestätigungen, Stornierungen, Erinnerungen, Trainer-Mail und Dankes-E-Mail. Einmal hier festlegen statt in jeder E-Mail.'],
+        ['ul', ['<strong>E-Mails schreiben</strong>: die E-Mails selbst werden in {emails} geschrieben und geändert. Jede hat einen Namen, einen Versandzeitpunkt, einen Betreff und eine Nachricht. Klicken Sie auf einen Tag, um ihn an der Cursorposition einzufügen.', '<strong>Absender</strong>: von wem die E-Mails kommen. Beim Speichern eines Absendernamens oder einer Adresse wird er für alle Veranstaltungs-E-Mails gesetzt.', '<strong>Signatur</strong>: ein gespeicherter Textblock wie eine Outlook-Signatur für Teamname und Kontaktdaten. Sie wird nicht von selbst angehängt: klicken Sie beim Bearbeiten einer E-Mail auf Tag einfügen › Signatur, wo sie stehen soll, meist am Ende. Ändern Sie die Signatur hier, ändert sie sich in jeder E-Mail, die sie verwendet.']],
+    ],
+    'certificates' => [
+        ['p', 'Eine Teilnahmebescheinigung ist eine druckbare Seite mit Namen der Person, Kurs, Datum, Ort und bei eintägigen Veranstaltungen mit Uhrzeiten den Stunden. Sie kann im Browser gedruckt oder als PDF gespeichert werden.'],
+        ['h', 'So funktioniert es'],
+        ['ol', ['Erfassen Sie, wer teilgenommen hat: Häkchen <em>Teilgenommen</em> bei der Anmeldung in {subscribers}, QR-Code auf der Anmeldeseite der Person am Eingang scannen oder die Unterschriftenliste nutzen und die Personen danach abhaken.', 'Als teilgenommen markierte Personen öffnen ihre Bescheinigung auf der Seite <em>Meine Anmeldung verwalten</em> und über den E-Mail-Tag <code>##certificate_link##</code>.', 'Die E-Mail am Tag nach der Veranstaltung enthält den Link bereits: wählen Sie sie in {mailings} aus und ändern Sie ihren Text in {emails}.']],
+        ['p', 'Bescheinigungen benötigen die Funktion <em>Teilnahme</em> unter {general}. Der Name der Organisation steht oben auf der Bescheinigung, <em>Unterzeichnet von</em> unten.'],
+    ],
+    'mailings' => [
+        ['p', 'Die Seite kann rund um eine Veranstaltung zwei E-Mails selbst senden. Beide bleiben aus, bis Sie unten eine E-Mail dafür wählen.'],
+        ['ul', ['<strong>Trainer-Mail</strong>: am Vortag erhält der Trainer die Liste aller Angemeldeten mit ihren Angaben (ohne Warteliste). Sie geht an die <em>E-Mail-Adresse des Trainers</em> der Veranstaltung oder ihres Kurses: tragen Sie sie beim Bearbeiten der Veranstaltung oder des Kurses in {calendars} ein. Ohne Adresse wird nichts gesendet.', '<strong>Nach der Veranstaltung</strong>: am Folgetag erhält jeder, der teilgenommen hat, einen Dank mit Bescheinigung und Feedback-Link. Nur Veranstaltungen, die in den letzten 3 Tagen endeten, werden berücksichtigt.']],
+        ['h', 'So richten Sie es ein'],
+        ['ol', ['Erstellen Sie die E-Mail in {emails}: Neue E-Mail, dann den Typ <em>Trainer-Mail am Vortag</em> oder <em>Nach der Veranstaltung</em> wählen.', 'Wählen Sie sie unten aus und speichern Sie.', 'Tragen Sie für die Trainer-Mail eine Trainer-Adresse bei Ihren Veranstaltungen oder Kursen ein.']],
+        ['p', 'Beide werden von den stündlichen geplanten Aufgaben (Cron) der Seite gesendet; auf einem Live-Server muss Cron laufen. Jede E-Mail wird pro Veranstaltung oder Anmeldung einmal gesendet.'],
+    ],
+];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['status'] = [
+    'senderOne' => 'Alle %s Veranstaltungs-E-Mails werden von %s gesendet.',
+    'senderMany' => 'Ihre %s Veranstaltungs-E-Mails verwenden derzeit %s verschiedene Absender: %s<br>Beim Speichern eines Absendernamens oder einer Adresse unten werden alle auf diesen Wert gesetzt.',
+    'signatureUse' => '%s von %s E-Mails enthalten die Signatur.',
+    'signatureNone' => 'Keine Ihrer %s E-Mails enthält bisher die Signatur. Fügen Sie sie beim Bearbeiten einer E-Mail ein: Tag einfügen › Signatur.',
+    'paymentsOn' => 'Zahlungen sind aktiv. %s Zahlungsanbieter sind eingerichtet.',
+    'paymentsOnNoProvider' => 'Zahlungen sind aktiv, aber es ist noch kein Zahlungsanbieter eingerichtet: Kartenzahlung wird erst angeboten, wenn Sie in {providers} einen hinzufügen.',
+    'paymentsOff' => 'Zahlungen sind aus. Preise und Zahlungen werden nirgends angezeigt.',
+    'attended' => 'Bisher sind %s Anmeldungen als teilgenommen markiert.',
+    'attendanceOff' => 'Teilnahme ist ausgeschaltet, daher sind Bescheinigungen nicht verfügbar. Schalten Sie sie in {general} ein.',
+    'mailingsReady' => 'Zur Auswahl bereite E-Mails: %s Trainer-Mail, %s nach der Veranstaltung. Ist eine Zahl 0, erstellen Sie diese E-Mail zuerst in {emails}.',
+    'trainerEvents' => '%s kommende Veranstaltungen haben eine Trainer-Adresse und würden eine Trainer-Mail senden.',
+];
