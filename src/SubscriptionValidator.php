@@ -186,6 +186,27 @@ class SubscriptionValidator
     }
 
     /**
+     * An upcoming date of the same course that this e-mail address is already booked on (guest or member booking, waiting list included)
+     *
+     * @return array{title: string, startTime: string, addTime: string}|null
+     */
+    public function findBookingOnSameCourse(EventConfig $event, string $email): array|null
+    {
+        $group = (int) $event->getEvent()->eventGroup;
+        $email = strtolower(trim($email));
+
+        if (!$group || '' === $email) {
+            return null;
+        }
+
+        $row = Database::getInstance()
+            ->prepare("SELECT e.title, e.startTime, e.addTime FROM tl_calendar_events_subscription s JOIN tl_calendar_events e ON e.id=s.pid WHERE e.eventGroup=? AND e.id!=? AND GREATEST(e.startTime, e.endTime)>=UNIX_TIMESTAMP() AND ((s.type='guest' AND LOWER(s.email)=?) OR (s.type='member' AND s.member IN (SELECT id FROM tl_member WHERE LOWER(email)=?))) ORDER BY e.startTime LIMIT 1")
+            ->execute($group, $event->getEvent()->id, $email, $email);
+
+        return $row->numRows ? $row->row() : null;
+    }
+
+    /**
      * Validate the member total limit
      *
      * @param MemberConfig $member

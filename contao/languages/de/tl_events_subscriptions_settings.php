@@ -36,3 +36,14 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionApply'] = 'Aus
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionNothingSelected'] = 'Bitte zuerst Veranstaltungen ankreuzen.';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionConfirm'] = '%action für %count Veranstaltungen? Das kann nicht rückgängig gemacht werden.';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionDone'] = ['delete' => '%s Anmeldungen von %s Veranstaltungen gelöscht.', 'anonymise' => '%s Anmeldungen von %s Veranstaltungen anonymisiert.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsOneBookingPerCourse'] = ['Eine Buchung pro Kurs', 'Verhindert, dass jemand einen zweiten Termin eines Kurses bucht, den er bereits gebucht hat (nach E-Mail-Adresse). Nur kommende Termine zählen.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTrainerNotification'] = ['Trainer-Mail', 'Wird am Vortag an die E-Mail-Adresse des Trainers gesendet, mit der Liste aller Angemeldeten. Leer lassen zum Ausschalten.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTrainerHour'] = ['Trainer-Mail senden um (Uhr)', 'Stunde des Tages, 0 bis 23. Standard 16.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsFollowUpNotification'] = ['E-Mail nach der Veranstaltung', 'Wird am Folgetag an alle gesendet, die teilgenommen haben, mit Teilnahmebescheinigung und Feedback-Link. Leer lassen zum Ausschalten.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificate'] = ['Teilnahmebescheinigungen', 'Wer als teilgenommen markiert ist, kann eine druckbare Bescheinigung öffnen. Benötigt Teilnahme.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificateOrganisation'] = ['Name der Organisation auf der Bescheinigung', ''];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificateSignedBy'] = ['Unterzeichnet von', ''];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsNoShowLimit'] = ['Wiederholt nicht erschienen ab', 'In Veranstaltungen › Berichte Personen auflisten, die in den letzten 12 Monaten so viele Termine gebucht und nicht besucht haben.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['mailings_legend'] = 'Vor und nach der Veranstaltung';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['certificate_legend'] = 'Bescheinigung';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['reports_legend'] = 'Berichte';

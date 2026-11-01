@@ -25,6 +25,39 @@ final class Features
     }
 
     /**
+     * Certificates of attendance: on unless switched off, and only possible when attendance is recorded
+     */
+    public static function certificates(): bool
+    {
+        $value = Config::get('eventsSubscriptionsCertificate');
+
+        return self::attendance() && (null === $value || (bool) $value);
+    }
+
+    public static function oneBookingPerCourse(): bool
+    {
+        return (bool) Config::get('eventsSubscriptionsOneBookingPerCourse');
+    }
+
+    /**
+     * Bookings missed before someone is listed as a repeat no-show
+     */
+    public static function noShowLimit(): int
+    {
+        return max(1, (int) Config::get('eventsSubscriptionsNoShowLimit') ?: 3);
+    }
+
+    /**
+     * The hour of the day when the trainer packs go out for tomorrow's events
+     */
+    public static function trainerHour(): int
+    {
+        $hour = Config::get('eventsSubscriptionsTrainerHour');
+
+        return '' === (string) $hour ? 16 : min(23, max(0, (int) $hour));
+    }
+
+    /**
      * A multi-line setting: the system configuration cannot store line breaks, they are kept as "\n"
      */
     public static function text(string $key): string

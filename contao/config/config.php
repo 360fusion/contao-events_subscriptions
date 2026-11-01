@@ -41,6 +41,10 @@ $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_peopleAll'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\SubscribersController',
     'run',
 ];
+$GLOBALS['BE_MOD']['content']['calendar']['subscriptions_register'] = [
+    'Codefog\EventsSubscriptionsBundle\Backend\RegisterController',
+    'run',
+];
 $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_overview'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\OverviewController',
     'run',

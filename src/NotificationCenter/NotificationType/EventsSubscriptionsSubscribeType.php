@@ -41,6 +41,9 @@ class EventsSubscriptionsSubscribeType implements NotificationTypeInterface
             $this->factory->create(TextTokenDefinition::class, 'purchase_order', ''),
             $this->factory->create(TextTokenDefinition::class, 'payment_link', ''),
             $this->factory->create(TextTokenDefinition::class, 'unsubscribe_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'booking_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'certificate_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'feedback_link', ''),
         ];
     }
 }

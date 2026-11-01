@@ -108,14 +108,22 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'] = 'Card pa
 
 // Events › E-mails
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
+    'events_subscriptions_trainer' => 'Trainer pack the day before',
+    'events_subscriptions_followUp' => 'After the event (certificate, feedback)',
     'events_subscriptions_subscribe' => 'When someone books',
     'events_subscriptions_unsubscribe' => 'When someone cancels',
     'events_subscriptions_listUpdate' => 'When someone gets a place from the waiting list',
     'events_subscriptions_reminder' => 'Reminder before the event',
     'events_subscription_event' => 'Sent by hand from the subscriptions list',
 ];
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['other' => 'Other', 'booking' => 'Booking', 'event' => 'Event', 'links' => 'Links', 'payment' => 'Payment'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['attendees' => 'Attendees', 'other' => 'Other', 'booking' => 'Booking', 'event' => 'Event', 'links' => 'Links', 'payment' => 'Payment'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
+    'booking_link' => 'Manage my booking link',
+    'certificate_link' => 'Certificate link',
+    'feedback_link' => 'Feedback link',
+    'attendee_list' => 'List of everyone booked',
+    'attendee_count' => 'Number of bookings',
+    'attendee_places' => 'Number of places booked',
     'subscription_details' => 'All booking details',
     'signature' => 'Signature',
     'subscription_firstname' => 'First name',
@@ -155,3 +163,60 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.health'] = [
     'more' => '… and %s more',
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.formIntro'] = 'Please register for this event by filling in the form below.';
+
+// The booker's own pages (booking, certificate, feedback, check-in)
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.public'] = [
+    'bookingTitle' => 'Your booking',
+    'notFound' => 'This link is not valid any more. The booking may have been cancelled.',
+    'event' => 'Event',
+    'date' => 'Date',
+    'place' => 'Location',
+    'status' => 'Status',
+    'name' => 'Name',
+    'statusBooked' => 'Booked',
+    'statusWaiting' => 'On the waiting list',
+    'checkinTitle' => 'Show this code when you arrive',
+    'checkinHelp' => 'The person at the door scans it to mark you as attending.',
+    'attendedNotice' => 'You are marked as attended.',
+    'certificateOpen' => 'Open your certificate',
+    'edit' => 'Change your details',
+    'emailLocked' => 'To use another e-mail address, cancel this booking and book again.',
+    'save' => 'Save changes',
+    'saved' => 'Your details were saved.',
+    'required' => 'Please fill in "%s".',
+    'invalid' => '"%s" is not valid.',
+    'cancel' => 'Cancel my booking',
+    'cancelConfirm' => 'Cancel this booking?',
+    'cancelled' => 'Your booking for "%s" was cancelled.',
+    'cancelClosed' => 'Cancelling online has closed for this event. Please contact the team.',
+    'cancelPaid' => 'You have paid for this booking. To ask for a refund, please contact the team after cancelling.',
+    'certificateTitle' => 'Certificate of attendance',
+    'certificateCertify' => 'This is to certify that',
+    'certificateAttended' => 'attended',
+    'certificateHours' => '%s hours',
+    'certificateIssued' => 'Issued %s',
+    'certificatePrint' => 'Print or save as PDF',
+    'certificateNone' => 'There is no certificate for this booking. Certificates are available once you are marked as attended.',
+    'feedbackTitle' => 'Tell us how it went',
+    'feedbackThanks' => 'Thank you for your feedback.',
+    'feedbackNotYet' => 'Feedback opens once the event has started.',
+    'feedbackRating' => 'Your rating',
+    'feedbackRatingMissing' => 'Please choose a rating.',
+    'feedbackComment' => 'Anything we should know? (optional)',
+    'feedbackSend' => 'Send feedback',
+    'rating1' => '1 - Poor',
+    'rating2' => '2 - Fair',
+    'rating3' => '3 - Good',
+    'rating4' => '4 - Very good',
+    'rating5' => '5 - Excellent',
+    'checkinPage' => 'Check-in',
+    'checkinStaffOnly' => 'Staff only. Sign in to the back end, then scan the code again.',
+    'signIn' => 'Sign in',
+    'checkinButton' => 'Check in',
+    'checkinDone' => '%s is checked in.',
+    'checkinAlready' => '%s was already checked in.',
+    'checkinWaiting' => 'This booking is on the waiting list.',
+    'checkinWrongDay' => 'Note: this booking is for %s, not today.',
+];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.noAttendees'] = 'No one has booked.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.sameCourseError'] = 'You are already booked on another date of this course: %s (%s). Please cancel that booking first, using the link in your confirmation e-mail.';

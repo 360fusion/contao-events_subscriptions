@@ -108,14 +108,22 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'] = 'Kartenz
 
 // Veranstaltungen › E-Mails
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
+    'events_subscriptions_trainer' => 'Trainer-Mail am Vortag',
+    'events_subscriptions_followUp' => 'Nach der Veranstaltung (Bescheinigung, Feedback)',
     'events_subscriptions_subscribe' => 'Bei einer Anmeldung',
     'events_subscriptions_unsubscribe' => 'Bei einer Abmeldung',
     'events_subscriptions_listUpdate' => 'Beim Nachrücken von der Warteliste',
     'events_subscriptions_reminder' => 'Erinnerung vor der Veranstaltung',
     'events_subscription_event' => 'Manuell aus der Anmeldeliste gesendet',
 ];
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['other' => 'Sonstiges', 'booking' => 'Anmeldung', 'event' => 'Veranstaltung', 'links' => 'Links', 'payment' => 'Zahlung'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['attendees' => 'Teilnehmende', 'other' => 'Sonstiges', 'booking' => 'Anmeldung', 'event' => 'Veranstaltung', 'links' => 'Links', 'payment' => 'Zahlung'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
+    'booking_link' => 'Link zur Anmeldung verwalten',
+    'certificate_link' => 'Link zur Bescheinigung',
+    'feedback_link' => 'Feedback-Link',
+    'attendee_list' => 'Liste aller Angemeldeten',
+    'attendee_count' => 'Anzahl der Anmeldungen',
+    'attendee_places' => 'Anzahl gebuchter Plätze',
     'subscription_details' => 'Alle Buchungsangaben',
     'signature' => 'Signatur',
     'subscription_firstname' => 'Vorname',
@@ -155,3 +163,60 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.health'] = [
     'more' => '… und %s weitere',
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.formIntro'] = 'Bitte melden Sie sich mit dem folgenden Formular für diese Veranstaltung an.';
+
+// The booker's own pages (booking, certificate, feedback, check-in)
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.public'] = [
+    'bookingTitle' => 'Ihre Anmeldung',
+    'notFound' => 'Dieser Link ist nicht mehr gültig. Die Anmeldung wurde möglicherweise storniert.',
+    'event' => 'Veranstaltung',
+    'date' => 'Datum',
+    'place' => 'Ort',
+    'status' => 'Status',
+    'name' => 'Name',
+    'statusBooked' => 'Angemeldet',
+    'statusWaiting' => 'Auf der Warteliste',
+    'checkinTitle' => 'Code bei der Ankunft zeigen',
+    'checkinHelp' => 'Er wird am Eingang gescannt, damit Ihre Teilnahme vermerkt wird.',
+    'attendedNotice' => 'Ihre Teilnahme ist vermerkt.',
+    'certificateOpen' => 'Bescheinigung öffnen',
+    'edit' => 'Angaben ändern',
+    'emailLocked' => 'Für eine andere E-Mail-Adresse stornieren Sie diese Anmeldung und melden sich neu an.',
+    'save' => 'Änderungen speichern',
+    'saved' => 'Ihre Angaben wurden gespeichert.',
+    'required' => 'Bitte „%s“ ausfüllen.',
+    'invalid' => '„%s“ ist ungültig.',
+    'cancel' => 'Meine Anmeldung stornieren',
+    'cancelConfirm' => 'Diese Anmeldung stornieren?',
+    'cancelled' => 'Ihre Anmeldung für „%s“ wurde storniert.',
+    'cancelClosed' => 'Online-Stornierung ist für diese Veranstaltung nicht mehr möglich. Bitte wenden Sie sich an das Team.',
+    'cancelPaid' => 'Sie haben diese Anmeldung bezahlt. Für eine Erstattung wenden Sie sich nach der Stornierung bitte an das Team.',
+    'certificateTitle' => 'Teilnahmebescheinigung',
+    'certificateCertify' => 'Hiermit wird bescheinigt, dass',
+    'certificateAttended' => 'teilgenommen hat an',
+    'certificateHours' => '%s Stunden',
+    'certificateIssued' => 'Ausgestellt am %s',
+    'certificatePrint' => 'Drucken oder als PDF speichern',
+    'certificateNone' => 'Für diese Anmeldung gibt es keine Bescheinigung. Sie ist verfügbar, sobald Ihre Teilnahme vermerkt ist.',
+    'feedbackTitle' => 'Wie war es?',
+    'feedbackThanks' => 'Vielen Dank für Ihr Feedback.',
+    'feedbackNotYet' => 'Feedback ist möglich, sobald die Veranstaltung begonnen hat.',
+    'feedbackRating' => 'Ihre Bewertung',
+    'feedbackRatingMissing' => 'Bitte wählen Sie eine Bewertung.',
+    'feedbackComment' => 'Möchten Sie uns noch etwas mitteilen? (optional)',
+    'feedbackSend' => 'Feedback senden',
+    'rating1' => '1 - Schlecht',
+    'rating2' => '2 - Mäßig',
+    'rating3' => '3 - Gut',
+    'rating4' => '4 - Sehr gut',
+    'rating5' => '5 - Ausgezeichnet',
+    'checkinPage' => 'Check-in',
+    'checkinStaffOnly' => 'Nur für Mitarbeitende. Im Backend anmelden und den Code erneut scannen.',
+    'signIn' => 'Anmelden',
+    'checkinButton' => 'Einchecken',
+    'checkinDone' => '%s ist eingecheckt.',
+    'checkinAlready' => '%s war bereits eingecheckt.',
+    'checkinWaiting' => 'Diese Anmeldung steht auf der Warteliste.',
+    'checkinWrongDay' => 'Hinweis: Diese Anmeldung gilt für %s, nicht für heute.',
+];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.noAttendees'] = 'Es gibt keine Anmeldungen.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.sameCourseError'] = 'Sie sind bereits für einen anderen Termin dieses Kurses angemeldet: %s (%s). Bitte stornieren Sie diese Anmeldung zuerst über den Link in Ihrer Bestätigungs-E-Mail.';

@@ -13,7 +13,8 @@ final class EmailTags
     private const CATALOGUE = [
         'booking' => ['subscription_details', 'subscription_firstname', 'subscription_lastname', 'subscription_email', 'subscription_numberOfParticipants'],
         'event' => ['event_title', 'event_startDate', 'event_startTime', 'event_endDate', 'event_endTime', 'event_location', 'event_address', 'event_teaser', 'days_before_event', 'calendar_title'],
-        'links' => ['event_link', 'event_ics_link', 'unsubscribe_link'],
+        'links' => ['event_link', 'event_ics_link', 'booking_link', 'certificate_link', 'feedback_link', 'unsubscribe_link'],
+        'attendees' => ['attendee_list', 'attendee_count', 'attendee_places'],
         'payment' => ['payment_amount', 'payment_status', 'payment_method', 'purchase_order', 'payment_link'],
         'other' => ['signature'],
     ];

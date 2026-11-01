@@ -3,6 +3,7 @@
 namespace Codefog\EventsSubscriptionsBundle\Subscription;
 
 use Codefog\EventsSubscriptionsBundle\EventConfig;
+use Codefog\EventsSubscriptionsBundle\Features;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentRequest;
 use Codefog\EventsSubscriptionsBundle\RegistrationFields;
@@ -10,6 +11,8 @@ use Codefog\EventsSubscriptionsBundle\Services;
 use Codefog\HasteBundle\Form\Form;
 use Codefog\HasteBundle\Util\ArrayPosition;
 use Contao\CoreBundle\Exception\RedirectResponseException;
+use Contao\Config;
+use Contao\Date;
 use Contao\Input;
 use Contao\System;
 
@@ -120,6 +123,10 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
 
                             if ($event->hasUniqueGuestEmails() && SubscriptionModel::countBy(['pid=?', 'type=?', 'email=?'], [$event->getEvent()->id, 'guest', $value]) > 0) {
                                 throw new \RuntimeException($GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailUniqueError']);
+                            }
+
+                            if (Features::oneBookingPerCourse() && null !== ($other = Services::getSubscriptionValidator()->findBookingOnSameCourse($event, (string) $value))) {
+                                throw new \RuntimeException(sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.sameCourseError'], $other['title'], Date::parse(Config::get($other['addTime'] ? 'datimFormat' : 'dateFormat'), $other['startTime'])));
                             }
 
                             return $value;

@@ -13,6 +13,7 @@ namespace Codefog\EventsSubscriptionsBundle\EventListener;
 
 use Codefog\EventsSubscriptionsBundle\Automator;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentManager;
+use Codefog\EventsSubscriptionsBundle\Mailings;
 use Codefog\EventsSubscriptionsBundle\Retention;
 use Contao\Config;
 use Codefog\EventsSubscriptionsBundle\Services;
@@ -40,6 +41,16 @@ class CronListener
     public function onHourlyJob()
     {
         $remindersSent = $this->automator->sendReminders();
+        $mailings = new Mailings();
+
+        foreach (['trainer packs' => $mailings->sendTrainerPacks(), 'after-the-event e-mails' => $mailings->sendFollowUps()] as $label => $count) {
+            if ($count > 0) {
+                System::getContainer()->get('monolog.logger.contao')->info(
+                    sprintf('A total number of %s %s have been sent', $count, $label),
+                    ['contao' => new ContaoContext(__METHOD__, ContaoContext::CRON)],
+                );
+            }
+        }
 
         if ($remindersSent > 0) {
             System::getContainer()->get('monolog.logger.contao')->info(

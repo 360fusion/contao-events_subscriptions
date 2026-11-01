@@ -47,6 +47,14 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['sendNotification
     'button_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getNotificationsButton'],
 ];
 
+$GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptionsRegister'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptionsRegister'],
+    'href' => 'key=subscriptions_register',
+    'icon' => 'tablewizard.svg',
+    'attributes' => 'target="_blank"',
+    'button_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getNotificationsButton'],
+];
+
 $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'],
     'href' => 'table=tl_calendar_events_subscription',
@@ -176,6 +184,18 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_uniqueEmails'] 
     'inputType' => 'checkbox',
     'eval' => ['tl_class' => 'clr'],
     'sql' => ['type' => Types::BOOLEAN, 'default' => false],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_trainerEmail'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_trainerEmail'],
+    'inputType' => 'text',
+    'eval' => ['rgxp' => 'email', 'maxlength' => 255, 'decodeEntities' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => Types::STRING, 'length' => 255, 'default' => ''],
+];
+
+// When the trainer pack was sent (see Mailings)
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['trainerPackSent'] = [
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_disableReminders'] = [

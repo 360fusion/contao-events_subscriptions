@@ -21,6 +21,23 @@ class SettingsContainer
         return array_combine($result->fetchEach('id'), $result->fetchEach('title')) ?: [];
     }
 
+    public function getTrainerNotifications(): array
+    {
+        return $this->getNotifications('events_subscriptions_trainer');
+    }
+
+    public function getFollowUpNotifications(): array
+    {
+        return $this->getNotifications('events_subscriptions_followUp');
+    }
+
+    private function getNotifications(string $type): array
+    {
+        $result = Database::getInstance()->prepare('SELECT id, title FROM tl_nc_notification WHERE type=? ORDER BY title')->execute($type);
+
+        return array_combine($result->fetchEach('id'), $result->fetchEach('title')) ?: [];
+    }
+
     /**
      * A new calendar starts with the booking settings of the template calendar (Events › Setup › Booking settings)
      */

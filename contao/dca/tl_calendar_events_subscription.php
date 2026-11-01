@@ -185,6 +185,10 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'eval' => ['mandatory' => true, 'rgxp' => 'email', 'decodeEntities' => true, 'tl_class' => 'w50'],
             'sql' => ['type' => Types::STRING, 'length' => 255, 'default' => ''],
         ],
+        // When the after-the-event e-mail was sent (see Mailings)
+        'followUpSent' => [
+            'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
+        ],
         'lastReminder' => [
             'flag' => \Contao\DataContainer::SORT_MONTH_DESC,
             'eval' => ['doNotCopy' => true],

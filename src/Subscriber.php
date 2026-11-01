@@ -19,6 +19,7 @@ use Codefog\EventsSubscriptionsBundle\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\Subscription\SubscriptionInterface;
 use Contao\CoreBundle\Monolog\ContaoContext;
+use Contao\Database;
 use Contao\System;
 
 class Subscriber
@@ -142,6 +143,13 @@ class Subscriber
 
         // First, dispatch the event (consistency with DC_Table)
         $this->eventDispatcher->dispatch(EventDispatcher::EVENT_ON_UNSUBSCRIBE, new UnsubscribeEvent($model, $subscription));
+
+        // Count it for the reports (no personal data)
+        $db = Database::getInstance();
+
+        if ($db->tableExists('tl_calendar_events_cancellation')) {
+            $db->prepare('INSERT INTO tl_calendar_events_cancellation %s')->set(['pid' => (int) $model->pid, 'tstamp' => time(), 'places' => max(1, (int) $model->numberOfParticipants)])->execute();
+        }
 
         // Delete the model
         $model->delete();

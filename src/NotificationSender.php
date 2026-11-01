@@ -11,6 +11,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle;
 
+use Codefog\EventsSubscriptionsBundle\Booking\Links;
 use Codefog\EventsSubscriptionsBundle\Model\PaymentModel;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentRequest;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus;
@@ -193,6 +194,7 @@ class NotificationSender
         // Waiting list token
         if ($subscription instanceof SubscriptionInterface) {
             $tokens['subscription_waitingList'] = $subscription->isOnWaitingList();
+            $tokens += Links::tokens((string) $subscription->getSubscriptionModel()->unsubscribeToken, (string) ($tokens['event_link'] ?? ''));
             $tokens = array_merge($tokens, $this->getPaymentTokens($subscription->getSubscriptionModel(), $tokens['event_link']));
         }
 

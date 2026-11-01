@@ -1,0 +1,66 @@
+<?php $L = $GLOBALS['TL_LANG']['tl_calendar']; $e = static fn ($v) => \Contao\StringUtil::specialchars((string) $v); ?>
+<!DOCTYPE html>
+<html lang="<?= $e($GLOBALS['TL_LANGUAGE'] ?? 'en') ?>">
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
+    <title><?= $e($L['subscriptions_register.title']) ?> | <?= $e($this->title) ?></title>
+    <style>
+        body{font:14px/1.4 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:#111;margin:24px}
+        h1{font-size:20px;margin:0 0 2px}h2{font-size:15px;margin:24px 0 6px}.meta{color:#444;margin:0 0 14px}
+        table{border-collapse:collapse;width:100%}th,td{border:1px solid #888;padding:7px 8px;text-align:left;vertical-align:top}th{background:#eee}
+        td.sign{width:34%;height:34px}td.n{width:28px;text-align:right}td.p{width:48px;text-align:center}.answers{font-size:12px;color:#333}
+        .bar{margin:0 0 16px;display:flex;gap:14px;align-items:center}button{font:inherit;padding:6px 14px}
+        @media print{.bar{display:none}body{margin:0}@page{size:A4 portrait;margin:14mm}}
+    </style>
+</head>
+<body>
+<div class="bar">
+    <button type="button" onclick="window.print()"><?= $L['subscriptions_register.print'] ?></button>
+    <a href="<?= $e($this->toggleUrl) ?>"><?= $this->showAnswers ? $L['subscriptions_register.hideAnswers'] : $L['subscriptions_register.showAnswers'] ?></a>
+</div>
+<h1><?= $e($this->course ?: $this->title) ?></h1>
+<p class="meta"><?php if ($this->course): ?><?= $e($this->title) ?><br><?php endif; ?><?= $e($this->when) ?><?= $this->location ? ' · '.$e($this->location) : '' ?><br><?= sprintf($L['subscriptions_register.summary'], \count($this->booked), $this->places) ?></p>
+
+<table>
+    <thead>
+    <tr>
+        <th>#</th>
+        <th><?= $L['subscriptions_register.name'] ?></th>
+        <th><?= $L['subscriptions_register.email'] ?></th>
+        <th><?= $L['subscriptions_register.places'] ?></th>
+        <?php if ($this->showAnswers): ?><th><?= $L['subscriptions_register.answers'] ?></th><?php endif; ?>
+        <th><?= $L['subscriptions_register.signature'] ?></th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php foreach ($this->booked as $i => $row): ?>
+        <tr>
+            <td class="n"><?= $i + 1 ?></td>
+            <td><?= $e($row['name']) ?></td>
+            <td><?= $e($row['email']) ?></td>
+            <td class="p"><?= $row['places'] ?></td>
+            <?php if ($this->showAnswers): ?>
+                <td class="answers"><?php foreach ($row['answers'] as [$label, $value]): ?><?= $e($label) ?>: <?= $e($value) ?><br><?php endforeach; ?></td>
+            <?php endif; ?>
+            <td class="sign"><?= $row['attended'] ? '✓' : '' ?></td>
+        </tr>
+    <?php endforeach; ?>
+    <?php for ($i = 0; $i < 3; ++$i): ?>
+        <tr><td class="n"></td><td></td><td></td><td class="p"></td><?php if ($this->showAnswers): ?><td></td><?php endif; ?><td class="sign"></td></tr>
+    <?php endfor; ?>
+    </tbody>
+</table>
+
+<?php if ($this->waiting): ?>
+    <h2><?= $L['subscriptions_register.waiting'] ?></h2>
+    <table>
+        <tbody>
+        <?php foreach ($this->waiting as $row): ?>
+            <tr><td><?= $e($row['name']) ?></td><td><?= $e($row['email']) ?></td><td class="p"><?= $row['places'] ?></td></tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
+</body>
+</html>
