@@ -26,6 +26,8 @@ class SetupModule
         $tiles = [];
 
         $areas = [
+            'event_settings' => ['icon' => 'settings.svg'],
+            'event_health' => ['icon' => 'important.svg'],
             'event_fields' => ['table' => 'tl_calendar_events_subscription_field', 'icon' => 'modules.svg', 'count' => 'SELECT COUNT(*) AS n FROM tl_calendar_events_subscription_field WHERE disabled=0'],
             'event_payment_providers' => ['table' => 'tl_calendar_events_payment_provider', 'icon' => 'settings.svg', 'count' => 'SELECT COUNT(*) AS n FROM tl_calendar_events_payment_provider'],
         ];
@@ -39,7 +41,12 @@ class SetupModule
                 'title' => $L[$module][0],
                 'description' => $L[$module][1],
                 'icon' => $area['icon'],
-                'count' => (int) $db->query($area['count'])->n,
+                'count' => match ($module) {
+                    'event_settings' => '',
+                    // Number of checks that need attention
+                    'event_health' => \count(array_filter(HealthModule::getChecks(), static fn ($check) => $check['count'] > 0)),
+                    default => (int) $db->query($area['count'])->n,
+                },
                 'href' => $router->generate('contao_backend', ['do' => $module]),
             ];
         }

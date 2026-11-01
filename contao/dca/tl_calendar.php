@@ -41,6 +41,9 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['calendarGroup'] = [
 // Link the calendar titles to their events
 $GLOBALS['TL_DCA']['tl_calendar']['list']['label']['label_callback'] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'generateLabel'];
 
+// New calendars copy the booking settings of the template calendar (Events › Setup › Booking settings)
+$GLOBALS['TL_DCA']['tl_calendar']['config']['oncreate_callback'][] = static fn ($table, $insertId) => (new \Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer())->applyTemplateCalendar((string) $table, (int) $insertId);
+
 // Summary above the calendar list
 $GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'addSubscriptionsSummary'];
 

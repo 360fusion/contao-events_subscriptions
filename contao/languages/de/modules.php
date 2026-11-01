@@ -45,3 +45,5 @@ $GLOBALS['TL_LANG']['MOD']['event_payments'] = ['Zahlungen', 'Zahlungen, Erstatt
 $GLOBALS['TL_LANG']['MOD']['event_setup'] = ['Einrichtung', 'Anmeldefelder, Zahlungsanbieter und weitere Anmeldeeinstellungen'];
 $GLOBALS['TL_LANG']['MOD']['event_fields'] = ['Anmeldefelder', 'Die zusätzlichen Felder des Gast-Anmeldeformulars, gewählt pro Kalender, Veranstaltungsgruppe oder Veranstaltung'];
 $GLOBALS['TL_LANG']['MOD']['event_payment_providers'] = ['Zahlungsanbieter', 'Die Konten für Kartenzahlungen: Stripe, PayPal, Mollie oder GOV.UK Pay'];
+$GLOBALS['TL_LANG']['MOD']['event_settings'] = ['Anmeldeeinstellungen', 'Die Anmeldeeinstellungen, mit denen neue Kalender beginnen, und wie lange Anmeldedaten aufbewahrt werden'];
+$GLOBALS['TL_LANG']['MOD']['event_health'] = ['Prüfung', 'Einstellungen, die wahrscheinlich Aufmerksamkeit brauchen: E-Mails ohne Versand, Veranstaltungen ohne Kurs oder Platzlimit, alte personenbezogene Daten'];

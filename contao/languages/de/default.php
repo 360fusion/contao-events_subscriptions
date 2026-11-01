@@ -138,3 +138,16 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
     'purchase_order' => 'Bestellnummer / Kostenstelle',
     'payment_link' => 'Link "Jetzt bezahlen"',
 ];
+
+// Veranstaltungen › Einrichtung › Prüfung: [Problem, alles in Ordnung]
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.health'] = [
+    'emails' => ['%s E-Mails werden verwendet, senden aber nichts (nicht eingerichtet oder ausgeschaltet)', 'Alle verwendeten E-Mails senden etwas'],
+    'noConfirmation' => ['%s Kalender nehmen Anmeldungen ohne Bestätigungs-E-Mail an', 'Jeder Kalender mit Anmeldungen sendet eine Bestätigungs-E-Mail'],
+    'noGroup' => ['%s kommende Veranstaltungen sind keinem Kurs (Veranstaltungsgruppe) zugeordnet', 'Alle kommenden Veranstaltungen sind einem Kurs zugeordnet'],
+    'noLimit' => ['%s kommende Veranstaltungen haben kein Platzlimit', 'Alle kommenden Veranstaltungen haben ein Platzlimit'],
+    'noPayment' => ['%s kommende Veranstaltungen haben einen Preis, aber keine anbietbare Zahlungsart (Karte braucht einen Zahlungsanbieter)', 'Alle kostenpflichtigen Veranstaltungen können Zahlungen annehmen'],
+    'emptyGroups' => ['%s veröffentlichte Kurse haben keine kommenden Termine', 'Alle veröffentlichten Kurse haben kommende Termine'],
+    'retentionOff' => ['Das Entfernen alter personenbezogener Daten ist ausgeschaltet: %s Anmeldungen gehören zu Veranstaltungen, die vor mehr als 2 Jahren endeten', 'Keine Anmeldungen zu Veranstaltungen älter als 2 Jahre'],
+    'retentionDue' => ['%s Anmeldungen sind fällig und verlieren beim nächsten täglichen Lauf ihre personenbezogenen Daten', 'Keine alten Anmeldungen mit personenbezogenen Daten'],
+    'more' => '… und %s weitere',
+];

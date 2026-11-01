@@ -1,0 +1,20 @@
+<?php $H = $GLOBALS['TL_LANG']['MSC']['events_subscriptions.health']; $e = static fn ($v) => \Contao\StringUtil::specialchars((string) $v); ?>
+<div class="maintenance_active">
+    <h2 class="sub_headline"><?= $GLOBALS['TL_LANG']['MOD']['event_health'][0] ?></h2>
+    <div class="tl_tbox" style="padding:12px 18px;display:grid;gap:12px">
+        <?php foreach ($this->checks as $check): ?>
+            <?php $ok = 0 === $check['count']; ?>
+            <div style="padding:12px 16px;border:1px solid var(--border, #ddd);border-left:4px solid <?= $ok ? '#3a9a5b' : '#d98a1b' ?>;border-radius:6px">
+                <strong><?= $ok ? '✓' : '!' ?> <?= sprintf($ok ? $H[$check['key']][1] : $H[$check['key']][0], number_format($check['count'])) ?></strong>
+                <?php if (!$ok && $check['items']): ?>
+                    <ul style="margin:8px 0 0;padding-left:20px">
+                        <?php foreach ($check['items'] as $item): ?>
+                            <li><a href="<?= $e($item['href']) ?>"><?= $e($item['label']) ?></a></li>
+                        <?php endforeach; ?>
+                        <?php if ($check['more']): ?><li class="tl_gray"><?= sprintf($H['more'], $check['more']) ?></li><?php endif; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>

@@ -139,3 +139,16 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
     'purchase_order' => 'Purchase order / cost centre',
     'payment_link' => 'Pay now link',
 ];
+
+// Events › Setup › Health check: [problem, all fine]
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.health'] = [
+    'emails' => ['%s e-mails are used by calendars, groups or events but send nothing (not set up or switched off)', 'All e-mails in use send something'],
+    'noConfirmation' => ['%s calendars take bookings without a confirmation e-mail', 'Every calendar with bookings sends a confirmation e-mail'],
+    'noGroup' => ['%s upcoming events are not in a course (event group)', 'All upcoming events are in a course'],
+    'noLimit' => ['%s upcoming events have no place limit', 'All upcoming events have a place limit'],
+    'noPayment' => ['%s upcoming events have a price but no payment method that can be offered (card needs a payment provider)', 'All paid events can take payments'],
+    'emptyGroups' => ['%s published courses have no upcoming dates', 'All published courses have upcoming dates'],
+    'retentionOff' => ['Removing old personal data is switched off: %s bookings are of events that ended more than 2 years ago', 'No bookings of events older than 2 years'],
+    'retentionDue' => ['%s bookings are due and will lose their personal data on the next daily run', 'No old bookings with personal data'],
+    'more' => '… and %s more',
+];

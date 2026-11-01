@@ -71,6 +71,14 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
         'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\SetupModule',
     ],
     // Opened from Setup
+    'event_settings' => [
+        'tables' => ['tl_events_subscriptions_settings'],
+        'hideInNavigation' => true,
+    ],
+    'event_health' => [
+        'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\HealthModule',
+        'hideInNavigation' => true,
+    ],
     'event_fields' => [
         'tables' => ['tl_calendar_events_subscription_field'],
         'hideInNavigation' => true,
@@ -141,6 +149,7 @@ $GLOBALS['TL_MODELS']['tl_calendar_events_payment'] = 'Codefog\EventsSubscriptio
 // Cron jobs
 $GLOBALS['TL_CRON']['hourly'][] = ['Codefog\EventsSubscriptionsBundle\EventListener\CronListener', 'onHourlyJob'];
 $GLOBALS['TL_CRON']['minutely'][] = ['Codefog\EventsSubscriptionsBundle\EventListener\CronListener', 'onMinutelyJob'];
+$GLOBALS['TL_CRON']['daily'][] = ['Codefog\EventsSubscriptionsBundle\EventListener\CronListener', 'onDailyJob'];
 
 /**
  * Add the subscription types

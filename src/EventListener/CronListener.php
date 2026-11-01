@@ -13,6 +13,8 @@ namespace Codefog\EventsSubscriptionsBundle\EventListener;
 
 use Codefog\EventsSubscriptionsBundle\Automator;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentManager;
+use Codefog\EventsSubscriptionsBundle\Retention;
+use Contao\Config;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
@@ -59,6 +61,16 @@ class CronListener
                 sprintf('%s unpaid bookings were cancelled because the payment was not completed', $expired),
                 ['contao' => new ContaoContext(__METHOD__, ContaoContext::CRON)],
             );
+        }
+    }
+
+    /**
+     * Anonymise or delete old bookings, if switched on in Events › Setup › Booking settings
+     */
+    public function onDailyJob(): void
+    {
+        if (null !== ($cutoff = Retention::cutoff())) {
+            (new Retention())->run($cutoff, (string) Config::get('eventsSubscriptionsRetentionAction') ?: 'anonymise');
         }
     }
 }

@@ -107,3 +107,14 @@ separately in the user group permissions:
 - **E-mails**: the simple editor of the event e-mails
 - **Payments**: payments, refunds and invoices
 - **Setup**: tiles for the registration fields, the payment providers and (when switched on) the calendar groups
+
+### Setup
+
+- **Booking settings**: choose a calendar whose booking settings (places, deadlines, registration fields, e-mail
+  domains, e-mails, reminders, price) every new calendar starts with, and switch on removing the personal data of
+  old bookings: once a day, bookings of events that ended more than the chosen number of months ago are anonymised
+  (places, attendance and payment amounts are kept) or deleted. Anonymising also clears text columns of the
+  subscription table that are no longer defined, e.g. left over from an older extension.
+- **Health check**: e-mails that are used but send nothing, calendars without a confirmation e-mail, upcoming events
+  without a course or a place limit, paid events that cannot take payments, courses without upcoming dates and old
+  bookings with personal data, each with links to fix them.
