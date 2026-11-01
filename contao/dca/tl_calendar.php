@@ -18,9 +18,15 @@ use Doctrine\DBAL\Types\Types;
 ]);
 
 \Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 1, [
+    'subscribers' => [
+        'href' => 'key=subscriptions_peopleAll',
+        'icon' => 'member.svg',
+        'primary' => true,
+        'attributes' => 'data-action="contao--scroll-offset#store"',
+    ],
     'emails' => [
         'href' => 'table=tl_nc_notification',
-        'icon' => 'news.svg',
+        'icon' => 'resend.svg',
         'primary' => true,
         'attributes' => 'data-action="contao--scroll-offset#store"',
     ],
@@ -81,6 +87,14 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['label']['label_callback'] = ['Codefog
 $GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'addSubscriptionsSummary'];
 
 // List operations
+// Everyone booked on the calendar's events
+$GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['subscriptions_people'] = [
+    'href' => 'key=subscriptions_people',
+    'icon' => 'member.svg',
+    'primary' => true,
+    'button_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'getSubscriptionsOverviewButton'],
+];
+
 $GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['subscriptions_overview'] = [
     'href' => 'key=subscriptions_overview',
     'icon' => 'mgroup.svg',
