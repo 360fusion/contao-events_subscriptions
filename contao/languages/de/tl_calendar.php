@@ -81,3 +81,7 @@ $GLOBALS['TL_LANG']['tl_calendar']['export.excel'] = 'Export als Excel';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.headline'] = 'Anmeldeübersicht für Kalender "%s"';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.empty'] = 'Derzeit gibt es keine Anmeldungen.';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.waitingList'] = 'Warteliste';
+
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary'] = '%s Kalender · %s aktuelle Events · %s Anmeldungen zu aktuellen Events';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary.link'] = 'Kommende Events und Anmeldungen anzeigen';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.headline'] = 'Kommende Events und Anmeldungen';
