@@ -89,7 +89,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_fields'] = [
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_field'],
             'inputType' => 'select',
             'options_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getRegistrationFieldOptions'],
-            'eval' => ['includeBlankOption' => true, 'chosen' => true],
+            'eval' => ['includeBlankOption' => true],
         ],
         'mandatory' => [
             'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatory'],
@@ -99,7 +99,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_fields'] = [
             'eval' => ['includeBlankOption' => true, 'blankOptionLabel' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef']['']],
         ],
     ],
-    'eval' => ['sortable' => true, 'actions' => ['copy', 'delete'], 'tl_class' => 'clr'],
+    'eval' => ['sortable' => true, 'actions' => ['copy', 'delete'], 'min' => 1, 'tl_class' => 'clr'],
     'sql' => ['type' => Types::BLOB, 'notnull' => false],
 ];
 

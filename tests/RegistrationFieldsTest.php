@@ -61,6 +61,8 @@ class RegistrationFieldsTest extends TestCase
         $this->assertSame([], $f->resolve(null));
         $this->assertSame([], $f->resolve(''));
         $this->assertSame([], $f->resolve([]));
+        // the always-present first picker row saved without a choice
+        $this->assertSame([], $f->resolve([['field' => '', 'mandatory' => null]]));
     }
 
     public function testFormFieldConfig(): void
