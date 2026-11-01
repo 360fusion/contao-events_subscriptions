@@ -12,7 +12,6 @@
             <?php foreach ($this->filterHidden as $name => $value): ?>
                 <input type="hidden" name="<?= $e($name) ?>" value="<?= $e($value) ?>">
             <?php endforeach; ?>
-            <label style="flex:2 1 220px"><?= $L['subscriptions_upcoming.search'] ?><br><input type="search" name="search" value="<?= $e($f['search']) ?>" class="tl_text"></label>
             <label style="flex:2 1 220px"><?= $L['subscriptions_upcoming.calendar'] ?><br>
                 <select name="calendar" class="tl_select"><option value="">-</option><?php foreach ($this->calendarOptions as $id => $title): ?><option value="<?= $id ?>"<?= $f['calendar'] === $id ? ' selected' : '' ?>><?= $e($title) ?></option><?php endforeach; ?></select>
             </label>
@@ -30,10 +29,17 @@
                     <option value="full"<?= 'full' === $f['places'] ? ' selected' : '' ?>><?= $L['subscriptions_upcoming.placesFull'] ?></option>
                 </select>
             </label>
-            <span style="display:flex;gap:6px">
-                <button type="submit" class="tl_submit"><?= $L['subscriptions_upcoming.apply'] ?></button>
-                <a href="<?= $e($this->filterAction.'?'.http_build_query($this->filterHidden)) ?>" class="tl_submit"><?= $L['subscriptions_upcoming.reset'] ?></a>
-            </span>
+            <div style="flex:1 1 100%;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:space-between">
+                <span style="display:flex;gap:6px">
+                    <button type="submit" class="tl_submit"><?= $L['subscriptions_upcoming.apply'] ?></button>
+                    <a href="<?= $e($this->filterAction.'?'.http_build_query($this->filterHidden)) ?>" class="tl_submit"><?= $L['subscriptions_upcoming.reset'] ?></a>
+                </span>
+                <label style="flex:0 1 560px;margin-left:auto">
+                    <strong><?= $L['subscriptions_upcoming.dynamicSearch'] ?></strong>
+                    <input type="search" name="search" value="<?= $e($f['search']) ?>" class="tl_text" placeholder="<?= $e($L['subscriptions_upcoming.dynamicSearchPlaceholder']) ?>" style="font-size:1.15em;padding:10px 12px;margin-top:4px">
+                    <span class="tl_help tl_tip" style="display:block"><?= $L['subscriptions_upcoming.dynamicSearchHelp'] ?></span>
+                </label>
+            </div>
         </form>
         <script>
             // Update the results while typing, keeping the focus in the filter form
