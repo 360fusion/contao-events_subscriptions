@@ -11,6 +11,7 @@ use Contao\Controller;
 use Contao\Input;
 use Contao\Message;
 use Contao\System;
+use Contao\Validator;
 use Symfony\Component\Security\Csrf\CsrfToken;
 
 /**
@@ -29,7 +30,13 @@ class EventEmailTestController
         }
 
         $id = (int) Input::get('id');
-        $email = (string) BackendUser::getInstance()->email;
+        // The address from the pop-up, the user's own by default
+        $email = trim((string) Input::get('email')) ?: (string) BackendUser::getInstance()->email;
+
+        if ('' !== $email && !Validator::isEmail($email)) {
+            Message::addError(sprintf($L['emailTestInvalidAddress'], $email));
+            Controller::redirect($backUrl);
+        }
         $language = (new EventEmailContainer())->getLanguage($id);
 
         if ('' === $email || null === $language) {

@@ -10,6 +10,7 @@ use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\Events
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsUnsubscribeType;
 use Codefog\EventsSubscriptionsBundle\NotificationCenterHelper;
 use Codefog\EventsSubscriptionsBundle\RegistrationFields;
+use Contao\BackendUser;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\CoreBundle\Security\ContaoCorePermissions;
 use Contao\Database;
@@ -69,7 +70,7 @@ class EventEmailContainer
 
         $editor = $this->isHtml((int) $dc->id) ? 'emailHtml' : 'emailText';
 
-        $GLOBALS['TL_DCA']['tl_nc_notification']['palettes']['default'] = '{title_legend},title,type;{content_legend},emailSubject,emailFormat,emailTags,'.$editor.';{more_legend:hide},emailSenderName,emailSenderAddress,emailEnabled';
+        $GLOBALS['TL_DCA']['tl_nc_notification']['palettes']['default'] = '{title_legend},title,type;{content_legend},emailSubject,emailFormat,'.$editor.',emailTags;{more_legend:hide},emailSenderName,emailSenderAddress,emailEnabled';
     }
 
     public function getTypeOptions(): array
@@ -92,13 +93,88 @@ class EventEmailContainer
             default => '',
         };
 
-        return sprintf(
+        return $this->getTestDialogScript().sprintf(
             '<strong>%s</strong> %s%s%s',
             $row['title'] ?: '-',
             $status,
             $info ? '<br><span class="tl_gray">'.implode(' · ', $info).'</span>' : '',
             $language ? '<br><span class="tl_gray">'.$L['emailSubject'][0].': '.StringUtil::specialchars((string) $language['email_subject']).'</span>' : '',
         );
+    }
+
+    /**
+     * "Send me a test" opens a pop-up to confirm or change the address, added to the first row of the list only
+     */
+    private function getTestDialogScript(): string
+    {
+        static $added = false;
+
+        if ($added) {
+            return '';
+        }
+
+        $added = true;
+        $L = $GLOBALS['TL_LANG']['tl_nc_notification'];
+        $config = json_encode([
+            'email' => (string) BackendUser::getInstance()->email,
+            'title' => $L['emailTestTitle'],
+            'label' => $L['emailTestTo'],
+            'help' => $L['emailTestHelp'],
+            'send' => $L['emailTestSend'],
+            'cancel' => $GLOBALS['TL_LANG']['MSC']['cancelBT'] ?? 'Cancel',
+        ], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+
+        return <<<HTML
+            <script>
+            window.eventsEmailTest = {$config};
+
+            if (!window.eventsEmailTestBound) {
+                window.eventsEmailTestBound = true;
+
+                document.addEventListener('click', event => {
+                    const link = event.target.closest('a[href*="key=event_emailTest"]');
+
+                    if (!link) {
+                        return;
+                    }
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    const t = window.eventsEmailTest;
+                    let dialog = document.getElementById('events-email-test');
+
+                    if (!dialog) {
+                        dialog = document.createElement('dialog');
+                        dialog.id = 'events-email-test';
+                        dialog.style.cssText = 'min-width:380px;padding:20px 24px;border:1px solid var(--border, #ccc);border-radius:8px;background:var(--content-bg, #fff);color:inherit';
+                        dialog.innerHTML = '<form method="dialog"><h2 style="margin:0 0 14px"></h2><label for="events-email-test-to" style="display:block;margin-bottom:4px"></label><input type="email" id="events-email-test-to" class="tl_text" required style="width:100%"><p class="tl_help tl_tip"></p><div style="display:flex;flex-direction:row-reverse;gap:8px;margin-top:16px"><button type="submit" value="send" class="tl_submit"></button><button type="submit" value="cancel" class="tl_submit" formnovalidate></button></div></form>';
+                        document.body.append(dialog);
+                    }
+
+                    dialog.querySelector('h2').textContent = t.title;
+                    dialog.querySelector('label').textContent = t.label;
+                    dialog.querySelector('.tl_help').textContent = t.help;
+                    dialog.querySelector('[value=cancel]').textContent = t.cancel;
+                    dialog.querySelector('[value=send]').textContent = t.send;
+
+                    const input = dialog.querySelector('input');
+                    input.value = t.email;
+                    dialog.returnValue = '';
+                    dialog.onclose = () => {
+                        if ('send' === dialog.returnValue && input.value.trim()) {
+                            const url = new URL(link.href, window.location.href);
+                            url.searchParams.set('email', input.value.trim());
+                            window.location.href = url.toString();
+                        }
+                    };
+
+                    dialog.showModal();
+                    input.select();
+                }, true);
+            }
+            </script>
+            HTML;
     }
 
     public function loadSubject($value, DataContainer $dc): string
@@ -220,23 +296,35 @@ class EventEmailContainer
 
         $label = $GLOBALS['TL_LANG']['tl_nc_notification']['emailTags'];
 
-        return sprintf('<div class="widget clr" id="events-email-tags"><details><summary class="tl_submit">%s ▾</summary><div class="menu">%s</div></details><p class="tl_help tl_tip">%s</p></div>', $label[0], $groups, $label[1]).<<<'HTML'
+        return sprintf('<div class="widget clr" id="events-email-tags"><div class="events-email-toolbar"><details><summary class="tl_submit">%s ▾</summary><div class="menu">%s</div></details><span class="events-email-hint">%s</span></div></div>', $label[0], $groups, $label[1]).<<<'HTML'
             <style>
-                #events-email-tags details { position: relative; display: inline-block; margin-top: 6px; }
-                #events-email-tags summary { list-style: none; cursor: pointer; }
-                #events-email-tags summary::-webkit-details-marker { display: none; }
-                #events-email-tags .menu { position: absolute; z-index: 20; top: calc(100% + 4px); left: 0; display: flex; flex-wrap: wrap; gap: 16px 28px; width: min(880px, 80vw); max-height: 420px; overflow: auto; padding: 14px 18px; background: var(--content-bg, #fff); border: 1px solid var(--border, #ccc); border-radius: 6px; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
-                #events-email-tags .group { min-width: 180px; }
-                #events-email-tags ul { margin: 6px 0 0; padding: 0; list-style: none; }
-                #events-email-tags li button { display: block; width: 100%; padding: 4px 6px; border: 0; border-radius: 4px; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
-                #events-email-tags li button:hover, #events-email-tags li button:focus { background: var(--hover-row, rgba(0,0,0,.06)); }
+                /* The toolbar is moved onto the top edge of the message box, like the header of the text area */
+                .events-email-toolbar { display: flex; align-items: center; gap: 14px; padding: 6px 8px; border: 1px solid var(--form-border, #aaa); border-bottom: 0; border-radius: 4px 4px 0 0; background: var(--table-header, rgba(0,0,0,.05)); }
+                .events-email-toolbar .events-email-hint { flex: 1; color: var(--gray, #777); font-size: .8rem; }
+                .events-email-toolbar + textarea, .events-email-toolbar + textarea + .tox-tinymce { border-top-left-radius: 0 !important; border-top-right-radius: 0 !important; }
+                .events-email-toolbar details { position: relative; display: inline-block; }
+                #events-email-tags summary, .events-email-toolbar summary { list-style: none; cursor: pointer; }
+                .events-email-toolbar summary::-webkit-details-marker { display: none; }
+                .events-email-toolbar .menu { position: absolute; z-index: 20; top: calc(100% + 4px); left: 0; display: flex; flex-wrap: wrap; gap: 16px 28px; width: min(880px, 80vw); max-height: 420px; overflow: auto; padding: 14px 18px; background: var(--content-bg, #fff); border: 1px solid var(--border, #ccc); border-radius: 6px; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+                .events-email-toolbar .group { min-width: 180px; }
+                .events-email-toolbar ul { margin: 6px 0 0; padding: 0; list-style: none; }
+                .events-email-toolbar li button { display: block; width: 100%; padding: 4px 6px; border: 0; border-radius: 4px; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+                .events-email-toolbar li button:hover, .events-email-toolbar li button:focus { background: var(--hover-row, rgba(0,0,0,.06)); }
             </style>
             <script>
             (() => {
                 const widget = document.getElementById('events-email-tags');
-                const menu = widget.querySelector('details');
+                const toolbar = widget.querySelector('.events-email-toolbar');
+                const menu = toolbar.querySelector('details');
+                const message = document.getElementById('ctrl_emailText') || document.getElementById('ctrl_emailHtml');
 
-                widget.querySelectorAll('[data-token]').forEach(button => button.addEventListener('click', () => {
+                // Sit on top of the message box, under its "Message" label
+                if (message) {
+                    message.before(toolbar);
+                    widget.remove();
+                }
+
+                toolbar.querySelectorAll('[data-token]').forEach(button => button.addEventListener('click', () => {
                     const token = button.dataset.token;
                     const editor = window.tinymce?.get('ctrl_emailHtml');
                     const field = document.getElementById('ctrl_emailText');
