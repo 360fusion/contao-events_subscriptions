@@ -48,3 +48,4 @@ $GLOBALS['TL_LANG']['MOD']['event_payment_providers'] = ['Payment providers', 'T
 $GLOBALS['TL_LANG']['MOD']['event_settings'] = ['Booking settings', 'The booking settings new calendars start with, and how long booking details are kept'];
 $GLOBALS['TL_LANG']['MOD']['event_health'] = ['Health check', 'Settings that probably need attention: e-mails that send nothing, events without a course or a place limit, old personal data'];
 $GLOBALS['TL_LANG']['MOD']['event_retention'] = ['Old booking data', 'Past events whose bookings still have personal data: review them and delete or anonymise the bookings'];
+$GLOBALS['TL_LANG']['MOD']['event_reports'] = ['Reports', 'Fill rate, cancellations, attendance and feedback for each course and month'];

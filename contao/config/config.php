@@ -45,6 +45,10 @@ $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_register'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\RegisterController',
     'run',
 ];
+$GLOBALS['BE_MOD']['content']['calendar']['subscriptions_person'] = [
+    'Codefog\EventsSubscriptionsBundle\Backend\PersonController',
+    'run',
+];
 $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_overview'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\OverviewController',
     'run',
@@ -70,6 +74,9 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
         'tables' => ['tl_calendar_events_payment'],
         'payment_refund' => ['Codefog\EventsSubscriptionsBundle\Backend\PaymentController', 'run'],
         'payment_markPaid' => ['Codefog\EventsSubscriptionsBundle\Backend\PaymentController', 'run'],
+    ],
+    'event_reports' => [
+        'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\ReportsModule',
     ],
     'event_setup' => [
         'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\SetupModule',

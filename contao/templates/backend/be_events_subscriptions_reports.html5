@@ -1,0 +1,96 @@
+<?php $L = $GLOBALS['TL_LANG']['tl_calendar']; $e = static fn ($v) => \Contao\StringUtil::specialchars((string) $v); $pct = static fn ($v) => null === $v ? '–' : $v.'%'; ?>
+<div class="maintenance_active">
+    <h2 class="sub_headline"><?= $GLOBALS['TL_LANG']['MOD']['event_reports'][0] ?></h2>
+
+    <form action="<?= $e($this->filterAction) ?>" method="get" class="tl_tbox" style="padding:20px 24px;display:flex;gap:16px 24px;align-items:flex-end;flex-wrap:wrap">
+        <input type="hidden" name="do" value="event_reports">
+        <label><?= $L['reports.from'] ?><br><input type="month" name="from" value="<?= $e($this->from) ?>" class="tl_text" style="width:auto"></label>
+        <label><?= $L['reports.to'] ?><br><input type="month" name="to" value="<?= $e($this->to) ?>" class="tl_text" style="width:auto"></label>
+        <label><?= $L['reports.calendar'] ?><br>
+            <select name="calendar" class="tl_select" style="width:auto;min-width:200px">
+                <option value="">-</option>
+                <?php foreach ($this->calendarOptions as $option): ?>
+                    <option value="<?= $option['id'] ?>"<?= $this->calendar === (int) $option['id'] ? ' selected' : '' ?>><?= $e($option['title']) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
+        <button type="submit" class="tl_submit"><?= $L['subscriptions_upcoming.apply'] ?></button>
+        <a href="<?= $e($this->exportUrl) ?>" class="tl_submit"><?= $L['reports.download'] ?></a>
+        <p class="tl_help tl_tip" style="flex:1 1 100%;margin:0"><?= $L['reports.help'] ?></p>
+    </form>
+
+    <div class="tl_tbox" style="padding:20px 24px">
+        <?php if ($this->rows): ?>
+            <table class="tl_listing showColumns" style="margin-bottom:8px">
+                <thead>
+                <tr>
+                    <th class="tl_folder_tlist"><?= $L['reports.month'] ?></th>
+                    <th class="tl_folder_tlist"><?= $L['reports.course'] ?></th>
+                    <th class="tl_folder_tlist"><?= $L['reports.events'] ?></th>
+                    <th class="tl_folder_tlist"><?= $L['reports.places'] ?></th>
+                    <th class="tl_folder_tlist"><?= $L['reports.booked'] ?></th>
+                    <th class="tl_folder_tlist"><?= $L['reports.fill'] ?></th>
+                    <th class="tl_folder_tlist"><?= $L['reports.waiting'] ?></th>
+                    <?php if ($this->attendance): ?>
+                        <th class="tl_folder_tlist"><?= $L['reports.attended'] ?></th>
+                        <th class="tl_folder_tlist"><?= $L['reports.missed'] ?></th>
+                    <?php endif; ?>
+                    <th class="tl_folder_tlist"><?= $L['reports.cancelled'] ?></th>
+                    <th class="tl_folder_tlist"><?= $L['reports.rating'] ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach (array_merge($this->rows, [$this->totals + ['total' => true]]) as $row): $total = !empty($row['total']); ?>
+                    <tr class="hover-row"<?= $total ? ' style="font-weight:600"' : '' ?>>
+                        <td class="tl_file_list" style="white-space:nowrap"><?= $total ? $L['reports.total'] : date('M Y', strtotime($row['month'].'-01')) ?></td>
+                        <td class="tl_file_list"><?= $total ? '' : $e($row['course']).'<br><span class="tl_gray">'.$e($row['calendar']).'</span>' ?></td>
+                        <td class="tl_file_list"><?= $row['events'] ?></td>
+                        <td class="tl_file_list"><?= $row['capacity'] ?: '–' ?></td>
+                        <td class="tl_file_list"><?= $row['booked'] ?></td>
+                        <td class="tl_file_list" style="white-space:nowrap"><?= $pct($row['fill']) ?></td>
+                        <td class="tl_file_list"><?= $row['waiting'] ?: '–' ?></td>
+                        <?php if ($this->attendance): ?>
+                            <td class="tl_file_list"><?= null === $row['missedRate'] ? '–' : $row['attended'] ?></td>
+                            <td class="tl_file_list" style="white-space:nowrap"><?= null === $row['missedRate'] ? '–' : $row['missed'].' ('.$row['missedRate'].'%)' ?></td>
+                        <?php endif; ?>
+                        <td class="tl_file_list"><?= $row['cancelled'] ?: '–' ?></td>
+                        <td class="tl_file_list" style="white-space:nowrap"><?= null === $row['rating'] ? '–' : $row['rating'].' / 5 ('.$row['ratingCount'].')' ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+            <p class="tl_help tl_tip" style="margin:0"><?= $L['reports.notes'] ?></p>
+        <?php else: ?>
+            <p class="tl_info" style="margin:0"><?= $L['reports.empty'] ?></p>
+        <?php endif; ?>
+    </div>
+
+    <?php if ($this->attendance): ?>
+        <h2 class="sub_headline"><?= $L['reports.noShows'] ?></h2>
+        <div class="tl_tbox" style="padding:20px 24px">
+            <p class="tl_help tl_tip" style="margin:0 0 14px"><?= sprintf($L['reports.noShowsHelp'], $this->noShowLimit) ?></p>
+            <?php if ($this->noShows): ?>
+                <table class="tl_listing showColumns">
+                    <thead>
+                    <tr>
+                        <th class="tl_folder_tlist"><?= $L['reports.person'] ?></th>
+                        <th class="tl_folder_tlist"><?= $L['reports.missedCount'] ?></th>
+                        <th class="tl_folder_tlist"><?= $L['reports.lastMissed'] ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($this->noShows as $person): ?>
+                        <tr class="hover-row">
+                            <td class="tl_file_list"><a href="<?= $e($person['url']) ?>" title="<?= $e($L['reports.history']) ?>"><strong><?= $e($person['name']) ?></strong></a><br><span class="tl_gray"><?= $e($person['email']) ?></span></td>
+                            <td class="tl_file_list"><?= $person['missed'] ?></td>
+                            <td class="tl_file_list" style="white-space:nowrap"><?= $e($person['lastDate']) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p class="tl_info" style="margin:0"><?= $L['reports.noShowsNone'] ?></p>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>

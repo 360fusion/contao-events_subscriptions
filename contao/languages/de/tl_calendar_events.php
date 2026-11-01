@@ -112,5 +112,5 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethods'] = ['Zah
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'] = ['card' => 'Karte (online)', 'invoice' => 'Rechnung / Bestellnummer / Kostenstelle'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentProvider'] = ['Zahlungsanbieter', 'Der Anbieter für Kartenzahlungen, eingerichtet unter Veranstaltungen › Einrichtung › Zahlungsanbieter.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_freeEmailDomains'] = ['Kostenlos für diese E-Mail-Domains', 'Gäste mit einer E-Mail-Adresse dieser Domains melden sich kostenlos an, z. B. nhs.net (auch Subdomains) oder @nhs.net (nur genau diese Domain).'];
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_trainerEmail'] = ['E-Mail-Adresse des Trainers', 'Erhält am Vortag die Liste aller Angemeldeten. Leer lassen für den Trainer des Kurses.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_trainerEmail'] = ['E-Mail-Adresse des Trainers', 'Erhält am Vortag die Liste aller Angemeldeten. Bei einer Veranstaltung leer lassen, um den Trainer des Kurses zu verwenden.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscriptionsRegister'] = ['Unterschriftenliste', 'Liste aller Angemeldeten mit Unterschriftsspalte drucken'];

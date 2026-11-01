@@ -122,3 +122,19 @@ The event list and reader templates of the extension receive the booking status 
 The default list template shows a status line ("8 of 10 places left · Booking closes: …", "Fully booked" or
 "Booking closed"), and the subscription form explains why subscribing is not possible: registration has closed, the
 event is full, or the event is full but the waiting list is still open.
+
+## The booker's own pages
+
+Every booking has a secret link (in the e-mails as `##booking_link##`, `##certificate_link##` and `##feedback_link##`).
+These are plain pages that need no setup and no login. They are never cached and are hidden from search engines.
+
+- **Manage my booking** (`/_events_subscriptions/booking/{token}`): the event, date and status; the check-in QR
+  code; changing the name and the registration field answers (the e-mail address cannot be changed: cancel and book
+  again); and cancelling, while the calendar's "unsubscribe until" time has not passed. Cancelling sends the usual
+  cancellation e-mail. The older `?event_unsubscribe=` link still cancels at once, with no confirmation.
+- **Certificate of attendance** (`/_events_subscriptions/certificate/{token}`): printable, with a "Print or save as
+  PDF" button, for bookings marked as attended. It shows the course, the date, the place and the hours of a
+  single-day event with times.
+- **Feedback** (`/_events_subscriptions/feedback/{token}`): a rating from 1 to 5 and an optional comment, one answer
+  for each booking, once the event has started. No name or e-mail address is stored with the answer.
+- **Check-in** (`/_events_subscriptions/checkin/{token}`): for back end users only, see "Running the day".

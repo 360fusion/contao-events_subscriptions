@@ -5,6 +5,7 @@ namespace Codefog\EventsSubscriptionsBundle\Backend;
 use Codefog\EventsSubscriptionsBundle\Features;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus;
+use Codefog\EventsSubscriptionsBundle\Report;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Contao\Backend;
 use Contao\BackendTemplate;
@@ -97,7 +98,15 @@ class SubscribersController extends OverviewController
         $factory = Services::getSubscriptionFactory();
         $L = $GLOBALS['TL_LANG']['tl_calendar'];
 
+        // People who keep missing events are flagged (the numbers of this page's people only)
+        $missed = Features::attendance() ? Report::missedCounts(array_values(array_unique(array_filter(array_map('strtolower', array_column($rows, 'email')))))) : [];
+        $missedLimit = Features::noShowLimit();
+
         foreach ($rows as &$row) {
+            $count = $missed[strtolower((string) $row['email'])]['missed'] ?? 0;
+            $row['missed'] = $count >= $missedLimit ? $count : 0;
+            $row['personUrl'] = sprintf('contao?do=calendar&key=subscriptions_person&id=%s&rt=%s', $row['id'], Input::get('rt'));
+
             try {
                 $waiting = (bool) $factory->createFromModel(SubscriptionModel::findByPk($row['id']))->isOnWaitingList();
             } catch (\Throwable) {

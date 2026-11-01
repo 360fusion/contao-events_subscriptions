@@ -124,3 +124,37 @@ separately in the user group permissions:
 - **Health check**: e-mails that are used but send nothing, calendars without a confirmation e-mail, upcoming events
   without a course or a place limit, paid events that cannot take payments, courses without upcoming dates and old
   bookings with personal data, each with links to fix them.
+
+## Running the day
+
+- **Sign-in sheet.** The list of events has a "Sign-in sheet" button for calendars with bookings: a printable page
+  with everyone booked in alphabetical order, their e-mail address, places and an empty column to sign, a few blank
+  lines for people who turn up without a booking, and the waiting list underneath. "Show their answers" adds their
+  registration field answers.
+- **QR check-in.** The booking page of the booker shows a QR code on the day of the event. Scanning it with a phone
+  that is signed in to the back end opens a page with the name and a "Check in" button, which marks the booking as
+  attended. Anyone who is not signed in to the back end gets a "staff only" page, so nobody can check themselves in.
+- **Trainer e-mail.** Events and event groups have a "Trainer e-mail address" for the trainer pack (see Notifications).
+
+## Reports
+
+Events › Reports shows one row for each month and course: events, places, booked, how full, the waiting list,
+attended and did not attend, cancellations by the booker and the average feedback rating, with a month range, a
+calendar filter and a CSV download.
+
+- *Filled* counts the places of events that have a limit. Places over the limit are the waiting list.
+- *Attended* and *Did not attend* only count events where someone was marked as attended, so events where
+  attendance was never recorded are not reported as everybody missing.
+- *Cancelled by booker* counts cancellations made with the unsubscribe link or "Manage my booking", from the time the
+  reports were added. Bookings deleted by hand in the back end are not counted.
+
+**Repeat no-shows** lists people who booked and did not attend at least N events in the last 12 months (3 by default,
+Events › Setup › Booking settings › Reports). Waiting list places never count. The same people are marked "missed N"
+in the Subscribers list. Click a name in the Subscribers list or the no-show list for **all their bookings** (outcome
+for each, with an export). The history only shows the calendars the user may access.
+
+## Settings
+
+- *One booking per course* (off by default): stops someone booking a second upcoming date of a course they are
+  already booked on, matched by e-mail address (guest and member bookings, waiting list included).
+- *Certificates of attendance* (on by default, needs Attendance): name of the organisation and who signs.

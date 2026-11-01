@@ -1,0 +1,41 @@
+<?php $L = $GLOBALS['TL_LANG']['tl_calendar']; $e = static fn ($v) => \Contao\StringUtil::specialchars((string) $v); ?>
+<div id="tl_buttons">
+    <a href="<?= \Contao\StringUtil::ampersand($this->backUrl) ?>" class="header_back" title="<?= $e($GLOBALS['TL_LANG']['MSC']['backBTTitle']) ?>"><?= $GLOBALS['TL_LANG']['MSC']['backBT'] ?></a>
+    <?php if ($this->rows): ?><a href="<?= $e($this->exportUrl) ?>" class="header_theme_import"><?= $L['person.export'] ?></a><?php endif; ?>
+</div>
+
+<div class="maintenance_active">
+    <h2 class="sub_headline"><?= $e($this->name) ?><?= $this->email ? ' <span class="tl_gray">· '.$e($this->email).'</span>' : '' ?></h2>
+
+    <div class="tl_tbox" style="padding:20px 24px">
+        <p class="tl_info" style="margin:0 0 20px"><?= $this->summary ?></p>
+        <?php if ($this->flag): ?><p class="tl_error" style="margin:0 0 20px"><?= $this->flag ?></p><?php endif; ?>
+
+        <?php if ($this->rows): ?>
+            <table class="tl_listing showColumns">
+                <thead>
+                <tr>
+                    <th class="tl_folder_tlist"><?= $L['person.date'] ?></th>
+                    <th class="tl_folder_tlist"><?= $L['person.event'] ?></th>
+                    <th class="tl_folder_tlist"><?= $L['person.calendar'] ?></th>
+                    <?php if ($this->attendance): ?><th class="tl_folder_tlist"><?= $L['person.outcome'] ?></th><?php endif; ?>
+                    <th class="tl_folder_tlist"><?= $L['person.payment'] ?></th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php foreach ($this->rows as $row): ?>
+                    <tr class="hover-row">
+                        <td class="tl_file_list" style="white-space:nowrap"><?= $e($row['date']) ?></td>
+                        <td class="tl_file_list"><?php if ($row['course']): ?><strong><?= $e($row['course']) ?></strong><br><span class="tl_gray"><?= $row['title'] ?></span><?php else: ?><strong><?= $row['title'] ?></strong><?php endif; ?></td>
+                        <td class="tl_file_list"><?= $e($row['calendar']) ?></td>
+                        <?php if ($this->attendance): ?><td class="tl_file_list"<?= 'missed' === $row['outcome'] ? ' style="color:#c33;font-weight:600"' : '' ?>><?= $e($row['outcomeLabel']) ?></td><?php endif; ?>
+                        <td class="tl_file_list"><?= $row['paymentLabel'] ? $e($row['paymentLabel']) : '–' ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php else: ?>
+            <p class="tl_info" style="margin:0"><?= $L['person.empty'] ?></p>
+        <?php endif; ?>
+    </div>
+</div>

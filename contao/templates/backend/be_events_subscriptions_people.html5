@@ -103,7 +103,7 @@
                 <tbody>
                 <?php foreach ($this->rows as $row): ?>
                     <tr class="hover-row">
-                        <td class="tl_file_list" style="min-width:220px;word-break:break-word"><?= $e($row['name']) ?><br><span class="tl_gray"><?= $e($row['email']) ?><?= $row['numberOfParticipants'] > 1 ? ' · '.sprintf($L['subscribers.participants'], $row['numberOfParticipants']) : '' ?></span></td>
+                        <td class="tl_file_list" style="min-width:220px;word-break:break-word"><a href="<?= $e($row['personUrl']) ?>" title="<?= $e($L['subscribers.history']) ?>"><?= $e($row['name']) ?></a><?php if (!empty($row['missed'])): ?> <span class="tl_red" title="<?= $e(sprintf($L['person.flag'], $row['missed'])) ?>" style="font-weight:600;white-space:nowrap">⚠ <?= sprintf($L['subscribers.missed'], $row['missed']) ?></span><?php endif; ?><br><span class="tl_gray"><?= $e($row['email']) ?><?= $row['numberOfParticipants'] > 1 ? ' · '.sprintf($L['subscribers.participants'], $row['numberOfParticipants']) : '' ?></span></td>
                         <td class="tl_file_list"><?= $row['eventTitle'] ?><br><span class="tl_gray"><?= $row['eventDate'] ?><?= $this->showCalendar ? ' · '.$e($row['calendarTitle']) : '' ?></span></td>
                         <td class="tl_file_list" style="white-space:nowrap"><?= $row['booked'] ?></td>
                         <td class="tl_file_list" style="white-space:nowrap"><?= $row['status'] ?></td>

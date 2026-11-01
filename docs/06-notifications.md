@@ -126,3 +126,29 @@ that address only: the e-mail's own recipients, CC and BCC are left out of the t
 The form edits the main language of the e-mail's first message in the Notification Center and creates them if they
 are missing, so sending is unchanged. Use the Notification Center for anything else (more languages, CC/BCC,
 attachments).
+
+### All booking details
+
+`##subscription_details##` ("All booking details" in the tag list) lists every answer of the booking form as
+"Label: value" lines: first name, last name, e-mail address, the number of participants if the event asks for it, and
+every registration field of the event. Empty answers are left out. Registration fields added later appear without
+changing the e-mail. Meant for plain text e-mails.
+
+### Trainer pack and after-the-event e-mails
+
+Two more e-mail types are sent by the site on its own once an e-mail of that type is chosen under Events › Setup ›
+Booking settings › Before and after the event. Each is sent once for every event or booking, from the hourly cron job.
+
+- **Trainer pack the day before** (`events_subscriptions_trainer`): goes to the trainer e-mail address of the event,
+  or of its course when the event has none, at the chosen hour (16:00 by default) for events starting tomorrow. An
+  event that is still today and was missed is sent at once. Tags: `##attendee_list##` (everyone booked, with their
+  answers, waiting list left out), `##attendee_count##`, `##attendee_places##` and the event tags.
+- **After the event** (`events_subscriptions_followUp`): goes the day after, from 09:00, to everyone marked as attended
+  (to every confirmed booking when Attendance is switched off). Only events that ended in the last 3 days are
+  considered, so switching it on never writes to people who attended long ago. Tags: the booking tags and
+  `##certificate_link##` and `##feedback_link##`.
+
+### Links to the booker's own pages
+
+`##booking_link##` (manage my booking), `##certificate_link##` and `##feedback_link##` are available in every booking
+e-mail. See "The booker's own pages" in the back end and booking chapters.

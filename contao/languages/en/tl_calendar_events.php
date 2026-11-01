@@ -112,5 +112,5 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethods'] = ['Pay
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'] = ['card' => 'Card (online)', 'invoice' => 'Invoice / purchase order / cost centre'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentProvider'] = ['Payment provider', 'The provider for card payments, set up in Events › Setup › Payment providers.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_freeEmailDomains'] = ['Free for these e-mail domains', 'Guests with an e-mail address of these domains book free, e.g. nhs.net (also allows subdomains) or @nhs.net (exact domain only).'];
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_trainerEmail'] = ['Trainer e-mail address', 'Gets the trainer pack the day before: the list of everyone booked. Leave empty to use the course\'s trainer.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_trainerEmail'] = ['Trainer e-mail address', 'Gets the trainer pack the day before: the list of everyone booked. On an event, leave empty to use the trainer of its course.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscriptionsRegister'] = ['Sign-in sheet', 'Print the list of everyone booked with a column to sign'];

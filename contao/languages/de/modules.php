@@ -48,3 +48,4 @@ $GLOBALS['TL_LANG']['MOD']['event_payment_providers'] = ['Zahlungsanbieter', 'Di
 $GLOBALS['TL_LANG']['MOD']['event_settings'] = ['Anmeldeeinstellungen', 'Die Anmeldeeinstellungen, mit denen neue Kalender beginnen, und wie lange Anmeldedaten aufbewahrt werden'];
 $GLOBALS['TL_LANG']['MOD']['event_health'] = ['Prüfung', 'Einstellungen, die wahrscheinlich Aufmerksamkeit brauchen: E-Mails ohne Versand, Veranstaltungen ohne Kurs oder Platzlimit, alte personenbezogene Daten'];
 $GLOBALS['TL_LANG']['MOD']['event_retention'] = ['Alte Anmeldedaten', 'Vergangene Veranstaltungen, deren Anmeldungen noch personenbezogene Daten enthalten: prüfen und die Anmeldungen löschen oder anonymisieren'];
+$GLOBALS['TL_LANG']['MOD']['event_reports'] = ['Berichte', 'Auslastung, Stornierungen, Teilnahme und Feedback je Kurs und Monat'];
