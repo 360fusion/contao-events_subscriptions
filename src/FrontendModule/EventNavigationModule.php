@@ -57,7 +57,7 @@ class EventNavigationModule extends Events
         $db = Database::getInstance();
         $ids = implode(',', array_map('intval', $this->cal_calendar));
         $calendars = $db->query("SELECT id, title, alias FROM tl_calendar WHERE id IN ($ids) ORDER BY title")->fetchAllAssoc();
-        $groups = $db->query("SELECT id, pid, title, alias FROM tl_calendar_event_group WHERE pid IN ($ids) AND published=1 ORDER BY sorting")->fetchAllAssoc();
+        $groups = $db->query("SELECT id, pid, title, alias FROM tl_calendar_event_group WHERE pid IN ($ids) AND published=1 ORDER BY title")->fetchAllAssoc();
 
         $counts = $this->countUpcoming();
         $activeCalendar = EventGroupFilter::resolve(Input::get('calendar'), EventGroupFilter::idsByAlias($calendars));

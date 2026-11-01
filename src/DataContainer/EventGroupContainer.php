@@ -44,7 +44,7 @@ class EventGroupContainer
             return [];
         }
 
-        $groups = Database::getInstance()->prepare('SELECT id, title FROM tl_calendar_event_group WHERE pid=? ORDER BY sorting')->execute($pid);
+        $groups = Database::getInstance()->prepare('SELECT id, title FROM tl_calendar_event_group WHERE pid=? ORDER BY title')->execute($pid);
 
         return array_combine($groups->fetchEach('id'), $groups->fetchEach('title')) ?: [];
     }

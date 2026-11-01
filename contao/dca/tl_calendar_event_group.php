@@ -27,7 +27,7 @@ $GLOBALS['TL_DCA']['tl_calendar_event_group'] = [
     'list' => [
         'sorting' => [
             'mode' => DataContainer::MODE_PARENT,
-            'fields' => ['sorting'],
+            'fields' => ['title'],
             'headerFields' => ['title'],
             'panelLayout' => 'search,limit',
         ],
@@ -38,7 +38,6 @@ $GLOBALS['TL_DCA']['tl_calendar_event_group'] = [
         'operations' => [
             'edit',
             'copy',
-            'cut',
             'delete',
             'toggle',
             'show',
@@ -59,9 +58,6 @@ $GLOBALS['TL_DCA']['tl_calendar_event_group'] = [
             'foreignKey' => 'tl_calendar.title',
             'sql' => ['type' => 'integer', 'unsigned' => true, 'default' => 0],
             'relation' => ['type' => 'belongsTo', 'load' => 'lazy'],
-        ],
-        'sorting' => [
-            'sql' => ['type' => 'integer', 'unsigned' => true, 'default' => 0],
         ],
         'tstamp' => [
             'sql' => ['type' => 'integer', 'unsigned' => true, 'default' => 0],
