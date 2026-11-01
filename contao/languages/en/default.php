@@ -59,3 +59,13 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.memberExportHeaderFields'] = [
     'member_id'       => 'Member ID',
     'member_username' => 'Member username',
 ];
+
+// Booking status
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscriptionClosed'] = 'Registration for this event has closed.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.eventFull'] = 'This event is full.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.eventFullWaitingList'] = 'This event is full. You can still join the waiting list.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.placesLeft'] = '%s of %s places left';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.fullyBooked'] = 'Fully booked';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.fullyBookedWaitingList'] = 'Fully booked – waiting list open';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.bookingCloses'] = 'Booking closes: %s';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.bookingClosed'] = 'Booking closed';

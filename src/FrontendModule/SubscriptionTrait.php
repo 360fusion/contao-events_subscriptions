@@ -47,6 +47,13 @@ trait SubscriptionTrait
             'subscriptionTypes'  => [],
         ];
 
+        // Booking status for the templates
+        $placesTaken = $data['subscribers']['subscribersParticipants'];
+        $data['subscriptionPlacesTaken'] = $placesTaken;
+        $data['subscriptionPlacesLeft'] = $data['subscriptionMaximum'] > 0 ? max(0, $data['subscriptionMaximum'] - $placesTaken) : null;
+        $data['isFull'] = $data['subscriptionMaximum'] > 0 && $placesTaken >= $data['subscriptionMaximum'];
+        $data['isSubscriptionClosed'] = $data['isEventPast'] || $data['subscribeEndTime']['tstamp'] <= time();
+
         // Add a helper variable that indicates subscription to a waiting list (see #32)
         $data['subscribeWaitingList'] = $config->hasWaitingList() && ($data['subscriptionMaximum'] > 0) && ($data['subscriptionMaximum'] - count($data['subscribers']['subscribers']) <= 0);
 

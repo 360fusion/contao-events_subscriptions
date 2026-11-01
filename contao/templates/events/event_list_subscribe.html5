@@ -11,6 +11,21 @@
     <time datetime="<?= $this->datetime ?>"><?= $this->date ?><?php if ($this->time): ?> <?= $this->time ?><?php endif; ?></time>
   </p>
 
+  <?php if (isset($this->isSubscriptionClosed)): ?>
+    <p class="subscription_status">
+      <?php if ($this->isSubscriptionClosed): ?>
+        <span class="closed"><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.bookingClosed'] ?></span>
+      <?php else: ?>
+        <?php if ($this->isFull): ?>
+          <span class="full"><?= $GLOBALS['TL_LANG']['MSC'][$this->subscriptionWaitingList ? 'events_subscriptions.fullyBookedWaitingList' : 'events_subscriptions.fullyBooked'] ?></span>
+        <?php elseif (null !== $this->subscriptionPlacesLeft): ?>
+          <span class="places"><?= sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.placesLeft'], $this->subscriptionPlacesLeft, $this->subscriptionMaximum) ?></span>
+        <?php endif; ?>
+        <span class="closes"><?= sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.bookingCloses'], $this->subscribeEndTime['datim']) ?></span>
+      <?php endif; ?>
+    </p>
+  <?php endif; ?>
+
   <?php if ($this->location): ?>
     <p class="location"><?= $this->location ?><?php if ($this->address): ?> (<?= $this->address ?>)<?php endif; ?></p>
   <?php endif; ?>

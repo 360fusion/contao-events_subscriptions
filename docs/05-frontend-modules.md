@@ -79,3 +79,17 @@ Since version 2.13 For the calendar `cal_` templates, each event should contain 
 Subscribers: <?= $event['subscribers']['subscribersParticipants'] + $event['subscribers']['waitingListParticipants'] ?> / <?= $event['subscriptionMaximum'] ?>
 <?php endforeach; ?>
 ```
+
+
+## Booking status
+
+The event list and reader templates of the extension receive the booking status of each event:
+
+- `subscriptionPlacesTaken`: the number of taken places (participants not on the waiting list)
+- `subscriptionPlacesLeft`: the number of free places, or `null` if the number of subscriptions is not limited
+- `isFull`: true if all places are taken
+- `isSubscriptionClosed`: true if the event is past or the subscribe end time has passed
+
+The default list template shows a status line ("8 of 10 places left · Booking closes: …", "Fully booked" or
+"Booking closed"), and the subscription form explains why subscribing is not possible: registration has closed, the
+event is full, or the event is full but the waiting list is still open.
