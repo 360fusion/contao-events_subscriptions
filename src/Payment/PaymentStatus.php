@@ -8,7 +8,7 @@ namespace Codefog\EventsSubscriptionsBundle\Payment;
 final class PaymentStatus
 {
     public const FREE = 'free';
-    public const PENDING = 'pending'; // card checkout started, the place is held for 30 minutes
+    public const PENDING = 'pending'; // card checkout started, the place is held for the hold time of Booking settings › Payments, 30 minutes by default
     public const UNPAID = 'unpaid'; // on the waiting list, pays with the link in the promotion e-mail
     public const PAID = 'paid';
     public const INVOICE = 'invoice';

@@ -35,6 +35,10 @@ class SettingsContainer
 
         System::loadLanguageFile('tl_events_subscriptions_settings');
         $this->explain($page);
+
+        if ('payments' === $page && Features::payments()) {
+            $this->addProvidersPanel();
+        }
     }
 
     /**
@@ -107,6 +111,62 @@ class SettingsContainer
             .'<script>(()=>{const d=document.querySelector("details.events-explain");if(!d)return;const k="events-explain-"+d.dataset.page;try{d.open="1"===localStorage.getItem(k)}catch(e){}d.addEventListener("toggle",()=>{try{localStorage.setItem(k,d.open?"1":"0")}catch(e){}})})()</script>';
 
         Message::addRaw('<div class="tl_info" style="padding:14px 18px;line-height:1.5">'.$intro.$details.'</div>');
+    }
+
+    /**
+     * The payment providers at a glance, with links to manage them and to the payments
+     */
+    private function addProvidersPanel(): void
+    {
+        System::loadLanguageFile('tl_calendar_events_payment_provider');
+
+        $L = $GLOBALS['TL_LANG']['tl_events_subscriptions_settings'];
+        $router = System::getContainer()->get('router');
+        $link = static fn (array $query): string => StringUtil::specialchars($router->generate('contao_backend', $query));
+        $rows = Database::getInstance()->query('SELECT id, title, type, live, currency, secretKey, apiKey FROM tl_calendar_events_payment_provider ORDER BY title')->fetchAllAssoc();
+        $html = '<p style="margin:0 0 6px"><strong>'.$L['providersTitle'].'</strong></p>';
+
+        if ($rows) {
+            $html .= '<ul style="margin:4px 0 8px 22px;padding:0;list-style:disc">';
+
+            foreach ($rows as $row) {
+                $mode = $this->getProviderMode($row);
+                $html .= sprintf(
+                    '<li style="margin:4px 0"><a href="%s"><strong>%s</strong></a> · %s%s · %s</li>',
+                    $link(['do' => 'event_payment_providers', 'act' => 'edit', 'id' => $row['id']]),
+                    StringUtil::specialchars($row['title']),
+                    StringUtil::specialchars($GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['typeRef'][$row['type']] ?? $row['type']),
+                    $mode ? ' · '.$L['providerMode'][$mode] : '',
+                    StringUtil::specialchars($row['currency'] ?: 'GBP'),
+                );
+            }
+
+            $html .= '</ul>';
+        } else {
+            $html .= '<p style="margin:6px 0">'.$L['providersNone'].'</p>';
+        }
+
+        $html .= sprintf('<p style="margin:6px 0 0"><a href="%s">%s</a> · <a href="%s">%s</a></p>', $link(['do' => 'event_payment_providers']), $L['providersManage'], $link(['do' => 'event_payments']), $L['paymentsList']);
+
+        Message::addRaw('<div class="tl_info" style="padding:14px 18px;line-height:1.5">'.$html.'</div>');
+    }
+
+    /**
+     * Test or live, from what the provider says: PayPal has a switch, the others follow the key (empty when it cannot be told)
+     */
+    private function getProviderMode(array $row): string
+    {
+        if ('paypal' === $row['type']) {
+            return $row['live'] ? 'live' : 'test';
+        }
+
+        $key = (string) ('stripe' === $row['type'] ? $row['secretKey'] : $row['apiKey']);
+
+        return match (true) {
+            str_contains($key, '_live_'), str_starts_with($key, 'live_') => 'live',
+            str_contains($key, '_test_'), str_starts_with($key, 'test_') => 'test',
+            default => '',
+        };
     }
 
     /**

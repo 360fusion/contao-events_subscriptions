@@ -215,7 +215,7 @@ class NotificationSender
      */
     private function getPaymentTokens(SubscriptionModel|null $model, string $eventLink): array
     {
-        $tokens = ['payment_status' => '', 'payment_amount' => '', 'payment_method' => '', 'purchase_order' => '', 'payment_link' => ''];
+        $tokens = ['payment_status' => '', 'payment_amount' => '', 'payment_method' => '', 'purchase_order' => '', 'payment_link' => '', 'payment_invoice_text' => ''];
 
         if (null === $model || !$model->paymentStatus) {
             return $tokens;
@@ -229,6 +229,7 @@ class NotificationSender
             $tokens['payment_amount'] = PaymentRequest::format((int) $payment->amount, (string) $payment->currency);
             $tokens['payment_method'] = $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'][$payment->method] ?? $payment->method;
             $tokens['purchase_order'] = $payment->purchaseOrder;
+            $tokens['payment_invoice_text'] = 'invoice' === $payment->method ? Features::text('eventsSubscriptionsInvoiceText') : '';
         }
 
         // Waiting list bookings pay once they get a place

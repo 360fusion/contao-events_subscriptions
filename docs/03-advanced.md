@@ -184,8 +184,8 @@ What happens when a guest books:
 
 - **Card:** the booking is saved as "Awaiting payment" and holds the place, and the guest is sent to the
   provider's payment page. When the payment succeeds (return page or webhook, whichever comes first) the booking
-  is "Paid" and the confirmation e-mail is sent. Checkouts not completed within 30 minutes are cancelled by the
-  minutely cron job and the place is free again.
+  is "Paid" and the confirmation e-mail is sent. Checkouts not completed within the hold time (30 minutes by
+  default, set in Booking settings › Payments) are cancelled by the minutely cron job and the place is free again.
 - **Invoice:** the purchase order or cost centre is required, the booking is "To invoice" and confirmed straight
   away. Mark it as paid in the payments list once the money arrived.
 - **Free e-mail domain:** the booking is "Free", nothing to pay.

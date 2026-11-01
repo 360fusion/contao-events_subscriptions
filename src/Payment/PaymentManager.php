@@ -5,6 +5,7 @@ namespace Codefog\EventsSubscriptionsBundle\Payment;
 use Codefog\EventsSubscriptionsBundle\Event\SubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\EventConfig;
 use Codefog\EventsSubscriptionsBundle\EventDispatcher;
+use Codefog\EventsSubscriptionsBundle\Features;
 use Codefog\EventsSubscriptionsBundle\Model\PaymentModel;
 use Codefog\EventsSubscriptionsBundle\Model\PaymentProviderModel;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
@@ -203,8 +204,9 @@ class PaymentManager
      *
      * @return int The number of cancelled bookings
      */
-    public function expirePending(int $maxAge = 1800): int
+    public function expirePending(int|null $maxAge = null): int
     {
+        $maxAge ??= Features::paymentHoldMinutes() * 60;
         $expired = 0;
 
         foreach (PaymentModel::findBy(['status=?', 'dateCreated<?'], [PaymentStatus::PENDING, time() - $maxAge]) ?? [] as $payment) {

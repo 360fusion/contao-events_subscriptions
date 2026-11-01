@@ -119,7 +119,10 @@ separately in the user group permissions:
     bookings of events that ended more than the chosen number of months ago are anonymised (places, attendance and
     payment amounts are kept) or deleted. Anonymising also clears text columns of the subscription table that are
     no longer defined, e.g. left over from an older extension.
-  - **Payments**: switches payments on. The Payments menu item, the price settings and the payment providers
+  - **Payments**: switches payments on. Once on, the page lists the payment providers (test or live, currency) with
+    links to add or edit them and to the payments list, and has two settings: how long an unpaid card booking holds its
+    place (30 to 1440 minutes, default 30) and the instructions for paying by invoice, shown on the booking form and
+    available as the e-mail tag `##payment_invoice_text##`. The Payments menu item, the price settings and the payment providers
     appear once it is on.
   - **E-mail signatures**: the sender of all event e-mails (saving updates them) and the signature for the `##signature##` tag.
   - **Certificates**: certificates of attendance on or off, the organisation name and who signs.

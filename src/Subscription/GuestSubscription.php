@@ -14,6 +14,7 @@ use Contao\CoreBundle\Exception\RedirectResponseException;
 use Contao\Config;
 use Contao\Date;
 use Contao\Input;
+use Contao\StringUtil;
 use Contao\System;
 
 class GuestSubscription extends AbstractSubscription implements ExportAwareInterface,  NotificationAwareInterface
@@ -208,6 +209,11 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
         }
 
         if (\in_array('invoice', $methods, true)) {
+            // How to pay by invoice, from Booking settings › Payments
+            if ('' !== ($invoiceText = trim(Features::text('eventsSubscriptionsInvoiceText')))) {
+                $form->addFormField('invoiceInfo', ['inputType' => 'explanation', 'eval' => ['text' => '<p class="invoice-info">'.nl2br(StringUtil::specialchars($invoiceText), false).'</p>']], $position);
+            }
+
             $form->addFormField('purchaseOrder', [
                 'label' => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.purchaseOrder'],
                 'inputType' => 'text',

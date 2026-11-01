@@ -61,7 +61,7 @@ class CronListener
     }
 
     /**
-     * Free the places of card checkouts that were not completed within 30 minutes
+     * Free the places of card checkouts that were not completed within the hold time of Booking settings › Payments
      */
     public function onMinutelyJob(): void
     {

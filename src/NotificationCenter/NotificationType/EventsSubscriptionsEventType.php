@@ -43,6 +43,7 @@ class EventsSubscriptionsEventType implements NotificationTypeInterface
             $this->factory->create(TextTokenDefinition::class, 'payment_amount', ''),
             $this->factory->create(TextTokenDefinition::class, 'payment_method', ''),
             $this->factory->create(TextTokenDefinition::class, 'purchase_order', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_invoice_text', ''),
             $this->factory->create(TextTokenDefinition::class, 'payment_link', ''),
         ];
     }

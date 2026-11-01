@@ -74,6 +74,16 @@ final class Features
     }
 
     /**
+     * How long an unpaid card booking keeps its place: 30 minutes (the shortest a provider's payment page lasts) up to a day
+     */
+    public static function paymentHoldMinutes(): int
+    {
+        $minutes = (int) Config::get('eventsSubscriptionsPaymentHold');
+
+        return $minutes < 30 ? 30 : min($minutes, 1440);
+    }
+
+    /**
      * Trainers: a list of people, chosen on events and courses
      */
     public static function trainers(): bool
