@@ -87,3 +87,21 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary'] = '%s calendars · %
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary.link'] = 'View upcoming events and subscriptions';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.headline'] = 'Upcoming events and subscriptions';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming'] = ['Upcoming events and subscriptions', 'Upcoming events and subscriptions'];
+
+/**
+ * Upcoming events filters and calendar groups
+ */
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.search'] = 'Event';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.calendar'] = 'Calendar';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.group'] = 'Calendar group';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.from'] = 'From';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.to'] = 'To';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.places'] = 'Places';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.placesAll'] = 'All events';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.placesAvailable'] = 'Places left';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.placesFull'] = 'Full';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.apply'] = 'Filter';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.reset'] = 'Reset';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.summary'] = '%s events · %s places taken';
+$GLOBALS['TL_LANG']['tl_calendar']['calendarGroup'] = ['Calendar group', 'The group this calendar belongs to.'];
+$GLOBALS['TL_LANG']['tl_calendar']['calendar_groups'] = ['Calendar groups', 'Manage the calendar groups'];

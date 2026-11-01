@@ -6,6 +6,38 @@
 <div class="maintenance_active">
     <h2 class="sub_headline"><?= $this->headline ?: sprintf($GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.headline'], $this->calendar) ?></h2>
 
+    <?php if (isset($this->filters)): ?>
+        <?php $f = $this->filters; $e = static fn ($v) => \Contao\StringUtil::specialchars((string) $v); $L = $GLOBALS['TL_LANG']['tl_calendar']; $dateFormat = \Contao\Date::getInputFormat(\Contao\Date::getNumericDateFormat()); ?>
+        <form action="<?= $e($this->filterAction) ?>" method="get" class="tl_tbox" style="padding:12px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
+            <?php foreach ($this->filterHidden as $name => $value): ?>
+                <input type="hidden" name="<?= $e($name) ?>" value="<?= $e($value) ?>">
+            <?php endforeach; ?>
+            <label style="flex:2 1 220px"><?= $L['subscriptions_upcoming.search'] ?><br><input type="search" name="search" value="<?= $e($f['search']) ?>" class="tl_text"></label>
+            <label style="flex:2 1 220px"><?= $L['subscriptions_upcoming.calendar'] ?><br>
+                <select name="calendar" class="tl_select"><option value="">-</option><?php foreach ($this->calendarOptions as $id => $title): ?><option value="<?= $id ?>"<?= $f['calendar'] === $id ? ' selected' : '' ?>><?= $e($title) ?></option><?php endforeach; ?></select>
+            </label>
+            <?php if ($this->groupOptions): ?>
+                <label style="flex:1 1 160px"><?= $L['subscriptions_upcoming.group'] ?><br>
+                    <select name="group" class="tl_select"><option value="">-</option><?php foreach ($this->groupOptions as $id => $title): ?><option value="<?= $id ?>"<?= $f['group'] === $id ? ' selected' : '' ?>><?= $e($title) ?></option><?php endforeach; ?></select>
+                </label>
+            <?php endif; ?>
+            <label style="flex:1 1 120px"><?= $L['subscriptions_upcoming.from'] ?><br><input type="text" name="from" value="<?= $e($f['from']) ?>" placeholder="<?= $e($dateFormat) ?>" class="tl_text"></label>
+            <label style="flex:1 1 120px"><?= $L['subscriptions_upcoming.to'] ?><br><input type="text" name="to" value="<?= $e($f['to']) ?>" placeholder="<?= $e($dateFormat) ?>" class="tl_text"></label>
+            <label style="flex:1 1 140px"><?= $L['subscriptions_upcoming.places'] ?><br>
+                <select name="places" class="tl_select">
+                    <option value=""><?= $L['subscriptions_upcoming.placesAll'] ?></option>
+                    <option value="available"<?= 'available' === $f['places'] ? ' selected' : '' ?>><?= $L['subscriptions_upcoming.placesAvailable'] ?></option>
+                    <option value="full"<?= 'full' === $f['places'] ? ' selected' : '' ?>><?= $L['subscriptions_upcoming.placesFull'] ?></option>
+                </select>
+            </label>
+            <span style="display:flex;gap:6px">
+                <button type="submit" class="tl_submit"><?= $L['subscriptions_upcoming.apply'] ?></button>
+                <a href="<?= $e($this->filterAction.'?'.http_build_query($this->filterHidden)) ?>" class="tl_submit"><?= $L['subscriptions_upcoming.reset'] ?></a>
+            </span>
+        </form>
+        <p class="tl_info" style="margin:0 18px"><?= $this->summary ?></p>
+    <?php endif; ?>
+
     <div class="tl_tbox" style="padding:12px 18px;">
         <?php if ($this->entries): ?>
             <table class="tl_listing">

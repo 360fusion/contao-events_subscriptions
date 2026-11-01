@@ -4,6 +4,7 @@ namespace Codefog\EventsSubscriptionsBundle\Backend;
 
 use Codefog\EventsSubscriptionsBundle\Exporter;
 use Codefog\EventsSubscriptionsBundle\ExporterHelper;
+use Codefog\EventsSubscriptionsBundle\Model\CalendarGroupModel;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Codefog\HasteBundle\Formatter;
 use Contao\Backend;
@@ -40,9 +41,13 @@ class ExportCalendarController
      */
     public function run()
     {
-        if (Input::get('key') !== 'subscriptions_exportCalendar'
-            || ($calendarModel = CalendarModel::findByPk(Input::get('id'))) === null
-        ) {
+        // Export a single calendar, or all calendars of a calendar group
+        if (Input::get('key') === 'subscriptions_exportGroup' && ($groupModel = CalendarGroupModel::findByPk(Input::get('id'))) !== null) {
+            $subject = CalendarModel::findBy('calendarGroup', $groupModel->id)?->getModels() ?? [];
+            $title = $groupModel->title;
+        } elseif (Input::get('key') === 'subscriptions_exportCalendar' && ($subject = CalendarModel::findByPk(Input::get('id'))) !== null) {
+            $title = $subject->title;
+        } else {
             Controller::redirect('contao/main.php?act=error');
         }
 
@@ -68,23 +73,25 @@ class ExportCalendarController
             $endDateWidget->validate();
 
             if (!$startDateWidget->hasErrors() && !$endDateWidget->hasErrors()) {
-                $this->processForm($calendarModel, $startDateWidget, $endDateWidget);
+                $this->processForm($subject, $title, $startDateWidget, $endDateWidget);
             }
         }
 
-        return $this->createTemplate($calendarModel, $startDateWidget, $endDateWidget, $formSubmit)->parse();
+        return $this->createTemplate($subject, $title, $startDateWidget, $endDateWidget, $formSubmit)->parse();
     }
 
     /**
      * Create the template
      */
-    protected function createTemplate(CalendarModel $calendarModel, Widget $startDateWidget, Widget $endDateWidget, $formSubmit)
+    protected function createTemplate(CalendarModel|array $subject, string $title, Widget $startDateWidget, Widget $endDateWidget, $formSubmit)
     {
-        $calendarData = [];
+        $calendarData = ['title' => $title];
 
-        // Format the event data
-        foreach ($calendarModel->row() as $k => $v) {
-            $calendarData[$k] = System::getContainer()->get(Formatter::class)->dcaValue($calendarModel::getTable(), $k, $v);;
+        // Format the calendar data
+        if ($subject instanceof CalendarModel) {
+            foreach ($subject->row() as $k => $v) {
+                $calendarData[$k] = System::getContainer()->get(Formatter::class)->dcaValue($subject::getTable(), $k, $v);
+            }
         }
 
         $template = new BackendTemplate('be_events_subscriptions_export_calendar');
@@ -103,7 +110,7 @@ class ExportCalendarController
     /**
      * Process the form
      */
-    protected function processForm(CalendarModel $calendarModel, Widget $startDateWidget, Widget $endDateWidget)
+    protected function processForm(CalendarModel|array $subject, string $title, Widget $startDateWidget, Widget $endDateWidget)
     {
         if (isset($_POST['export_excel'])) {
             $format = Exporter::FORMAT_EXCEL;
@@ -130,11 +137,13 @@ class ExportCalendarController
             } catch (\OutOfBoundsException $e) {}
         }
 
-        $file = $this->exporter->exportByCalendar($calendarModel, $startTstamp, $endTstamp, $format);
+        $file = $subject instanceof CalendarModel
+            ? $this->exporter->exportByCalendar($subject, $startTstamp, $endTstamp, $format)
+            : $this->exporter->exportByCalendars($subject, $startTstamp, $endTstamp, $format);
 
         $fileName = sprintf(
             '%s_%s.%s',
-            StringUtil::standardize($calendarModel->title),
+            StringUtil::standardize($title),
             StringUtil::standardize(Date::parse('Y-m-d')),
             $file->getExtension()
         );
