@@ -78,3 +78,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
     'months'  => 'Monat(e)',
     'years'   => 'Jahr(e)',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_disableReminders'] = ['Erinnerungen immer senden', 'Die Checkbox zum Abbestellen der Erinnerungen im Anmeldeformular ausblenden, sodass alle Angemeldeten die Erinnerungen erhalten. Gilt nur, wenn Erinnerungen im Kalender aktiviert sind.'];

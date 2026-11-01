@@ -81,3 +81,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
     'months'  => 'month(s)',
     'years'   => 'year(s)',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_disableReminders'] = ['Always send reminders', 'Hide the reminders opt-out checkbox on the subscription form, so every subscriber receives the reminders. Only applies if reminders are enabled in the calendar.'];
