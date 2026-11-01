@@ -44,14 +44,6 @@ class EventEmailTestController
             Controller::redirect($backUrl);
         }
 
-        // Never send a test to anyone else: the e-mail may only go to the booker
-        $recipients = trim(str_replace(['##recipient_email##', '##subscription_email##', ','], '', $language['recipients'].$language['email_recipient_cc'].$language['email_recipient_bcc']));
-
-        if ('' !== $recipients) {
-            Message::addError(sprintf($L['emailTestOtherRecipients'], $recipients));
-            Controller::redirect($backUrl);
-        }
-
         $booking = SubscriptionModel::findOneBy(['type=?'], ['guest'], ['order' => 'id DESC']);
         $tokens = $booking ? Services::getNotificationSender()->getTokensForSubscription($booking) : null;
 
@@ -63,7 +55,8 @@ class EventEmailTestController
         $tokens['recipient_email'] = $tokens['subscription_email'] = $email;
 
         try {
-            $container->get(NotificationCenterHelper::class)->sendNotification($id, $tokens);
+            // Only to the address from the pop-up, never to the e-mail's other recipients, CC or BCC
+            $container->get(NotificationCenterHelper::class)->sendTest($id, $tokens, $email);
             Message::addConfirmation(sprintf($L['emailTestSent'], $email, $booking->id));
         } catch (\Throwable $e) {
             Message::addError(sprintf($L['emailTestFailed'], $e->getMessage()));

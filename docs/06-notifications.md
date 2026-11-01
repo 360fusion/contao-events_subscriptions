@@ -119,9 +119,9 @@ sent, how many calendars, event groups and events use it, its subject, and a war
 
 Editing an e-mail shows one form: name, when it is sent, subject, format (plain or formatted text) and the message,
 with the sender and an on/off switch under "More options". Click one of the available tags to insert it where the
-cursor is; only the tags the e-mail type provides are listed, including the registration fields. "Send me a test"
-sends the e-mail to your own address, filled with the details of the latest booking (not sent if the e-mail also
-goes to other fixed addresses).
+cursor is; only the tags the e-mail type provides are listed, including the registration fields. "Send a test"
+asks for an address (your own by default) and sends the e-mail filled with the details of the latest booking to
+that address only: the e-mail's own recipients, CC and BCC are left out of the test.
 
 The form edits the main language of the e-mail's first message in the Notification Center and creates them if they
 are missing, so sending is unchanged. Use the Notification Center for anything else (more languages, CC/BCC,

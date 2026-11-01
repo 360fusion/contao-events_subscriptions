@@ -3,6 +3,7 @@
 namespace Codefog\EventsSubscriptionsBundle;
 
 use Terminal42\NotificationCenterBundle\NotificationCenter;
+use Terminal42\NotificationCenterBundle\Parcel\Stamp\LanguageConfigStamp;
 
 class NotificationCenterHelper
 {
@@ -16,6 +17,37 @@ class NotificationCenterHelper
     public function getTokenNames(string $type): array
     {
         return array_map(static fn ($definition) => $definition->getTokenName(), $this->notificationCenter->getTokenDefinitionsForNotificationType($type));
+    }
+
+    /**
+     * Send a test of a notification to one address only: its recipients, CC and BCC are replaced
+     *
+     * @return int The number of delivered messages
+     */
+    public function sendTest(int $id, array $tokens, string $email): int
+    {
+        $delivered = 0;
+        $stamps = $this->notificationCenter->createBasicStampsForNotification($id, $tokens);
+
+        foreach ($this->notificationCenter->createParcelsForNotification($id, $stamps) as $parcel) {
+            $language = $parcel->getStamp(LanguageConfigStamp::class)?->languageConfig;
+
+            if (null === $language) {
+                continue;
+            }
+
+            $parcel = $parcel->withStamp(new LanguageConfigStamp($language
+                ->withParameter('recipients', $email)
+                ->withParameter('email_recipient_cc', '')
+                ->withParameter('email_recipient_bcc', '')
+            ));
+
+            if ($this->notificationCenter->sendParcel($parcel)->wasDelivered()) {
+                ++$delivered;
+            }
+        }
+
+        return $delivered;
     }
 
     public function sendNotification(int $id, array $tokens, string|null $locale = null): int

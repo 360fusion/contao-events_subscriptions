@@ -21,7 +21,6 @@ $GLOBALS['TL_LANG']['tl_nc_notification']['test'] = ['Test senden', 'Einen Test 
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailTestSent'] = 'Eine Test-E-Mail wurde an %s gesendet, mit den Angaben der Anmeldung ID %s.';
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailTestFailed'] = 'Die Test-E-Mail konnte nicht gesendet werden: %s';
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailTestNotPossible'] = 'Es wurde keine Test-E-Mail gesendet: Die E-Mail hat noch keinen Inhalt, Ihr Benutzer hat keine E-Mail-Adresse oder es gibt keine Anmeldung für die Angaben.';
-$GLOBALS['TL_LANG']['tl_nc_notification']['emailTestOtherRecipients'] = 'Es wurde keine Test-E-Mail gesendet, weil diese E-Mail auch an andere Adressen geht (%s). Diese im Notification Center ändern.';
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailNew'] = ['Neue E-Mail', 'Eine neue E-Mail anlegen'];
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailEdit'] = ['E-Mail bearbeiten', 'E-Mail ID %s bearbeiten'];
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailTestTitle'] = 'Test-E-Mail senden';

@@ -21,7 +21,6 @@ $GLOBALS['TL_LANG']['tl_nc_notification']['test'] = ['Send a test', 'Send a test
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailTestSent'] = 'A test e-mail was sent to %s, with the details of booking ID %s.';
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailTestFailed'] = 'The test e-mail could not be sent: %s';
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailTestNotPossible'] = 'No test e-mail was sent: the e-mail has no content yet, your user has no e-mail address, or there is no booking to take the details from.';
-$GLOBALS['TL_LANG']['tl_nc_notification']['emailTestOtherRecipients'] = 'No test e-mail was sent, because this e-mail also goes to other addresses (%s). Change them in the Notification Center.';
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailNew'] = ['New e-mail', 'Create a new e-mail'];
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailEdit'] = ['Edit e-mail', 'Edit e-mail ID %s'];
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailTestTitle'] = 'Send a test e-mail';
