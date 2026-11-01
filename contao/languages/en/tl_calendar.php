@@ -86,3 +86,4 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.waitingList'] = 'Wait
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary'] = '%s calendars · %s live events · %s subscriptions to live events';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary.link'] = 'View upcoming events and subscriptions';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.headline'] = 'Upcoming events and subscriptions';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming'] = ['Upcoming events and subscriptions', 'View the upcoming events of all calendars and their subscriptions'];
