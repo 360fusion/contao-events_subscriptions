@@ -44,6 +44,11 @@ class SetupModule
             if ($can($module)) {
                 $settings[] = ['title' => $S['sections'][$module], 'description' => $L[$module][1], 'icon' => 'settings.svg', 'count' => $status[$module] ?? '', 'href' => $router->generate('contao_backend', ['do' => $module])];
             }
+
+            // The registration fields are a list of their own, so a tile rather than a page of the form; right after General
+            if ('event_settings' === $module && $can('event_fields')) {
+                $settings[] = ['title' => $L['event_fields'][0], 'description' => $L['event_fields'][1], 'icon' => 'modules.svg', 'count' => (int) $db->query('SELECT COUNT(*) AS n FROM tl_calendar_events_subscription_field WHERE disabled=0')->n, 'href' => $router->generate('contao_backend', ['do' => 'event_fields'])];
+            }
         }
 
         $areas = [
@@ -51,7 +56,6 @@ class SetupModule
             'event_reports' => ['icon' => 'show.svg'],
             'event_health' => ['icon' => 'important.svg'],
             'event_retention' => ['icon' => 'delete.svg'],
-            'event_fields' => ['table' => 'tl_calendar_events_subscription_field', 'icon' => 'modules.svg', 'count' => 'SELECT COUNT(*) AS n FROM tl_calendar_events_subscription_field WHERE disabled=0'],
             'event_payment_providers' => ['table' => 'tl_calendar_events_payment_provider', 'icon' => 'settings.svg', 'count' => 'SELECT COUNT(*) AS n FROM tl_calendar_events_payment_provider'],
         ];
 

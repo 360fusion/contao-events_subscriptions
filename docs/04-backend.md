@@ -105,9 +105,9 @@ separately in the user group permissions:
 - **Subscribers**: everyone booked, across all calendars, with filters and search (each calendar has a person icon
   for its own subscribers)
 - **Payments**: payments, refunds and invoices (when switched on)
-- **Settings**: a "Booking settings" section with a tile for each of the five settings pages, and a "Tools and data"
-  section with the e-mail templates, the reports, the health check, old booking data, registration fields, the
-  payment providers and (when switched on) the calendar groups
+- **Settings**: a "Booking settings" section with a tile for each of the five settings pages and for the registration
+  fields, and a "Tools and data" section with the e-mail templates, the reports, the health check, old booking data,
+  the payment providers and (when switched on) the calendar groups
 
 ### Settings
 
