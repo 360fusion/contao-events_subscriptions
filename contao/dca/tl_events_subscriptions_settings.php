@@ -29,7 +29,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
 
     'subpalettes' => [
         'eventsSubscriptionsRetention' => 'eventsSubscriptionsRetentionMonths,eventsSubscriptionsRetentionAction',
-        'eventsSubscriptionsPayments' => 'eventsSubscriptionsPaymentTypes,eventsSubscriptionsPaymentHold',
+        'eventsSubscriptionsPayments' => 'eventsSubscriptionsPaymentTypes,eventsSubscriptionsPaymentHold,eventsSubscriptionsPaymentsMenu',
     ],
 
     'fields' => [
@@ -40,6 +40,11 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
         'eventsSubscriptionsPaymentTypes' => [
             'inputType' => 'eventsPaymentTypes',
             'eval' => ['doNotSaveEmpty' => true, 'tl_class' => 'clr'],
+        ],
+        'eventsSubscriptionsPaymentsMenu' => [
+            'inputType' => 'checkbox',
+            'load_callback' => [static fn ($value) => null === $value ? '1' : $value], // shown unless switched off
+            'eval' => ['tl_class' => 'clr'],
         ],
         'eventsSubscriptionsInvoice' => [
             'inputType' => 'checkbox',

@@ -18,8 +18,8 @@ class BackendMenuListener
             return;
         }
 
-        // Payments switched off in Events › Settings › Booking settings
-        if (!Features::payments()) {
+        // Payments switched off, or the link hidden, in Events › Settings › Booking settings › Payments
+        if (!Features::payments() || !Features::paymentsMenu()) {
             $tree->getChild('events_subscriptions')?->removeChild('event_payments');
         }
 

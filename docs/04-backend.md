@@ -127,7 +127,9 @@ separately in the user group permissions:
   - **Payments**: switches payments on. Once on, the **payment types** show as tiles right under the switch: each card
     provider (Stripe, PayPal, Mollie, GOV.UK Pay) with Active, Inactive or "Add account details" and Test or Live with
     its currency, a **Pay by invoice** tile, and a dashed tile to add a provider. Click a tile to change it. The page
-    also sets how long an unpaid card booking holds its place (30 to 1440 minutes, default 30). The Payments menu item and the price
+    also sets how long an unpaid card booking holds its place (30 to 1440 minutes, default 30), and whether
+    **Payments is shown in the left menu** (on by default; untick it and the payments list opens from a Payments tile in
+    the "Tools and data" section of the Settings page instead). The Payments menu item and the price
     settings appear once payments are on.
     - A **provider** can be switched off without deleting it (the Active tick, or the toggle button in its list). It is
       then not offered on new bookings, but its settings stay and payments already made with it can still be refunded

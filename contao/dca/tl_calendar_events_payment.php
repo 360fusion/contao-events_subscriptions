@@ -29,6 +29,10 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment'] = [
 
     // List
     'list' => [
+        'global_operations' => [
+            'back' => ['label' => &$GLOBALS['TL_LANG']['MSC']['backBT'], 'href' => '', 'class' => 'header_back', 'primary' => true, 'button_callback' => ['Codefog\\EventsSubscriptionsBundle\\Backend\\BackLink', 'toSettings']],
+            'all',
+        ],
         'sorting' => [
             'mode' => DataContainer::MODE_SORTABLE,
             'fields' => ['dateCreated DESC'],

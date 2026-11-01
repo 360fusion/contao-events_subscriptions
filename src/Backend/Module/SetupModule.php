@@ -77,6 +77,11 @@ class SetupModule
             $tiles[] = $tile($L['event_emails'][0], $L['event_emails'][1], 'mover.svg', $url(['do' => 'event_emails']), null, $unit('emails', $count('tl_nc_notification', "type LIKE 'events_subscription%'")));
         }
 
+        // The Payments list is in the left menu unless hidden on the Payments page: then it opens from here
+        if (Features::payments() && !Features::paymentsMenu() && $can('event_payments')) {
+            $tiles[] = $tile($L['event_payments'][0], $L['event_payments'][1], 'tablewizard.svg', $url(['do' => 'event_payments']), null, $unit('payments', $count('tl_calendar_events_payment')));
+        }
+
         if ($can('event_reports')) {
             $tiles[] = $tile($L['event_reports'][0], $L['event_reports'][1], 'show.svg', $url(['do' => 'event_reports']));
         }

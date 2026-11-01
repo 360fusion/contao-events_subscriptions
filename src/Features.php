@@ -74,6 +74,16 @@ final class Features
     }
 
     /**
+     * The Payments list (payments, refunds, invoices) in the left menu: shown unless switched off; hidden, it opens from a tile on the Settings page
+     */
+    public static function paymentsMenu(): bool
+    {
+        $value = Config::get('eventsSubscriptionsPaymentsMenu');
+
+        return null === $value || (bool) $value;
+    }
+
+    /**
      * Paying by invoice or purchase order: on unless switched off
      */
     public static function invoice(): bool

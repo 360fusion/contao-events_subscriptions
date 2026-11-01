@@ -33,7 +33,7 @@ class SettingsContainer
     {
         // Switches that are on until switched off are stored as on when their page is opened: the form cannot tell a setting that was
         // never saved from an unticked box, so switching one off the first time would otherwise be lost
-        foreach (['eventsSubscriptionsAttendance', 'eventsSubscriptionsCertificate', 'eventsSubscriptionsInvoice'] as $key) {
+        foreach (['eventsSubscriptionsAttendance', 'eventsSubscriptionsCertificate', 'eventsSubscriptionsInvoice', 'eventsSubscriptionsPaymentsMenu'] as $key) {
             if (null === Config::get($key)) {
                 Config::persist($key, true);
             }
