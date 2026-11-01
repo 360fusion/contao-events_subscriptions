@@ -17,7 +17,6 @@ use Contao\Date;
 use Contao\Environment;
 use Contao\Input;
 use Contao\Model\Collection;
-use Contao\Pagination;
 use Contao\System;
 
 class OverviewController
@@ -82,7 +81,7 @@ class OverviewController
         $template->backUrl = Backend::getReferer();
         $template->calendar = $calendarModel->title;
         $template->entries = $entries;
-        $template->pagination = (new Pagination($total, $limit, 7, 'esp', new BackendTemplate('be_pagination'), true))->generate();
+        $template->pagination = BackendPagination::render($total, $limit, 'esp');
         $template->filters = $filters;
         $template->filterAction = strtok(Environment::get('requestUri'), '?');
         $template->filterHidden = ['do' => Input::get('do'), 'key' => Input::get('key'), 'id' => Input::get('id'), 'rt' => Input::get('rt')];

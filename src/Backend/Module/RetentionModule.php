@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\Backend\Module;
 
+use Codefog\EventsSubscriptionsBundle\Backend\BackendPagination;
 use Codefog\EventsSubscriptionsBundle\Retention;
 use Contao\BackendTemplate;
 use Contao\Config;
@@ -11,7 +12,6 @@ use Contao\Date;
 use Contao\Environment;
 use Contao\Input;
 use Contao\Message;
-use Contao\Pagination;
 use Contao\System;
 
 /**
@@ -70,7 +70,7 @@ class RetentionModule
         $template->action = Environment::get('request');
         $template->filterAction = strtok(Environment::get('requestUri'), '?');
         $template->defaultAction = 'anonymise' === Config::get('eventsSubscriptionsRetentionAction') ? 'anonymise' : 'delete';
-        $template->pagination = (new Pagination((int) $totals->events, self::PER_PAGE, 7, 'page', new BackendTemplate('be_pagination'), true))->generate();
+        $template->pagination = BackendPagination::render((int) $totals->events, self::PER_PAGE, 'page');
         $template->requestToken = System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue();
 
         return $template->parse();

@@ -8,7 +8,6 @@ use Contao\Config;
 use Contao\Database;
 use Contao\Environment;
 use Contao\Input;
-use Contao\Pagination;
 use Contao\System;
 
 /**
@@ -51,14 +50,13 @@ class UpcomingController extends OverviewController
 
         $limit = (int) Config::get('resultsPerPage');
         [$entries, $total, $subscriptions] = $this->filterByPlaces($events, $filters['places'], $limit, max(1, (int) Input::get('esp')), false);
-        $pagination = new Pagination($total, $limit, 7, 'esp', new BackendTemplate('be_pagination'), true);
 
         $template = new BackendTemplate('be_events_subscriptions_overview');
         $template->backUrl = Backend::getReferer();
         $template->headline = $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.headline'];
         $template->showCalendar = true;
         $template->entries = $entries;
-        $template->pagination = $pagination->generate();
+        $template->pagination = BackendPagination::render($total, $limit, 'esp');
         $template->filters = $filters;
         $template->filterAction = strtok(Environment::get('requestUri'), '?');
         $template->filterHidden = ['do' => Input::get('do'), 'key' => Input::get('key'), 'rt' => Input::get('rt')];

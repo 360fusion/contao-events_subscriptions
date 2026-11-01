@@ -19,10 +19,22 @@
                 <input type="hidden" name="FORM_SUBMIT" value="events_retention">
                 <input type="hidden" name="REQUEST_TOKEN" value="<?= $e($this->requestToken) ?>">
 
+                <?php ob_start(); ?>
+                <label><input type="checkbox" data-retention="page"> <?= $L['retentionSelectPage'] ?></label>
+                <label><input type="checkbox" name="allMatching" value="1" data-retention="matching"> <?= sprintf($L['retentionAllMatching'], number_format($this->events)) ?></label>
+                <select name="action" class="tl_select" style="width:auto" data-retention="action">
+                    <option value="delete"<?= 'delete' === $this->defaultAction ? ' selected' : '' ?>><?= $L['retentionActions']['delete'] ?></option>
+                    <option value="anonymise"<?= 'anonymise' === $this->defaultAction ? ' selected' : '' ?>><?= $L['retentionActions']['anonymise'] ?></option>
+                </select>
+                <button type="submit" class="tl_submit"><?= $L['retentionApply'] ?></button>
+                <?php $bar = ob_get_clean(); ?>
+
+                <div class="events-retention-bar" style="border-bottom:1px solid var(--border, #ddd);margin-bottom:14px"><?= $bar ?></div>
+
                 <table class="tl_listing showColumns">
                     <thead>
                     <tr>
-                        <th class="tl_folder_tlist" style="width:28px"><input type="checkbox" id="events-retention-all" title="<?= $e($L['retentionSelectPage']) ?>"></th>
+                        <th class="tl_folder_tlist" style="width:28px"><input type="checkbox" data-retention="page" title="<?= $e($L['retentionSelectPage']) ?>"></th>
                         <th class="tl_folder_tlist"><?= $L['retentionCourse'] ?></th>
                         <th class="tl_folder_tlist"><?= $L['retentionDate'] ?></th>
                         <th class="tl_folder_tlist"><?= $L['retentionCalendar'] ?></th>
@@ -44,24 +56,26 @@
 
                 <?= $this->pagination ?>
 
-                <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border, #ddd)">
-                    <label><input type="checkbox" name="allMatching" value="1" id="events-retention-matching"> <?= sprintf($L['retentionAllMatching'], number_format($this->events)) ?></label>
-                    <select name="action" class="tl_select" style="width:auto">
-                        <option value="delete"<?= 'delete' === $this->defaultAction ? ' selected' : '' ?>><?= $L['retentionActions']['delete'] ?></option>
-                        <option value="anonymise"<?= 'anonymise' === $this->defaultAction ? ' selected' : '' ?>><?= $L['retentionActions']['anonymise'] ?></option>
-                    </select>
-                    <button type="submit" class="tl_submit"><?= $L['retentionApply'] ?></button>
-                </div>
+                <div class="events-retention-bar" style="border-top:1px solid var(--border, #ddd);margin-top:14px"><?= $bar ?></div>
             </form>
+            <style>.events-retention-bar{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:12px 0}</style>
             <script>
                 (() => {
                     const form = document.getElementById('events-retention');
                     const boxes = () => [...form.querySelectorAll('input[name="events[]"]')];
+                    const copies = name => [...form.querySelectorAll(`[data-retention="${name}"]`)];
 
-                    document.getElementById('events-retention-all').addEventListener('change', event => boxes().forEach(box => box.checked = event.target.checked));
+                    // The bar is shown above and below the list: keep both copies (and the column header box) the same
+                    copies('page').forEach(input => input.addEventListener('change', () => {
+                        copies('page').forEach(other => other.checked = input.checked);
+                        boxes().forEach(box => box.checked = input.checked);
+                    }));
+                    copies('matching').forEach(input => input.addEventListener('change', () => copies('matching').forEach(other => other.checked = input.checked)));
+                    copies('action').forEach(input => input.addEventListener('change', () => copies('action').forEach(other => other.value = input.value)));
+                    boxes().forEach(box => box.addEventListener('change', () => copies('page').forEach(input => input.checked = boxes().every(b => b.checked))));
 
                     form.addEventListener('submit', event => {
-                        const all = document.getElementById('events-retention-matching').checked;
+                        const all = copies('matching')[0].checked;
                         const count = all ? <?= (int) $this->events ?> : boxes().filter(box => box.checked).length;
                         const action = form.querySelector('[name=action]').selectedOptions[0].textContent;
 

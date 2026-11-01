@@ -15,7 +15,6 @@ use Contao\Database;
 use Contao\Date;
 use Contao\Environment;
 use Contao\Input;
-use Contao\Pagination;
 use Contao\System;
 
 /**
@@ -122,7 +121,7 @@ class SubscribersController extends OverviewController
         $template->calendarOptions = $all ? $db->query('SELECT id, title FROM tl_calendar WHERE subscription_enable=1 ORDER BY title')->fetchAllAssoc() : [];
         $template->rows = $rows;
         $template->summary = sprintf($L['subscribers.summary'], number_format((int) $totals->bookings), number_format((int) $totals->places));
-        $template->pagination = (new Pagination((int) $totals->bookings, $limit, 7, 'esp', new BackendTemplate('be_pagination'), true))->generate();
+        $template->pagination = BackendPagination::render((int) $totals->bookings, $limit, 'esp');
         $template->filters = $filters;
         $template->attendance = Features::attendance();
         $template->filterAction = strtok(Environment::get('requestUri'), '?');
