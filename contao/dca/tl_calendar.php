@@ -23,6 +23,7 @@ if (\Contao\Config::get('eventsSubscriptionsCalendarGroups')) {
         'calendar_groups' => [
             'href' => 'table=tl_calendar_group',
             'icon' => 'folderC.svg',
+            'primary' => true,
             'attributes' => 'data-action="contao--scroll-offset#store"',
         ],
     ]);
