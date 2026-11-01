@@ -69,7 +69,7 @@ class EventEmailContainer
 
         $editor = $this->isHtml((int) $dc->id) ? 'emailHtml' : 'emailText';
 
-        $GLOBALS['TL_DCA']['tl_nc_notification']['palettes']['default'] = '{title_legend},title,type;{content_legend},emailSubject,emailFormat,'.$editor.',emailTags;{more_legend:hide},emailSenderName,emailSenderAddress,emailEnabled';
+        $GLOBALS['TL_DCA']['tl_nc_notification']['palettes']['default'] = '{title_legend},title,type;{content_legend},emailSubject,emailFormat,emailTags,'.$editor.';{more_legend:hide},emailSenderName,emailSenderAddress,emailEnabled';
     }
 
     public function getTypeOptions(): array
@@ -199,62 +199,71 @@ class EventEmailContainer
     }
 
     /**
-     * The tags that can be inserted, as buttons. A click inserts the tag where the cursor is.
+     * The "Insert tag" menu above the message: the tags grouped, a click inserts the tag where the cursor is
      */
     public function renderTags(DataContainer $dc): string
     {
         $type = (string) Database::getInstance()->prepare('SELECT type FROM tl_nc_notification WHERE id=?')->execute($dc->id)->type;
         $available = System::getContainer()->get(NotificationCenterHelper::class)->getTokenNames($type);
-        $registration = [];
-
-        foreach (RegistrationFields::fromDatabase()->exportColumns() as $token => $label) {
-            $registration[$token] = $label;
-        }
-
         $L = $GLOBALS['TL_LANG']['MSC'];
-        $html = '';
+        $groups = '';
 
-        foreach (EmailTags::forType($available, $registration, $L['events_subscriptions.emailTags']) as $group => $tags) {
-            $buttons = '';
+        foreach (EmailTags::forType($available, RegistrationFields::fromDatabase()->exportColumns(), $L['events_subscriptions.emailTags']) as $group => $tags) {
+            $items = '';
 
             foreach ($tags as $token => $label) {
-                $buttons .= sprintf('<button type="button" class="tl_submit" data-token="##%s##" title="##%s##" style="margin:0 6px 6px 0">%s</button>', $token, $token, StringUtil::specialchars($label));
+                $items .= sprintf('<li><button type="button" data-token="##%1$s##" title="##%1$s##">%2$s</button></li>', $token, StringUtil::specialchars($label));
             }
 
-            $html .= sprintf('<p style="margin:12px 0 4px"><strong>%s</strong></p><div>%s</div>', $L['events_subscriptions.emailTagGroups'][$group] ?? $group, $buttons);
+            $groups .= sprintf('<div class="group"><strong>%s</strong><ul>%s</ul></div>', $L['events_subscriptions.emailTagGroups'][$group] ?? $group, $items);
         }
 
-        return '<div class="widget clr" id="events-email-tags"><h3>'.$GLOBALS['TL_LANG']['tl_nc_notification']['emailTags'][0].'</h3>'.$html.'<p class="tl_help tl_tip">'.$GLOBALS['TL_LANG']['tl_nc_notification']['emailTags'][1].'</p></div>'.<<<'HTML'
+        $label = $GLOBALS['TL_LANG']['tl_nc_notification']['emailTags'];
+
+        return sprintf('<div class="widget clr" id="events-email-tags"><details><summary class="tl_submit">%s ▾</summary><div class="menu">%s</div></details><p class="tl_help tl_tip">%s</p></div>', $label[0], $groups, $label[1]).<<<'HTML'
+            <style>
+                #events-email-tags details { position: relative; display: inline-block; margin-top: 6px; }
+                #events-email-tags summary { list-style: none; cursor: pointer; }
+                #events-email-tags summary::-webkit-details-marker { display: none; }
+                #events-email-tags .menu { position: absolute; z-index: 20; top: calc(100% + 4px); left: 0; display: flex; flex-wrap: wrap; gap: 16px 28px; width: min(880px, 80vw); max-height: 420px; overflow: auto; padding: 14px 18px; background: var(--content-bg, #fff); border: 1px solid var(--border, #ccc); border-radius: 6px; box-shadow: 0 6px 24px rgba(0,0,0,.18); }
+                #events-email-tags .group { min-width: 180px; }
+                #events-email-tags ul { margin: 6px 0 0; padding: 0; list-style: none; }
+                #events-email-tags li button { display: block; width: 100%; padding: 4px 6px; border: 0; border-radius: 4px; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+                #events-email-tags li button:hover, #events-email-tags li button:focus { background: var(--hover-row, rgba(0,0,0,.06)); }
+            </style>
             <script>
             (() => {
-                const panel = document.getElementById('events-email-tags');
-                const form = panel.closest('form');
-                let last = null;
+                const widget = document.getElementById('events-email-tags');
+                const menu = widget.querySelector('details');
 
-                form.addEventListener('focusin', event => {
-                    if (event.target.matches('#ctrl_emailSubject, #ctrl_emailText, #ctrl_emailSenderName')) {
-                        last = event.target;
-                    }
-                });
-
-                panel.querySelectorAll('[data-token]').forEach(button => button.addEventListener('click', () => {
+                widget.querySelectorAll('[data-token]').forEach(button => button.addEventListener('click', () => {
                     const token = button.dataset.token;
                     const editor = window.tinymce?.get('ctrl_emailHtml');
+                    const field = document.getElementById('ctrl_emailText');
 
-                    // Into the formatted text, unless the subject was the last field used
-                    if (editor && (!last || last.id !== 'ctrl_emailSubject')) {
-                        editor.insertContent(token);
+                    menu.open = false;
+
+                    // Formatted text: the editor remembers where the cursor was
+                    if (editor) {
                         editor.focus();
+                        editor.insertContent(token);
 
                         return;
                     }
 
-                    const field = last || document.getElementById('ctrl_emailText') || document.getElementById('ctrl_emailSubject');
+                    // Plain text: the text area keeps its cursor position when the menu is used
                     const start = field.selectionStart ?? field.value.length;
 
                     field.setRangeText(token, start, field.selectionEnd ?? start, 'end');
                     field.focus();
                 }));
+
+                // Close the menu when clicking elsewhere
+                document.addEventListener('click', event => {
+                    if (menu.open && !menu.contains(event.target)) {
+                        menu.open = false;
+                    }
+                });
             })();
             </script>
             HTML;
