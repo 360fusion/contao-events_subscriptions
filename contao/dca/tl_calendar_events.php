@@ -59,7 +59,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscr
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_waitingList';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_memberGroupsLimit';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_numberOfParticipants';
-$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_waitingList';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_fields,subscription_waitingList';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_numberOfParticipants'] = 'subscription_numberOfParticipantsLimit';
@@ -78,6 +78,28 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types'] = [
     'options_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getTypes'],
     'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'],
     'eval' => ['mandatory' => true, 'multiple' => true, 'tl_class' => 'clr'],
+    'sql' => ['type' => Types::BLOB, 'notnull' => false],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_fields'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields'],
+    'inputType' => 'rowWizard',
+    'fields' => [
+        'field' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_field'],
+            'inputType' => 'select',
+            'options_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getRegistrationFieldOptions'],
+            'eval' => ['includeBlankOption' => true, 'chosen' => true],
+        ],
+        'mandatory' => [
+            'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatory'],
+            'inputType' => 'select',
+            'options' => ['1', '0'],
+            'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef'],
+            'eval' => ['includeBlankOption' => true, 'blankOptionLabel' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef']['']],
+        ],
+    ],
+    'eval' => ['sortable' => true, 'actions' => ['copy', 'delete'], 'tl_class' => 'clr'],
     'sql' => ['type' => Types::BLOB, 'notnull' => false],
 ];
 

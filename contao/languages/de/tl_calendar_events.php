@@ -78,3 +78,14 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
     'months'  => 'Monat(e)',
     'years'   => 'Jahr(e)',
 ];
+
+/**
+ * Registration fields
+ */
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields'] = ['Anmeldefelder', 'Wählen Sie die zusätzlichen Felder des Gast-Anmeldeformulars in der gewünschten Reihenfolge. Die Felder werden unter Events → Anmeldefelder verwaltet.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_field'] = ['Feld'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatory'] = ['Pflichtfeld'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef'][''] = 'Standard des Feldes';
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef']['1'] = 'Pflichtfeld';
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef']['0'] = 'Optional';
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_disabled'] = '%s (deaktiviert)';

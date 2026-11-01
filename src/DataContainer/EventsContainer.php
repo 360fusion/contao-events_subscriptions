@@ -11,6 +11,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\DataContainer;
 
+use Codefog\EventsSubscriptionsBundle\Model\SubscriptionFieldModel;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Contao\Backend;
 use Contao\BackendUser;
@@ -196,6 +197,22 @@ class EventsContainer
     public function getTypes()
     {
         return Services::getSubscriptionFactory()->getAll();
+    }
+
+    /**
+     * Get the registration fields for the calendar/event field picker
+     *
+     * @return array<int, string>
+     */
+    public function getRegistrationFieldOptions()
+    {
+        $options = [];
+
+        foreach (SubscriptionFieldModel::findAllOrdered() as $field) {
+            $options[$field->id] = $field->disabled ? sprintf($GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_disabled'], $field->label) : $field->label;
+        }
+
+        return $options;
     }
 
     /**
