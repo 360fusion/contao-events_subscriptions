@@ -71,3 +71,11 @@ each calendar belongs to one group. With groups enabled:
 - the calendar list is shown under group headings,
 - the upcoming events page can be filtered by group,
 - each group has an export button that exports the subscriptions of all its calendars into one CSV/Excel file.
+
+## Event groups
+
+A calendar can be used as a category and its event groups as the courses within it, so a new course does not need
+a new calendar. Click the folder icon of a calendar to manage its event groups (title, alias, description, published),
+then pick the group in each event's settings. The event group can be used as a filter in the calendar's event list,
+on the upcoming events page, and it is added as a column to the exports.
+
