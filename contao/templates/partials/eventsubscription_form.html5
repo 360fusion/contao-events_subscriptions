@@ -16,6 +16,10 @@
             <p class="message"><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed'] ?></p>
         <?php endif; ?>
 
+        <?php if ($type['canSubscribe'] && $type['form'] && !$this->subscribeWaitingList): ?>
+            <p class="info intro"><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.formIntro'] ?></p>
+        <?php endif; ?>
+
         <?php if ($type['canSubscribe']): ?>
             <p class="info"><?= sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.canSubscribeUntil'], $this->subscribeEndTime['date']) ?></p>
         <?php endif; ?>
