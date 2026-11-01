@@ -23,6 +23,7 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['emails_legend'] = 'E-ma
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['wording_legend'] = 'Booking form texts';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionOlderThan'] = 'Events that ended more than';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionMonths'] = 'months ago';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionPerPage'] = 'Per page';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionHelp'] = 'Only events whose bookings still have personal data are listed. The events themselves are kept.';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionSummary'] = '%s events with %s bookings that still have personal data, older than %s months';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionSelectPage'] = 'Select all on this page';

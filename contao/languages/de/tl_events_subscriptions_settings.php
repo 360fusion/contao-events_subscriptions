@@ -23,6 +23,7 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['emails_legend'] = 'E-Ma
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['wording_legend'] = 'Texte des Anmeldeformulars';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionOlderThan'] = 'Veranstaltungen, die vor mehr als';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionMonths'] = 'Monaten endeten';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionPerPage'] = 'Pro Seite';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionHelp'] = 'Nur Veranstaltungen, deren Anmeldungen noch personenbezogene Daten enthalten, werden aufgelistet. Die Veranstaltungen selbst bleiben erhalten.';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionSummary'] = '%s Veranstaltungen mit %s Anmeldungen mit personenbezogenen Daten, älter als %s Monate';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionSelectPage'] = 'Alle auf dieser Seite auswählen';

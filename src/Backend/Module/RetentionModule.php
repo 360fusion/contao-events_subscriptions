@@ -19,7 +19,7 @@ use Contao\System;
  */
 class RetentionModule
 {
-    private const PER_PAGE = 100;
+    private const PER_PAGE = [25, 50, 100];
 
     public function __construct(mixed $dc = null)
     {
@@ -50,9 +50,10 @@ class RetentionModule
 
         $totals = $db->prepare("SELECT COUNT(DISTINCT e.id) AS events, COUNT(s.id) AS bookings $from")->execute($cutoff);
         $page = max(1, (int) Input::get('page'));
+        $perPage = \in_array((int) Input::get('perPage'), self::PER_PAGE, true) ? (int) Input::get('perPage') : self::PER_PAGE[0];
 
         $rows = $db->prepare("SELECT e.id, e.title, e.startTime, e.addTime, COUNT(s.id) AS bookings, (SELECT title FROM tl_calendar_event_group WHERE id=e.eventGroup) AS course, (SELECT title FROM tl_calendar WHERE id=e.pid) AS calendar $from GROUP BY e.id ORDER BY e.startTime DESC")
-            ->limit(self::PER_PAGE, ($page - 1) * self::PER_PAGE)
+            ->limit($perPage, ($page - 1) * $perPage)
             ->execute($cutoff)
             ->fetchAllAssoc();
 
@@ -64,13 +65,15 @@ class RetentionModule
 
         $template = new BackendTemplate('be_events_subscriptions_retention');
         $template->months = $months;
+        $template->perPage = $perPage;
+        $template->perPageOptions = self::PER_PAGE;
         $template->rows = $rows;
         $template->events = (int) $totals->events;
         $template->bookings = (int) $totals->bookings;
         $template->action = Environment::get('request');
         $template->filterAction = strtok(Environment::get('requestUri'), '?');
         $template->defaultAction = 'anonymise' === Config::get('eventsSubscriptionsRetentionAction') ? 'anonymise' : 'delete';
-        $template->pagination = BackendPagination::render((int) $totals->events, self::PER_PAGE, 'page');
+        $template->pagination = BackendPagination::render((int) $totals->events, $perPage, 'page');
         $template->requestToken = System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue();
 
         return $template->parse();

@@ -7,6 +7,13 @@
         <label><?= $L['retentionOlderThan'] ?><br>
             <input type="number" name="months" min="1" value="<?= $this->months ?>" class="tl_text" style="width:110px"> <?= $L['retentionMonths'] ?>
         </label>
+        <label><?= $L['retentionPerPage'] ?><br>
+            <select name="perPage" class="tl_select" style="width:auto" onchange="this.form.submit()">
+                <?php foreach ($this->perPageOptions as $option): ?>
+                    <option value="<?= $option ?>"<?= $option === $this->perPage ? ' selected' : '' ?>><?= $option ?></option>
+                <?php endforeach; ?>
+            </select>
+        </label>
         <button type="submit" class="tl_submit"><?= $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.apply'] ?? 'Show' ?></button>
         <p class="tl_help tl_tip" style="flex:1 1 100%;margin:0"><?= $L['retentionHelp'] ?></p>
     </form>
