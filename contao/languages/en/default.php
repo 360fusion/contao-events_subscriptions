@@ -114,8 +114,9 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
     'events_subscriptions_reminder' => 'Reminder before the event',
     'events_subscription_event' => 'Sent by hand from the subscriptions list',
 ];
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['booking' => 'Booking', 'event' => 'Event', 'links' => 'Links', 'payment' => 'Payment'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['other' => 'Other', 'booking' => 'Booking', 'event' => 'Event', 'links' => 'Links', 'payment' => 'Payment'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
+    'signature' => 'Signature',
     'subscription_firstname' => 'First name',
     'subscription_lastname' => 'Last name',
     'subscription_email' => 'E-mail address',
@@ -148,7 +149,8 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.health'] = [
     'noLimit' => ['%s upcoming events have no place limit', 'All upcoming events have a place limit'],
     'noPayment' => ['%s upcoming events have a price but no payment method that can be offered (card needs a payment provider)', 'All paid events can take payments'],
     'emptyGroups' => ['%s published courses have no upcoming dates', 'All published courses have upcoming dates'],
-    'retentionOff' => ['Removing old personal data is switched off: %s bookings are of events that ended more than 2 years ago', 'No bookings of events older than 2 years'],
-    'retentionDue' => ['%s bookings are due and will lose their personal data on the next daily run', 'No old bookings with personal data'],
+    'retentionOff' => ['Removing old personal data is switched off: %s bookings are of events that ended more than %s months ago', 'No bookings of events older than %2$s months'],
+    'retentionDue' => ['%s bookings of events older than %s months are due and will lose their personal data on the next daily run', 'No bookings of events older than %2$s months'],
     'more' => '… and %s more',
 ];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.formIntro'] = 'Please register for this event by filling in the form below.';

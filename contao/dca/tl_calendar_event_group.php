@@ -123,7 +123,7 @@ foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes'] as $selector =>
     }
 }
 
-$overrides = array_intersect(['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_customPayment', 'subscription_override'], array_keys($GLOBALS['TL_DCA']['tl_calendar_event_group']['fields']));
+$overrides = array_intersect(array_filter(['subscription_customEmailDomains', 'subscription_customNotifications', \Codefog\EventsSubscriptionsBundle\Features::payments() ? 'subscription_customPayment' : null, 'subscription_override']), array_keys($GLOBALS['TL_DCA']['tl_calendar_event_group']['fields']));
 
 if ($overrides) {
     $GLOBALS['TL_DCA']['tl_calendar_event_group']['palettes']['default'] = str_replace('{publish_legend}', '{subscription_legend},'.implode(',', $overrides).';{publish_legend}', $GLOBALS['TL_DCA']['tl_calendar_event_group']['palettes']['default']);

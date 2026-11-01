@@ -1,0 +1,79 @@
+<?php $L = $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']; $e = static fn ($v) => \Contao\StringUtil::specialchars((string) $v); ?>
+<div class="maintenance_active">
+    <h2 class="sub_headline"><?= $GLOBALS['TL_LANG']['MOD']['event_retention'][0] ?></h2>
+
+    <form action="<?= $e($this->filterAction) ?>" method="get" class="tl_tbox" style="padding:12px 18px;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+        <input type="hidden" name="do" value="event_retention">
+        <label><?= $L['retentionOlderThan'] ?><br>
+            <input type="number" name="months" min="1" value="<?= $this->months ?>" class="tl_text" style="width:110px"> <?= $L['retentionMonths'] ?>
+        </label>
+        <button type="submit" class="tl_submit"><?= $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.apply'] ?? 'Show' ?></button>
+        <p class="tl_help tl_tip" style="flex:1 1 100%;margin:0"><?= $L['retentionHelp'] ?></p>
+    </form>
+
+    <div class="tl_tbox" style="padding:12px 18px">
+        <p class="tl_info" style="margin:0 0 12px"><?= sprintf($L['retentionSummary'], number_format($this->events), number_format($this->bookings), $this->months) ?></p>
+
+        <?php if ($this->rows): ?>
+            <form id="events-retention" action="<?= $e($this->action) ?>" method="post">
+                <input type="hidden" name="FORM_SUBMIT" value="events_retention">
+                <input type="hidden" name="REQUEST_TOKEN" value="<?= $e($this->requestToken) ?>">
+
+                <table class="tl_listing showColumns">
+                    <thead>
+                    <tr>
+                        <th class="tl_folder_tlist" style="width:28px"><input type="checkbox" id="events-retention-all" title="<?= $e($L['retentionSelectPage']) ?>"></th>
+                        <th class="tl_folder_tlist"><?= $L['retentionCourse'] ?></th>
+                        <th class="tl_folder_tlist"><?= $L['retentionDate'] ?></th>
+                        <th class="tl_folder_tlist"><?= $L['retentionCalendar'] ?></th>
+                        <th class="tl_folder_tlist"><?= $L['retentionBookings'] ?></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($this->rows as $row): ?>
+                        <tr class="hover-row">
+                            <td class="tl_file_list"><input type="checkbox" name="events[]" value="<?= $row['id'] ?>" id="ret_<?= $row['id'] ?>"></td>
+                            <td class="tl_file_list"><label for="ret_<?= $row['id'] ?>"><?php if ($row['course']): ?><strong><?= $e($row['course']) ?></strong><br><span class="tl_gray"><?= $row['title'] ?></span><?php else: ?><strong><?= $row['title'] ?></strong><?php endif; ?></label></td>
+                            <td class="tl_file_list" style="white-space:nowrap"><?= $row['date'] ?></td>
+                            <td class="tl_file_list"><?= $e($row['calendar']) ?></td>
+                            <td class="tl_file_list"><?= $row['bookings'] ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+                <?= $this->pagination ?>
+
+                <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--border, #ddd)">
+                    <label><input type="checkbox" name="allMatching" value="1" id="events-retention-matching"> <?= sprintf($L['retentionAllMatching'], number_format($this->events)) ?></label>
+                    <select name="action" class="tl_select" style="width:auto">
+                        <option value="delete"<?= 'delete' === $this->defaultAction ? ' selected' : '' ?>><?= $L['retentionActions']['delete'] ?></option>
+                        <option value="anonymise"<?= 'anonymise' === $this->defaultAction ? ' selected' : '' ?>><?= $L['retentionActions']['anonymise'] ?></option>
+                    </select>
+                    <button type="submit" class="tl_submit"><?= $L['retentionApply'] ?></button>
+                </div>
+            </form>
+            <script>
+                (() => {
+                    const form = document.getElementById('events-retention');
+                    const boxes = () => [...form.querySelectorAll('input[name="events[]"]')];
+
+                    document.getElementById('events-retention-all').addEventListener('change', event => boxes().forEach(box => box.checked = event.target.checked));
+
+                    form.addEventListener('submit', event => {
+                        const all = document.getElementById('events-retention-matching').checked;
+                        const count = all ? <?= (int) $this->events ?> : boxes().filter(box => box.checked).length;
+                        const action = form.querySelector('[name=action]').selectedOptions[0].textContent;
+
+                        if (!count) {
+                            event.preventDefault();
+                            alert(<?= json_encode($L['retentionNothingSelected']) ?>);
+                        } else if (!confirm(<?= json_encode($L['retentionConfirm']) ?>.replace('%action', action).replace('%count', count))) {
+                            event.preventDefault();
+                        }
+                    });
+                })();
+            </script>
+        <?php endif; ?>
+    </div>
+</div>

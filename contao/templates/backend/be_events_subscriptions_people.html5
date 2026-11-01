@@ -29,6 +29,7 @@
                 <option value="past"<?= 'past' === $f['when'] ? ' selected' : '' ?>><?= $L['subscriptions_upcoming.whenPast'] ?></option>
             </select>
         </label>
+        <?php if ($this->attendance): ?>
         <label style="flex:1 1 140px"><?= $L['subscribers.attended'] ?><br>
             <select name="attended" class="tl_select">
                 <option value="">-</option>
@@ -36,6 +37,7 @@
                 <option value="no"<?= 'no' === $f['attended'] ? ' selected' : '' ?>><?= $GLOBALS['TL_LANG']['MSC']['no'] ?></option>
             </select>
         </label>
+        <?php endif; ?>
         <?php if ($this->paymentOptions): ?>
             <label style="flex:1 1 160px"><?= $L['subscribers.payment'] ?><br>
                 <select name="payment" class="tl_select"><option value="">-</option><?php foreach ($this->paymentOptions as $status): ?><option value="<?= $e($status) ?>"<?= $f['payment'] === $status ? ' selected' : '' ?>><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'][$status] ?? $e($status) ?></option><?php endforeach; ?></select>
@@ -93,7 +95,7 @@
                     <th class="tl_folder_tlist"><?= $L['subscribers.event'] ?></th>
                     <th class="tl_folder_tlist"><?= $L['subscribers.bookedOn'] ?></th>
                     <th class="tl_folder_tlist"><?= $L['subscribers.status'] ?></th>
-                    <th class="tl_folder_tlist"><?= $L['subscribers.attended'] ?></th>
+                    <?php if ($this->attendance): ?><th class="tl_folder_tlist"><?= $L['subscribers.attended'] ?></th><?php endif; ?>
                     <?php if ($this->paymentOptions): ?><th class="tl_folder_tlist"><?= $L['subscribers.payment'] ?></th><?php endif; ?>
                     <th class="tl_folder_tlist"></th>
                 </tr>
@@ -105,7 +107,7 @@
                         <td class="tl_file_list"><?= $row['eventTitle'] ?><br><span class="tl_gray"><?= $row['eventDate'] ?><?= $this->showCalendar ? ' · '.$e($row['calendarTitle']) : '' ?></span></td>
                         <td class="tl_file_list" style="white-space:nowrap"><?= $row['booked'] ?></td>
                         <td class="tl_file_list" style="white-space:nowrap"><?= $row['status'] ?></td>
-                        <td class="tl_file_list" style="white-space:nowrap"><?= $row['attended'] ? $GLOBALS['TL_LANG']['MSC']['yes'] : '-' ?></td>
+                        <?php if ($this->attendance): ?><td class="tl_file_list" style="white-space:nowrap"><?= $row['attended'] ? $GLOBALS['TL_LANG']['MSC']['yes'] : '-' ?></td><?php endif; ?>
                         <?php if ($this->paymentOptions): ?><td class="tl_file_list" style="white-space:nowrap"><?= $row['payment'] ?: '-' ?></td><?php endif; ?>
                         <td class="tl_file_list tl_right_nowrap">
                             <a href="<?= $e($row['editUrl']) ?>" title="<?= $e($L['subscribers.edit']) ?>"><?= \Contao\Image::getHtml('edit.svg', $L['subscribers.edit']) ?></a>

@@ -33,6 +33,8 @@ class EventsSubscriptionsReminderType implements NotificationTypeInterface
             $this->factory->create(TextTokenDefinition::class, 'days_before_event', ''),
             $this->factory->create(TextTokenDefinition::class, 'event_link', ''),
             $this->factory->create(TextTokenDefinition::class, 'event_ics_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'signature', ''),
+            $this->factory->create(TextTokenDefinition::class, 'signature_html', ''),
             $this->factory->create(TextTokenDefinition::class, 'payment_status', ''),
             $this->factory->create(TextTokenDefinition::class, 'payment_amount', ''),
             $this->factory->create(TextTokenDefinition::class, 'payment_method', ''),

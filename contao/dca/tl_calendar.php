@@ -9,8 +9,8 @@ use Doctrine\DBAL\Types\Types;
 
 // E-mails, payments, subscribers and the setup are in the "Events" group of the back end menu
 
-// Calendar groups (System › Settings)
-if (\Contao\Config::get('eventsSubscriptionsCalendarGroups')) {
+// Calendar groups (Events › Setup › Booking settings)
+if (\Codefog\EventsSubscriptionsBundle\Features::calendarGroups()) {
     \Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 0, [
         'calendar_groups' => [
             'href' => 'table=tl_calendar_group',
@@ -30,7 +30,7 @@ if (\Contao\Config::get('eventsSubscriptionsCalendarGroups')) {
 }
 
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['calendarGroup'] = [
-    'filter' => (bool) \Contao\Config::get('eventsSubscriptionsCalendarGroups'),
+    'filter' => \Codefog\EventsSubscriptionsBundle\Features::calendarGroups(),
     'inputType' => 'select',
     'foreignKey' => 'tl_calendar_group.title',
     'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
@@ -195,3 +195,8 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_unsubscribeLinkPage'] 
 
 // Back end styles (the filter panel scrolls when it is taller than the window)
 $GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'addBackendStyles'];
+
+// Payments switched off in Events › Setup › Booking settings
+if (!\Codefog\EventsSubscriptionsBundle\Features::payments()) {
+    $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable'] = str_replace(',subscription_price,subscription_paymentMethods,subscription_paymentProvider,subscription_freeEmailDomains', '', $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']);
+}

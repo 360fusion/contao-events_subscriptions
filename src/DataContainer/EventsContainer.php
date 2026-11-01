@@ -11,6 +11,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\DataContainer;
 
+use Codefog\EventsSubscriptionsBundle\Features;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionFieldModel;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Contao\Backend;
@@ -52,7 +53,7 @@ class EventsContainer
 
         PaletteManipulator::create()
             ->addLegend('subscription_legend', 'title_legend', PaletteManipulator::POSITION_AFTER, true)
-            ->addField(['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_customPayment', 'subscription_override'], 'subscription_legend', PaletteManipulator::POSITION_APPEND)
+            ->addField(array_values(array_filter(['subscription_customEmailDomains', 'subscription_customNotifications', Features::payments() ? 'subscription_customPayment' : null, 'subscription_override'])), 'subscription_legend', PaletteManipulator::POSITION_APPEND)
             ->applyToPalette('internal', 'tl_calendar_events')
             ->applyToPalette('article', 'tl_calendar_events')
             ->applyToPalette('external', 'tl_calendar_events')

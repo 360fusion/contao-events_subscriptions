@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\Backend\Module;
 
+use Codefog\EventsSubscriptionsBundle\Features;
 use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\CoreBundle\Security\ContaoCorePermissions;
@@ -28,12 +29,13 @@ class SetupModule
         $areas = [
             'event_settings' => ['icon' => 'settings.svg'],
             'event_health' => ['icon' => 'important.svg'],
+            'event_retention' => ['icon' => 'delete.svg'],
             'event_fields' => ['table' => 'tl_calendar_events_subscription_field', 'icon' => 'modules.svg', 'count' => 'SELECT COUNT(*) AS n FROM tl_calendar_events_subscription_field WHERE disabled=0'],
             'event_payment_providers' => ['table' => 'tl_calendar_events_payment_provider', 'icon' => 'settings.svg', 'count' => 'SELECT COUNT(*) AS n FROM tl_calendar_events_payment_provider'],
         ];
 
         foreach ($areas as $module => $area) {
-            if (!$security->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_MODULE, $module)) {
+            if (!$security->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_MODULE, $module) || ('event_payment_providers' === $module && !Features::payments())) {
                 continue;
             }
 
@@ -43,6 +45,8 @@ class SetupModule
                 'icon' => $area['icon'],
                 'count' => match ($module) {
                     'event_settings' => '',
+                    // Past events whose bookings still have personal data
+                    'event_retention' => (int) $db->prepare("SELECT COUNT(DISTINCT e.id) AS n FROM tl_calendar_events e JOIN tl_calendar_events_subscription s ON s.pid=e.id AND s.lastname!=? WHERE GREATEST(e.startTime, e.endTime)<?")->execute(\Codefog\EventsSubscriptionsBundle\Retention::ANONYMISED, strtotime(sprintf('-%d months', \Codefog\EventsSubscriptionsBundle\Retention::months())))->n,
                     // Number of checks that need attention
                     'event_health' => \count(array_filter(HealthModule::getChecks(), static fn ($check) => $check['count'] > 0)),
                     default => (int) $db->query($area['count'])->n,
@@ -52,7 +56,7 @@ class SetupModule
         }
 
         // Calendar groups are switched on in System › Settings
-        if (Config::get('eventsSubscriptionsCalendarGroups') && $security->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_MODULE, 'calendar')) {
+        if (Features::calendarGroups() && $security->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_MODULE, 'calendar')) {
             $tiles[] = [
                 'title' => $GLOBALS['TL_LANG']['tl_calendar']['calendar_groups'][0],
                 'description' => $GLOBALS['TL_LANG']['tl_calendar']['calendar_groups'][1],

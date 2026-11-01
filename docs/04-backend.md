@@ -115,6 +115,12 @@ separately in the user group permissions:
   old bookings: once a day, bookings of events that ended more than the chosen number of months ago are anonymised
   (places, attendance and payment amounts are kept) or deleted. Anonymising also clears text columns of the
   subscription table that are no longer defined, e.g. left over from an older extension.
+- **Booking settings** also has the feature switches (payments, attendance, calendar groups), the sender of all
+  event e-mails (saving updates them) and a signature for the `##signature##` tag, and the booking form texts
+  (empty fields use the default texts, shown in grey).
+- **Old booking data**: the past events whose bookings still have personal data, older than a chosen number of
+  months (the retention setting by default). Tick events, or all of them, and delete or anonymise their bookings.
+  The events themselves are kept.
 - **Health check**: e-mails that are used but send nothing, calendars without a confirmation e-mail, upcoming events
   without a course or a place limit, paid events that cannot take payments, courses without upcoming dates and old
   bookings with personal data, each with links to fix them.

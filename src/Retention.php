@@ -39,18 +39,49 @@ class Retention
     }
 
     /**
+     * The retention period in months: the setting, or 24 if none is set
+     */
+    public static function months(): int
+    {
+        return max(1, (int) Config::get('eventsSubscriptionsRetentionMonths') ?: 24);
+    }
+
+    /**
      * Anonymise or delete the due bookings. Places, attendance and payment amounts are kept when anonymising.
      *
      * @return int The number of bookings changed
      */
     public function run(int $cutoff, string $action): int
     {
-        $db = Database::getInstance();
-        $ids = $db->prepare('SELECT s.id FROM tl_calendar_events_subscription s JOIN tl_calendar_events e ON e.id=s.pid WHERE GREATEST(e.startTime, e.endTime)<? AND s.lastname!=?')->execute($cutoff, self::ANONYMISED)->fetchEach('id');
+        $ids = Database::getInstance()->prepare('SELECT s.id FROM tl_calendar_events_subscription s JOIN tl_calendar_events e ON e.id=s.pid WHERE GREATEST(e.startTime, e.endTime)<? AND s.lastname!=?')->execute($cutoff, self::ANONYMISED)->fetchEach('id');
 
+        return $this->process($ids, $action, sprintf('of events that ended before %s', date('Y-m-d', $cutoff)));
+    }
+
+    /**
+     * Anonymise or delete the bookings of the chosen events (Events › Setup › Old booking data)
+     *
+     * @param list<int> $eventIds
+     */
+    public function runForEvents(array $eventIds, string $action): int
+    {
+        if (!$eventIds = array_filter(array_map('intval', $eventIds))) {
+            return 0;
+        }
+
+        $where = 'pid IN ('.implode(',', $eventIds).')'.('delete' === $action ? '' : " AND lastname!='".self::ANONYMISED."'");
+        $ids = Database::getInstance()->query("SELECT id FROM tl_calendar_events_subscription WHERE $where")->fetchEach('id');
+
+        return $this->process($ids, $action, sprintf('of %d chosen events', \count($eventIds)));
+    }
+
+    private function process(array $ids, string $action, string $which): int
+    {
         if (!$ids) {
             return 0;
         }
+
+        $db = Database::getInstance();
 
         foreach (array_chunk(array_map('intval', $ids), 500) as $chunk) {
             $in = implode(',', $chunk);
@@ -68,8 +99,8 @@ class Retention
         }
 
         System::getContainer()->get('monolog.logger.contao')->info(
-            sprintf('%s %d bookings of events that ended before %s', 'delete' === $action ? 'Deleted' : 'Anonymised', \count($ids), date('Y-m-d', $cutoff)),
-            ['contao' => new ContaoContext(__METHOD__, ContaoContext::CRON)],
+            sprintf('%s %d bookings %s', 'delete' === $action ? 'Deleted' : 'Anonymised', \count($ids), $which),
+            ['contao' => new ContaoContext(__METHOD__, ContaoContext::GENERAL)],
         );
 
         return \count($ids);

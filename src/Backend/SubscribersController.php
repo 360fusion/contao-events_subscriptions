@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\Backend;
 
+use Codefog\EventsSubscriptionsBundle\Features;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus;
 use Codefog\EventsSubscriptionsBundle\Services;
@@ -123,6 +124,7 @@ class SubscribersController extends OverviewController
         $template->summary = sprintf($L['subscribers.summary'], number_format((int) $totals->bookings), number_format((int) $totals->places));
         $template->pagination = (new Pagination((int) $totals->bookings, $limit, 7, 'esp', new BackendTemplate('be_pagination'), true))->generate();
         $template->filters = $filters;
+        $template->attendance = Features::attendance();
         $template->filterAction = strtok(Environment::get('requestUri'), '?');
         $template->filterHidden = array_filter(['do' => Input::get('do'), 'key' => Input::get('key'), 'id' => $all ? null : Input::get('id'), 'rt' => Input::get('rt')], static fn ($value) => null !== $value);
         $template->eventGroupOptions = $this->getEventGroupOptions($all ? $filters['calendar'] : (int) $calendar->id);

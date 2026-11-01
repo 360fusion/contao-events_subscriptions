@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle;
 
+use Codefog\EventsSubscriptionsBundle\Features;
 use Codefog\EventsSubscriptionsBundle\Event\ExportCalendarEvent;
 use Codefog\EventsSubscriptionsBundle\Event\ExportEvent;
 use Codefog\EventsSubscriptionsBundle\Model\PaymentModel;
@@ -264,7 +265,7 @@ class Exporter
             'subscription_date'        => $headerFields['subscription_date'],
             'subscription_type'        => $headerFields['subscription_type'],
             'subscription_waitingList' => $headerFields['subscription_waitingList'],
-            'subscription_attended'    => $headerFields['subscription_attended'],
+            'subscription_attended'    => Features::attendance() ? $headerFields['subscription_attended'] : null,
             'payment_status'           => $headerFields['payment_status'],
             'payment_amount'           => $headerFields['payment_amount'],
             'payment_method'           => $headerFields['payment_method'],
@@ -275,6 +276,8 @@ class Exporter
             'subscription_email'       => $headerFields['subscription_email'],
             'subscription_numberOfParticipants' => $headerFields['subscription_numberOfParticipants'],
         ];
+
+        $columns = array_filter($columns, static fn ($label) => null !== $label);
 
         /** @var ExportAwareInterface $subscription */
         foreach ($subscriptions as $subscription) {

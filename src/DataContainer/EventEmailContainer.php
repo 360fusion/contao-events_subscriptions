@@ -334,7 +334,7 @@ class EventEmailContainer
                     // Formatted text: the editor remembers where the cursor was
                     if (editor) {
                         editor.focus();
-                        editor.insertContent(token);
+                        editor.insertContent('##signature##' === token ? '##signature_html##' : token);
 
                         return;
                     }

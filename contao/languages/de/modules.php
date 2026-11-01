@@ -47,3 +47,4 @@ $GLOBALS['TL_LANG']['MOD']['event_fields'] = ['Anmeldefelder', 'Die zusätzliche
 $GLOBALS['TL_LANG']['MOD']['event_payment_providers'] = ['Zahlungsanbieter', 'Die Konten für Kartenzahlungen: Stripe, PayPal, Mollie oder GOV.UK Pay'];
 $GLOBALS['TL_LANG']['MOD']['event_settings'] = ['Anmeldeeinstellungen', 'Die Anmeldeeinstellungen, mit denen neue Kalender beginnen, und wie lange Anmeldedaten aufbewahrt werden'];
 $GLOBALS['TL_LANG']['MOD']['event_health'] = ['Prüfung', 'Einstellungen, die wahrscheinlich Aufmerksamkeit brauchen: E-Mails ohne Versand, Veranstaltungen ohne Kurs oder Platzlimit, alte personenbezogene Daten'];
+$GLOBALS['TL_LANG']['MOD']['event_retention'] = ['Alte Anmeldedaten', 'Vergangene Veranstaltungen, deren Anmeldungen noch personenbezogene Daten enthalten: prüfen und die Anmeldungen löschen oder anonymisieren'];

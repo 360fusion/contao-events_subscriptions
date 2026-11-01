@@ -82,6 +82,10 @@ class EventConfig
      */
     public function getAvailablePaymentMethods(): array
     {
+        if (!Features::payments()) {
+            return [];
+        }
+
         return PaymentDecision::availableMethods($this->getPrice(), StringUtil::deserialize($this->getSettingsSource('subscription_customPayment')->subscription_paymentMethods, true), null !== $this->getPaymentProvider());
     }
 

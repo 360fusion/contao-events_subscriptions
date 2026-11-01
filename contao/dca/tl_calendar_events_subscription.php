@@ -199,3 +199,18 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
 
 // Back end styles (the filter panel scrolls when it is taller than the window)
 $GLOBALS['TL_DCA']['tl_calendar_events_subscription']['config']['onload_callback'][] = ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'addBackendStyles'];
+
+// Attendance switched off in Events › Setup › Booking settings
+if (!\Codefog\EventsSubscriptionsBundle\Features::attendance()) {
+    unset($GLOBALS['TL_DCA']['tl_calendar_events_subscription']['list']['operations']['attended']);
+    $GLOBALS['TL_DCA']['tl_calendar_events_subscription']['fields']['attended']['filter'] = false;
+
+    foreach ($GLOBALS['TL_DCA']['tl_calendar_events_subscription']['palettes'] as $name => $palette) {
+        if (\is_string($palette)) {
+            $GLOBALS['TL_DCA']['tl_calendar_events_subscription']['palettes'][$name] = str_replace(',attended', '', $palette);
+        }
+    }
+
+    unset($name, $palette);
+}
+

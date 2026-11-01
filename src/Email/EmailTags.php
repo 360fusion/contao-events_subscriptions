@@ -15,6 +15,7 @@ final class EmailTags
         'event' => ['event_title', 'event_startDate', 'event_startTime', 'event_endDate', 'event_endTime', 'event_location', 'event_address', 'event_teaser', 'days_before_event', 'calendar_title'],
         'links' => ['event_link', 'event_ics_link', 'unsubscribe_link'],
         'payment' => ['payment_amount', 'payment_status', 'payment_method', 'purchase_order', 'payment_link'],
+        'other' => ['signature'],
     ];
 
     /**

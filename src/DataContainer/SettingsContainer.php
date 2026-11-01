@@ -2,8 +2,12 @@
 
 namespace Codefog\EventsSubscriptionsBundle\DataContainer;
 
+use Codefog\EventsSubscriptionsBundle\EventListener\LanguageListener;
+use Codefog\EventsSubscriptionsBundle\Features;
 use Contao\Config;
 use Contao\Database;
+use Contao\Input;
+use Contao\System;
 
 class SettingsContainer
 {
@@ -39,5 +43,36 @@ class SettingsContainer
         if ($set) {
             Database::getInstance()->prepare('UPDATE tl_calendar %s WHERE id=?')->set($set)->execute($insertId);
         }
+    }
+
+    /**
+     * Show the default booking form texts as placeholders, empty fields use them
+     */
+    public function showDefaultTexts(): void
+    {
+        System::loadLanguageFile('default');
+
+        foreach (Features::TEXTS as $key => $setting) {
+            $GLOBALS['TL_DCA']['tl_events_subscriptions_settings']['fields'][$setting]['eval']['placeholder'] = LanguageListener::$defaults[$key] ?? '';
+        }
+    }
+
+    /**
+     * The sender is the same for all event e-mails: saving it updates them
+     */
+    public function applySender(): void
+    {
+        $name = trim((string) Input::post('eventsSubscriptionsSenderName'));
+        $address = trim((string) Input::post('eventsSubscriptionsSenderAddress'));
+
+        if ('' === $name && '' === $address) {
+            return;
+        }
+
+        $set = array_filter(['email_sender_name' => $name, 'email_sender_address' => $address], static fn ($value) => '' !== $value);
+
+        Database::getInstance()
+            ->prepare("UPDATE tl_nc_language l JOIN tl_nc_message m ON m.id=l.pid JOIN tl_nc_notification n ON n.id=m.pid SET ".implode(', ', array_map(static fn ($column) => "l.$column=?", array_keys($set))).", l.tstamp=? WHERE n.type LIKE 'events_subscription%'")
+            ->execute(...[...array_values($set), time()]);
     }
 }

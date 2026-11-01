@@ -113,8 +113,9 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
     'events_subscriptions_reminder' => 'Erinnerung vor der Veranstaltung',
     'events_subscription_event' => 'Manuell aus der Anmeldeliste gesendet',
 ];
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['booking' => 'Anmeldung', 'event' => 'Veranstaltung', 'links' => 'Links', 'payment' => 'Zahlung'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['other' => 'Sonstiges', 'booking' => 'Anmeldung', 'event' => 'Veranstaltung', 'links' => 'Links', 'payment' => 'Zahlung'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
+    'signature' => 'Signatur',
     'subscription_firstname' => 'Vorname',
     'subscription_lastname' => 'Nachname',
     'subscription_email' => 'E-Mail-Adresse',
@@ -147,7 +148,8 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.health'] = [
     'noLimit' => ['%s kommende Veranstaltungen haben kein Platzlimit', 'Alle kommenden Veranstaltungen haben ein Platzlimit'],
     'noPayment' => ['%s kommende Veranstaltungen haben einen Preis, aber keine anbietbare Zahlungsart (Karte braucht einen Zahlungsanbieter)', 'Alle kostenpflichtigen Veranstaltungen können Zahlungen annehmen'],
     'emptyGroups' => ['%s veröffentlichte Kurse haben keine kommenden Termine', 'Alle veröffentlichten Kurse haben kommende Termine'],
-    'retentionOff' => ['Das Entfernen alter personenbezogener Daten ist ausgeschaltet: %s Anmeldungen gehören zu Veranstaltungen, die vor mehr als 2 Jahren endeten', 'Keine Anmeldungen zu Veranstaltungen älter als 2 Jahre'],
-    'retentionDue' => ['%s Anmeldungen sind fällig und verlieren beim nächsten täglichen Lauf ihre personenbezogenen Daten', 'Keine alten Anmeldungen mit personenbezogenen Daten'],
+    'retentionOff' => ['Das Entfernen alter personenbezogener Daten ist ausgeschaltet: %s Anmeldungen gehören zu Veranstaltungen, die vor mehr als %s Monaten endeten', 'Keine Anmeldungen zu Veranstaltungen älter als %2$s Monate'],
+    'retentionDue' => ['%s Anmeldungen zu Veranstaltungen älter als %s Monate sind fällig und verlieren beim nächsten täglichen Lauf ihre personenbezogenen Daten', 'Keine Anmeldungen zu Veranstaltungen älter als %2$s Monate'],
     'more' => '… und %s weitere',
 ];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.formIntro'] = 'Bitte melden Sie sich mit dem folgenden Formular für diese Veranstaltung an.';

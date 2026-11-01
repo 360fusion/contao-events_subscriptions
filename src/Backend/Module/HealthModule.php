@@ -101,8 +101,16 @@ class HealthModule
         $checks[] = ['key' => 'emptyGroups', 'count' => \count($rows), 'items' => $rows];
 
         // Personal data of old bookings
-        $cutoff = Retention::cutoff() ?? strtotime('-24 months');
-        $checks[] = ['key' => null === Retention::cutoff() ? 'retentionOff' : 'retentionDue', 'count' => (new Retention())->countDue($cutoff), 'items' => [['label' => $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retention_legend'] ?? 'Booking settings', 'href' => $url(['do' => 'event_settings'])]]];
+        $cutoff = Retention::cutoff() ?? strtotime(sprintf('-%d months', Retention::months()));
+        $checks[] = [
+            'key' => null === Retention::cutoff() ? 'retentionOff' : 'retentionDue',
+            'count' => (new Retention())->countDue($cutoff),
+            'months' => Retention::months(),
+            'items' => [
+                ['label' => $GLOBALS['TL_LANG']['MOD']['event_retention'][0] ?? 'Old booking data', 'href' => $url(['do' => 'event_retention'])],
+                ['label' => $GLOBALS['TL_LANG']['MOD']['event_settings'][0] ?? 'Booking settings', 'href' => $url(['do' => 'event_settings'])],
+            ],
+        ];
 
         foreach ($checks as &$check) {
             $check['more'] = max(0, \count($check['items']) - self::LIMIT);

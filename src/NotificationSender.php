@@ -160,6 +160,10 @@ class NotificationSender
         $tokens['event_link'] = Events::generateEventUrl($event, true);
         $tokens['event_ics_link'] = $tokens['event_link'].(str_contains($tokens['event_link'], '?') ? '&' : '?').'ics=1';
 
+        // The shared signature of Events › Setup › Booking settings
+        $tokens['signature'] = Features::text('eventsSubscriptionsSignature');
+        $tokens['signature_html'] = nl2br(htmlspecialchars($tokens['signature']), false);
+
         // Generate calendar tokens
         if (($calendar = CalendarModel::findByPk($event->pid)) !== null) {
             $tokens = array_merge($tokens, $this->getModelTokens($calendar, 'calendar_'));

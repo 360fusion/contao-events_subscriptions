@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\EventListener;
 
+use Codefog\EventsSubscriptionsBundle\Features;
 use Contao\CoreBundle\Event\MenuEvent;
 
 /**
@@ -15,6 +16,11 @@ class BackendMenuListener
 
         if ('mainMenu' !== $tree->getName()) {
             return;
+        }
+
+        // Payments switched off in Events › Setup › Booking settings
+        if (!Features::payments()) {
+            $tree->getChild('events_subscriptions')?->removeChild('event_payments');
         }
 
         $names = array_keys($tree->getChildren());

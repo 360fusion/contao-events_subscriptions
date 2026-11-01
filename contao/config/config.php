@@ -75,6 +75,10 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
         'tables' => ['tl_events_subscriptions_settings'],
         'hideInNavigation' => true,
     ],
+    'event_retention' => [
+        'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\RetentionModule',
+        'hideInNavigation' => true,
+    ],
     'event_health' => [
         'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\HealthModule',
         'hideInNavigation' => true,
@@ -111,6 +115,11 @@ $GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptionsBundle\EventDispatcher::EVENT_O
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = [
     'Codefog\EventsSubscriptionsBundle\EventListener\RegistrationFieldsListener',
     'onLoadDataContainer',
+];
+
+$GLOBALS['TL_HOOKS']['loadLanguageFile'][] = [
+    'Codefog\EventsSubscriptionsBundle\EventListener\LanguageListener',
+    'onLoadLanguageFile',
 ];
 
 $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = [

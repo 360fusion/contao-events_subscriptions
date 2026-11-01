@@ -47,3 +47,4 @@ $GLOBALS['TL_LANG']['MOD']['event_fields'] = ['Registration fields', 'The extra 
 $GLOBALS['TL_LANG']['MOD']['event_payment_providers'] = ['Payment providers', 'The accounts for card payments: Stripe, PayPal, Mollie or GOV.UK Pay'];
 $GLOBALS['TL_LANG']['MOD']['event_settings'] = ['Booking settings', 'The booking settings new calendars start with, and how long booking details are kept'];
 $GLOBALS['TL_LANG']['MOD']['event_health'] = ['Health check', 'Settings that probably need attention: e-mails that send nothing, events without a course or a place limit, old personal data'];
+$GLOBALS['TL_LANG']['MOD']['event_retention'] = ['Old booking data', 'Past events whose bookings still have personal data: review them and delete or anonymise the bookings'];

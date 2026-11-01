@@ -9,11 +9,13 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
     'config' => [
         'dataContainer' => DC_File::class,
         'closed' => true,
+        'onload_callback' => [['Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer', 'showDefaultTexts']],
+        'onsubmit_callback' => [['Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer', 'applySender']],
     ],
 
     'palettes' => [
         '__selector__' => ['eventsSubscriptionsRetention'],
-        'default' => '{defaults_legend},eventsSubscriptionsTemplateCalendar;{retention_legend},eventsSubscriptionsRetention',
+        'default' => '{features_legend},eventsSubscriptionsPayments,eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups;{defaults_legend},eventsSubscriptionsTemplateCalendar;{emails_legend},eventsSubscriptionsSenderName,eventsSubscriptionsSenderAddress,eventsSubscriptionsSignature;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation;{retention_legend},eventsSubscriptionsRetention',
     ],
 
     'subpalettes' => [
@@ -21,11 +23,41 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
     ],
 
     'fields' => [
+        'eventsSubscriptionsPayments' => [
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'eventsSubscriptionsAttendance' => [
+            'inputType' => 'checkbox',
+            'load_callback' => [static fn ($value) => null === $value ? '1' : $value], // on unless switched off
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'eventsSubscriptionsCalendarGroups' => [
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'eventsSubscriptionsSenderName' => [
+            'inputType' => 'text',
+            'eval' => ['maxlength' => 255, 'decodeEntities' => true, 'tl_class' => 'w50'],
+        ],
+        'eventsSubscriptionsSenderAddress' => [
+            'inputType' => 'text',
+            'eval' => ['rgxp' => 'email', 'maxlength' => 255, 'decodeEntities' => true, 'tl_class' => 'w50'],
+        ],
+        'eventsSubscriptionsSignature' => [
+            'inputType' => 'textarea',
+            'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:110px'],
+        ],
         'eventsSubscriptionsTemplateCalendar' => [
             'inputType' => 'select',
             'options_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer', 'getCalendarOptions'],
             'eval' => ['includeBlankOption' => true, 'tl_class' => 'w50'],
         ],
+        'eventsSubscriptionsTextIntro' => ['inputType' => 'textarea', 'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:56px']],
+        'eventsSubscriptionsTextClosed' => ['inputType' => 'textarea', 'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:56px']],
+        'eventsSubscriptionsTextFull' => ['inputType' => 'textarea', 'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:56px']],
+        'eventsSubscriptionsTextWaitingList' => ['inputType' => 'textarea', 'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:56px']],
+        'eventsSubscriptionsTextConfirmation' => ['inputType' => 'textarea', 'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:56px']],
         'eventsSubscriptionsRetention' => [
             'inputType' => 'checkbox',
             'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
@@ -42,3 +74,12 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
         ],
     ],
 ];
+
+// The system configuration cannot store line breaks: keep them as "\n" in the multi-line settings
+foreach (['eventsSubscriptionsSignature', 'eventsSubscriptionsTextIntro', 'eventsSubscriptionsTextClosed', 'eventsSubscriptionsTextFull', 'eventsSubscriptionsTextWaitingList', 'eventsSubscriptionsTextConfirmation'] as $field) {
+    $GLOBALS['TL_DCA']['tl_events_subscriptions_settings']['fields'][$field]['load_callback'][] = static fn ($value) => str_replace('\\n', "\n", (string) $value);
+    $GLOBALS['TL_DCA']['tl_events_subscriptions_settings']['fields'][$field]['save_callback'][] = static fn ($value) => str_replace(["\r\n", "\n"], '\\n', (string) $value);
+}
+
+unset($field);
+
