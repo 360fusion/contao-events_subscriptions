@@ -36,7 +36,7 @@
                 </span>
                 <label style="flex:0 1 560px;margin-left:auto">
                     <strong><?= $L['subscriptions_upcoming.dynamicSearch'] ?></strong>
-                    <input type="search" name="search" value="<?= $e($f['search']) ?>" class="tl_text" placeholder="<?= $e($L['subscriptions_upcoming.dynamicSearchPlaceholder']) ?>" style="font-size:1.15em;padding:10px 12px;margin-top:4px">
+                    <input type="search" name="search" value="<?= $e($f['search']) ?>" class="tl_text" placeholder="<?= $e($L['subscriptions_upcoming.dynamicSearchPlaceholder']) ?>" style="height:46px;font-size:1.15em;padding:10px 14px;margin-top:4px">
                     <span class="tl_help tl_tip" style="display:block"><?= $L['subscriptions_upcoming.dynamicSearchHelp'] ?></span>
                 </label>
             </div>
