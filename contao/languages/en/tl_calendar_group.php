@@ -7,3 +7,5 @@ $GLOBALS['TL_LANG']['tl_calendar_group']['new'] = ['New group', 'Create a new ca
 $GLOBALS['TL_LANG']['tl_calendar_group']['export'] = ['Export subscriptions', 'Export the subscriptions of all calendars in group ID %s'];
 $GLOBALS['TL_LANG']['tl_calendar_group']['calendarCount'] = '%s calendars';
 $GLOBALS['TL_LANG']['tl_calendar_group']['untitledCalendar'] = 'Calendar ID %s (no title)';
+$GLOBALS['TL_LANG']['tl_calendar_group']['export.explanation'] = 'You are about to export the subscriptions data for all calendars of the calendar group:';
+$GLOBALS['TL_LANG']['tl_calendar_group']['subscriptions_exportGroup'] = ['Export subscriptions', 'Export subscriptions'];

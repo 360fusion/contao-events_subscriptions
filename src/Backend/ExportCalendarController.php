@@ -52,6 +52,7 @@ class ExportCalendarController
         }
 
         System::loadLanguageFile('tl_calendar');
+        System::loadLanguageFile('tl_calendar_group');
 
         /** @var Widget $startDateWidget */
         $startDateWidget = new $GLOBALS['BE_FFL']['text'](Widget::getAttributesFromDca([
@@ -97,6 +98,7 @@ class ExportCalendarController
         $template = new BackendTemplate('be_events_subscriptions_export_calendar');
         $template->backUrl = Backend::getReferer();
         $template->calendar = $calendarData;
+        $template->explanation = $subject instanceof CalendarModel ? null : $GLOBALS['TL_LANG']['tl_calendar_group']['export.explanation'];
         $template->action = Environment::get('request');
         $template->formSubmit = $formSubmit;
         $template->excelFormatSupport = true;
