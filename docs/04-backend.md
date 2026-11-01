@@ -106,18 +106,29 @@ separately in the user group permissions:
   for its own subscribers)
 - **E-mails**: the simple editor of the event e-mails
 - **Payments**: payments, refunds and invoices
-- **Setup**: tiles for the registration fields, the payment providers and (when switched on) the calendar groups
+- **Setup**: a "Booking settings" section with a tile for each of the five settings pages, and a "Tools and data"
+  section with the health check, old booking data, registration fields, the payment providers and (when switched on)
+  the calendar groups
 
 ### Setup
 
-- **Booking settings**: choose a calendar whose booking settings (places, deadlines, registration fields, e-mail
-  domains, e-mails, reminders, price) every new calendar starts with, and switch on removing the personal data of
-  old bookings: once a day, bookings of events that ended more than the chosen number of months ago are anonymised
-  (places, attendance and payment amounts are kept) or deleted. Anonymising also clears text columns of the
-  subscription table that are no longer defined, e.g. left over from an older extension.
-- **Booking settings** also has the feature switches (payments, attendance, calendar groups), the sender of all
-  event e-mails (saving updates them) and a signature for the `##signature##` tag, and the booking form texts
-  (empty fields use the default texts, shown in grey).
+- **Booking settings**, in five pages:
+  - **General**: the feature switches (attendance, calendar groups, one booking per course); a calendar whose
+    booking settings (places, deadlines, registration fields, e-mail domains, e-mails, reminders, price) every new
+    calendar starts with; the number of missed events for the repeat no-show list; the booking form texts (empty
+    fields use the default texts, shown in grey); and removing the personal data of old bookings: once a day,
+    bookings of events that ended more than the chosen number of months ago are anonymised (places, attendance and
+    payment amounts are kept) or deleted. Anonymising also clears text columns of the subscription table that are
+    no longer defined, e.g. left over from an older extension.
+  - **Payments**: switches payments on. The Payments menu item, the price settings and the payment providers
+    appear once it is on.
+  - **E-mails**: the sender of all event e-mails (saving updates them) and the signature for the `##signature##` tag.
+  - **Certificates**: certificates of attendance on or off, the organisation name and who signs.
+  - **Before and after events**: the trainer pack and after-the-event e-mails, and the hour the trainer pack goes out.
+
+  Each page saves only its own settings. Each is its own back end module (`event_settings`,
+  `event_settings_payments`, `event_settings_emails`, `event_settings_certificates`, `event_settings_mailings`),
+  so a user group can be given only some of them.
 - **Old booking data**: the past events whose bookings still have personal data, older than a chosen number of
   months (the retention setting by default). Tick events, or all of them, and delete or anonymise their bookings.
   The events themselves are kept.
@@ -149,7 +160,7 @@ calendar filter and a CSV download.
   reports were added. Bookings deleted by hand in the back end are not counted.
 
 **Repeat no-shows** lists people who booked and did not attend at least N events in the last 12 months (3 by default,
-Events › Setup › Booking settings › Reports). Waiting list places never count. The same people are marked "missed N"
+Events › Setup › Booking settings › General). Waiting list places never count. The same people are marked "missed N"
 in the Subscribers list. Click a name in the Subscribers list or the no-show list for **all their bookings** (outcome
 for each, with an export). The history only shows the calendars the user may access.
 

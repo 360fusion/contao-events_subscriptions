@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\Backend\Module;
 
+use Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer;
 use Codefog\EventsSubscriptionsBundle\Features;
 use Contao\BackendTemplate;
 use Contao\Config;
@@ -20,14 +21,32 @@ class SetupModule
 
     public function generate(): string
     {
+        System::loadLanguageFile('tl_events_subscriptions_settings');
+
         $db = Database::getInstance();
         $security = System::getContainer()->get('security.helper');
         $router = System::getContainer()->get('router');
         $L = $GLOBALS['TL_LANG']['MOD'];
+        $S = $GLOBALS['TL_LANG']['tl_events_subscriptions_settings'];
+        $can = static fn (string $module) => $security->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_MODULE, $module);
+        $on = static fn (bool $value) => $S['setupStatus'][$value ? 'on' : 'off'];
         $tiles = [];
+        $settings = [];
+
+        // Booking settings: one page for each area
+        $status = [
+            'event_settings_payments' => $on(Features::payments()),
+            'event_settings_certificates' => $on(Features::certificates()),
+            'event_settings_mailings' => sprintf($S['setupStatus']['mailings'], \count(array_filter([Config::get('eventsSubscriptionsTrainerNotification'), Config::get('eventsSubscriptionsFollowUpNotification')]))),
+        ];
+
+        foreach (SettingsContainer::PAGES as $module => $palette) {
+            if ($can($module)) {
+                $settings[] = ['title' => $S['sections'][$module], 'description' => $L[$module][1], 'icon' => 'settings.svg', 'count' => $status[$module] ?? '', 'href' => $router->generate('contao_backend', ['do' => $module])];
+            }
+        }
 
         $areas = [
-            'event_settings' => ['icon' => 'settings.svg'],
             'event_health' => ['icon' => 'important.svg'],
             'event_retention' => ['icon' => 'delete.svg'],
             'event_fields' => ['table' => 'tl_calendar_events_subscription_field', 'icon' => 'modules.svg', 'count' => 'SELECT COUNT(*) AS n FROM tl_calendar_events_subscription_field WHERE disabled=0'],
@@ -35,7 +54,7 @@ class SetupModule
         ];
 
         foreach ($areas as $module => $area) {
-            if (!$security->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_MODULE, $module) || ('event_payment_providers' === $module && !Features::payments())) {
+            if (!$can($module) || ('event_payment_providers' === $module && !Features::payments())) {
                 continue;
             }
 
@@ -44,7 +63,6 @@ class SetupModule
                 'description' => $L[$module][1],
                 'icon' => $area['icon'],
                 'count' => match ($module) {
-                    'event_settings' => '',
                     // Past events whose bookings still have personal data
                     'event_retention' => (int) $db->prepare("SELECT COUNT(DISTINCT e.id) AS n FROM tl_calendar_events e JOIN tl_calendar_events_subscription s ON s.pid=e.id AND s.lastname!=? WHERE GREATEST(e.startTime, e.endTime)<?")->execute(\Codefog\EventsSubscriptionsBundle\Retention::ANONYMISED, strtotime(sprintf('-%d months', \Codefog\EventsSubscriptionsBundle\Retention::months())))->n,
                     // Number of checks that need attention
@@ -67,7 +85,10 @@ class SetupModule
         }
 
         $template = new BackendTemplate('be_events_subscriptions_setup');
-        $template->tiles = $tiles;
+        $template->sections = array_values(array_filter([
+            ['title' => $S['setupSections']['settings'], 'tiles' => $settings],
+            ['title' => $S['setupSections']['tools'], 'tiles' => $tiles],
+        ], static fn (array $section) => $section['tiles']));
 
         return $template->parse();
     }

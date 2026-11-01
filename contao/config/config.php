@@ -86,6 +86,22 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
         'tables' => ['tl_events_subscriptions_settings'],
         'hideInNavigation' => true,
     ],
+    'event_settings_payments' => [
+        'tables' => ['tl_events_subscriptions_settings'],
+        'hideInNavigation' => true,
+    ],
+    'event_settings_emails' => [
+        'tables' => ['tl_events_subscriptions_settings'],
+        'hideInNavigation' => true,
+    ],
+    'event_settings_certificates' => [
+        'tables' => ['tl_events_subscriptions_settings'],
+        'hideInNavigation' => true,
+    ],
+    'event_settings_mailings' => [
+        'tables' => ['tl_events_subscriptions_settings'],
+        'hideInNavigation' => true,
+    ],
     'event_retention' => [
         'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\RetentionModule',
         'hideInNavigation' => true,

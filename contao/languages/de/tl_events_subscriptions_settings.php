@@ -47,3 +47,8 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsNoSh
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['mailings_legend'] = 'Vor und nach der Veranstaltung';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['certificate_legend'] = 'Bescheinigung';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['reports_legend'] = 'Berichte';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['sections'] = ['event_settings' => 'Allgemein', 'event_settings_payments' => 'Zahlungen', 'event_settings_emails' => 'E-Mails', 'event_settings_certificates' => 'Bescheinigungen', 'event_settings_mailings' => 'Vor und nach Veranstaltungen'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['setupSections'] = ['settings' => 'Buchungseinstellungen', 'tools' => 'Werkzeuge und Daten'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['setupStatus'] = ['on' => 'An', 'off' => 'Aus', 'mailings' => '%s von 2 an'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['payments_legend'] = 'Zahlungen';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['paymentsHint'] = 'Die Konten für Kartenzahlungen richten Sie unter <a href="%s">Zahlungsanbieter</a> ein.';

@@ -7,10 +7,37 @@ use Codefog\EventsSubscriptionsBundle\Features;
 use Contao\Config;
 use Contao\Database;
 use Contao\Input;
+use Contao\Message;
 use Contao\System;
 
 class SettingsContainer
 {
+    /**
+     * The back end module of each settings page => its palette
+     */
+    public const PAGES = [
+        'event_settings' => 'default',
+        'event_settings_payments' => 'payments',
+        'event_settings_emails' => 'emails',
+        'event_settings_certificates' => 'certificates',
+        'event_settings_mailings' => 'mailings',
+    ];
+
+    /**
+     * Show only the settings of the page that was opened. Saving a page leaves the settings of the others as they are.
+     */
+    public function selectPalette(): void
+    {
+        $dca = &$GLOBALS['TL_DCA']['tl_events_subscriptions_settings'];
+        $page = self::PAGES[(string) Input::get('do')] ?? 'default';
+        $dca['palettes']['default'] = $dca['palettes'][$page];
+
+        if ('payments' === $page && Features::payments()) {
+            System::loadLanguageFile('tl_events_subscriptions_settings');
+            Message::addInfo(sprintf($GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['paymentsHint'], System::getContainer()->get('router')->generate('contao_backend', ['do' => 'event_payment_providers'])));
+        }
+    }
+
     /**
      * Calendars with subscriptions, to copy the booking settings of
      */

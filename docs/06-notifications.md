@@ -137,7 +137,7 @@ changing the e-mail. Meant for plain text e-mails.
 ### Trainer pack and after-the-event e-mails
 
 Two more e-mail types are sent by the site on its own once an e-mail of that type is chosen under Events › Setup ›
-Booking settings › Before and after the event. Each is sent once for every event or booking, from the hourly cron job.
+Booking settings › Before and after events. Each is sent once for every event or booking, from the hourly cron job.
 
 - **Trainer pack the day before** (`events_subscriptions_trainer`): goes to the trainer e-mail address of the event,
   or of its course when the event has none, at the chosen hour (16:00 by default) for events starting tomorrow. An

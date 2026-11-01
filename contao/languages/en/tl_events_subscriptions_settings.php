@@ -47,3 +47,8 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsNoSh
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['mailings_legend'] = 'Before and after the event';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['certificate_legend'] = 'Certificate';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['reports_legend'] = 'Reports';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['sections'] = ['event_settings' => 'General', 'event_settings_payments' => 'Payments', 'event_settings_emails' => 'E-mails', 'event_settings_certificates' => 'Certificates', 'event_settings_mailings' => 'Before and after events'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['setupSections'] = ['settings' => 'Booking settings', 'tools' => 'Tools and data'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['setupStatus'] = ['on' => 'On', 'off' => 'Off', 'mailings' => '%s of 2 on'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['payments_legend'] = 'Payments';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['paymentsHint'] = 'Set up the accounts for card payments under <a href="%s">Payment providers</a>.';

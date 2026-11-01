@@ -3,19 +3,27 @@
 use Contao\DC_File;
 
 /*
- * Events › Setup › Booking settings. Stored in the system configuration, like System › Settings.
+ * Events › Setup › Booking settings, in five pages (General, Payments, E-mails, Certificates, Before and after events). Stored in the system configuration, like System › Settings.
  */
 $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
     'config' => [
         'dataContainer' => DC_File::class,
         'closed' => true,
-        'onload_callback' => [['Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer', 'showDefaultTexts']],
+        'onload_callback' => [
+            ['Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer', 'selectPalette'],
+            ['Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer', 'showDefaultTexts'],
+        ],
         'onsubmit_callback' => [['Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer', 'applySender']],
     ],
 
+    // One page for each area of Events › Setup › Booking settings, chosen by the module (see SettingsContainer::selectPalette())
     'palettes' => [
         '__selector__' => ['eventsSubscriptionsRetention'],
-        'default' => '{features_legend},eventsSubscriptionsPayments,eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse;{defaults_legend},eventsSubscriptionsTemplateCalendar;{emails_legend},eventsSubscriptionsSenderName,eventsSubscriptionsSenderAddress,eventsSubscriptionsSignature;{mailings_legend},eventsSubscriptionsTrainerNotification,eventsSubscriptionsTrainerHour,eventsSubscriptionsFollowUpNotification;{certificate_legend},eventsSubscriptionsCertificate,eventsSubscriptionsCertificateOrganisation,eventsSubscriptionsCertificateSignedBy;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation;{retention_legend},eventsSubscriptionsRetention',
+        'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation;{retention_legend},eventsSubscriptionsRetention',
+        'payments' => '{payments_legend},eventsSubscriptionsPayments',
+        'emails' => '{emails_legend},eventsSubscriptionsSenderName,eventsSubscriptionsSenderAddress,eventsSubscriptionsSignature',
+        'certificates' => '{certificate_legend},eventsSubscriptionsCertificate,eventsSubscriptionsCertificateOrganisation,eventsSubscriptionsCertificateSignedBy',
+        'mailings' => '{mailings_legend},eventsSubscriptionsTrainerNotification,eventsSubscriptionsTrainerHour,eventsSubscriptionsFollowUpNotification',
     ],
 
     'subpalettes' => [
