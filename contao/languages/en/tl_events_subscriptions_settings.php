@@ -100,5 +100,5 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['status'] = [
     'mailingsReady' => 'E-mails ready to choose: %s trainer pack, %s after the event. If a number is 0, create that e-mail in {emails} first.',
     'trainerEvents' => '%s upcoming events have a trainer e-mail address, so would send a trainer pack.',
 ];
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsVenues'] = ['Venues and locations', 'Keep a list of the places events are held. Adds Venues and locations to the Events menu and a Venue choice on every event, which fills in the location and address shown on the website.'];
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTrainers'] = ['Trainers', 'Keep a list of trainers with their e-mail addresses. Adds Trainers to the Events menu and a Trainer choice on events and courses, used for the trainer pack e-mail.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsVenues'] = ['Venues and locations', 'Keep a list of the places events are held. Adds Venues and locations to the Settings page and a Venue choice on every event, which fills in the location and address shown on the website.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTrainers'] = ['Trainers', 'Keep a list of trainers with their e-mail addresses. Adds Trainers to the Settings page and a Trainer choice on events and courses, used for the trainer pack e-mail.'];

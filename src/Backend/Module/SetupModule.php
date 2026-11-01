@@ -54,6 +54,15 @@ class SetupModule
             if ('event_settings' === $module && $can('event_fields')) {
                 $settings[] = ['title' => $L['event_fields'][0], 'description' => $L['event_fields'][1], 'icon' => 'modules.svg', 'count' => (int) $db->query('SELECT COUNT(*) AS n FROM tl_calendar_events_subscription_field WHERE disabled=0')->n, 'href' => $router->generate('contao_backend', ['do' => 'event_fields'])];
             }
+
+            // The lists of places and trainers, once switched on in General, are managed from here too
+            if ('event_settings' === $module) {
+                foreach (['event_venues' => [Features::venues(), 'tl_calendar_events_venue', 'show.svg'], 'event_trainers' => [Features::trainers(), 'tl_calendar_events_trainer', 'member.svg']] as $list => [$enabled, $table, $icon]) {
+                    if ($enabled && $can($list)) {
+                        $settings[] = ['title' => $L[$list][0], 'description' => $L[$list][1], 'icon' => $icon, 'count' => (int) $db->query("SELECT COUNT(*) AS n FROM $table")->n, 'href' => $router->generate('contao_backend', ['do' => $list])];
+                    }
+                }
+            }
         }
 
         $areas = [

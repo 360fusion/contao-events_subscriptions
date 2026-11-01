@@ -106,7 +106,7 @@ separately in the user group permissions:
   for its own subscribers)
 - **Payments**: payments, refunds and invoices (when switched on)
 - **Settings**: a "Booking settings" section with a tile for each of the five settings pages, the registration
-  fields and (once payments are on) the payment providers, and a "Tools and data" section with the e-mail templates,
+  fields, the venues and trainers (once switched on) and the payment providers (once payments are on), and a "Tools and data" section with the e-mail templates,
   the reports, the health check, old booking data and (when switched on) the calendar groups
 
 ### Settings
@@ -168,7 +168,7 @@ for each, with an export). The history only shows the calendars the user may acc
 
 ## Venues and locations
 
-Switch it on in Events › Settings › Booking settings › General. Events › Venues and locations then keeps the places
+Switch it on in Events › Settings › Booking settings › General. Events › Settings › Venues and locations then keeps the places
 events are held: name, street, town, postcode, "Getting there" (directions and parking), "Accessibility", a map link, and
 whether the place is still offered on events. The list shows the address and how many events use each place.
 
@@ -184,11 +184,11 @@ venue choice to type them yourself again.
 - The event page shows the directions, the accessibility information and a "View map" link under the location (the
   site's own `event_full` template needs no change). The e-mail tags are `##event_venue_directions##`,
   `##event_venue_accessibility##` and `##event_venue_map##`.
-- Switching venues off hides the menu item and the Venue choice; events keep their location and address.
+- Switching venues off hides the tile and the Venue choice; events keep their location and address.
 
 ## Trainers
 
-Switch it on in Events › Settings › Booking settings › General. Events › Trainers then keeps the people who run events:
+Switch it on in Events › Settings › Booking settings › General. Events › Settings › Trainers then keeps the people who run events:
 name, e-mail address and whether they are still offered. The list shows how many events and courses use each trainer.
 
 Events and courses get a **Trainer** choice above the *Trainer e-mail address*. The trainer pack e-mail goes to:
@@ -200,7 +200,7 @@ On the same event or course, a chosen trainer comes before a typed address. Use 
 in the list. The address is read when the pack is sent, so changing a trainer's e-mail address changes it for every event
 and course that uses them. Deleting a trainer copies their address into the typed address of the events and courses that
 used them, so their packs still go out. Unticking *Available for events* hides a trainer from the choice; events that
-already use them keep them. Switching Trainers off hides the menu item and the choice; a trainer already chosen is still
+already use them keep them. Switching Trainers off hides the tile and the choice; a trainer already chosen is still
 used. The trainer's name is the e-mail tag `##event_trainer_name##` (empty when only an address was typed).
 
 ## Settings
