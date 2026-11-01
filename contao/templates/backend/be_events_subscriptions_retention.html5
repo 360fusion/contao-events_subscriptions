@@ -2,7 +2,7 @@
 <div class="maintenance_active">
     <h2 class="sub_headline"><?= $GLOBALS['TL_LANG']['MOD']['event_retention'][0] ?></h2>
 
-    <form action="<?= $e($this->filterAction) ?>" method="get" class="tl_tbox" style="padding:12px 18px;display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+    <form action="<?= $e($this->filterAction) ?>" method="get" class="tl_tbox" style="padding:20px 24px;display:flex;gap:16px 24px;align-items:flex-end;flex-wrap:wrap">
         <input type="hidden" name="do" value="event_retention">
         <label><?= $L['retentionOlderThan'] ?><br>
             <input type="number" name="months" min="1" value="<?= $this->months ?>" class="tl_text" style="width:110px"> <?= $L['retentionMonths'] ?>
@@ -18,8 +18,8 @@
         <p class="tl_help tl_tip" style="flex:1 1 100%;margin:0"><?= $L['retentionHelp'] ?></p>
     </form>
 
-    <div class="tl_tbox" style="padding:12px 18px">
-        <p class="tl_info" style="margin:0 0 12px"><?= sprintf($L['retentionSummary'], number_format($this->events), number_format($this->bookings), $this->months) ?></p>
+    <div class="tl_tbox" style="padding:20px 24px">
+        <p class="tl_info" style="margin:0 0 20px"><?= sprintf($L['retentionSummary'], number_format($this->events), number_format($this->bookings), $this->months) ?></p>
 
         <?php if ($this->rows): ?>
             <form id="events-retention" action="<?= $e($this->action) ?>" method="post">
@@ -36,7 +36,7 @@
                 <button type="submit" class="tl_submit"><?= $L['retentionApply'] ?></button>
                 <?php $bar = ob_get_clean(); ?>
 
-                <div class="events-retention-bar" style="border-bottom:1px solid var(--border, #ddd);margin-bottom:14px"><?= $bar ?></div>
+                <div class="events-retention-bar" style="border-bottom:1px solid var(--border, #ddd);margin-bottom:20px"><?= $bar ?></div>
 
                 <table class="tl_listing showColumns">
                     <thead>
@@ -63,9 +63,9 @@
 
                 <?= $this->pagination ?>
 
-                <div class="events-retention-bar" style="border-top:1px solid var(--border, #ddd);margin-top:14px"><?= $bar ?></div>
+                <div class="events-retention-bar" style="border-top:1px solid var(--border, #ddd);margin-top:20px"><?= $bar ?></div>
             </form>
-            <style>.events-retention-bar{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:12px 0}</style>
+            <style>.events-retention-bar{display:flex;gap:16px 24px;align-items:center;flex-wrap:wrap;padding:16px 0}#events-retention .tl_listing th,#events-retention .tl_listing td{padding:12px 14px}</style>
             <script>
                 (() => {
                     const form = document.getElementById('events-retention');
