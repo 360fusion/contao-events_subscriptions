@@ -56,10 +56,12 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] 
 
 // Palettes
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_override';
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_customEmailDomains';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_waitingList';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_memberGroupsLimit';
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_numberOfParticipants';
-$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_types,subscription_emailDomains,subscription_memberGroupsLimit,subscription_maximum,subscription_uniqueEmails,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_fields,subscription_waitingList,subscription_disableReminders';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_customEmailDomains'] = 'subscription_emailDomains';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override'] = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_uniqueEmails,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_fields,subscription_waitingList,subscription_disableReminders';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_numberOfParticipants'] = 'subscription_numberOfParticipantsLimit';
@@ -101,6 +103,13 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_fields'] = [
     ],
     'eval' => ['sortable' => true, 'actions' => ['copy', 'delete'], 'min' => 1, 'tl_class' => 'clr'],
     'sql' => ['type' => Types::BLOB, 'notnull' => false],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_customEmailDomains'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_customEmailDomains'],
+    'inputType' => 'checkbox',
+    'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
+    'sql' => ['type' => Types::BOOLEAN, 'default' => false],
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_emailDomains'] = [

@@ -82,8 +82,13 @@ Registration fields apply to guest subscriptions only.
 ### Allowed e-mail domains
 
 You can limit guest subscriptions to e-mail addresses from certain domains, for example so that only staff with a
-company address can book. Enter one domain per line in "Allowed e-mail domains" in the calendar or event settings.
-Leave the list empty to allow all e-mail addresses.
+company address can book. Enter one domain per line in "Allowed e-mail domains" in the calendar settings. All events
+of the calendar use this list, and later changes to it apply to them too. Leave the list empty to allow all e-mail
+addresses.
+
+To use a different list for a single event, check "Custom e-mail domains" in the event and enter its own list (an
+empty custom list allows all e-mail addresses). This is independent of "Override subscription settings", so the
+event keeps all other settings of its calendar.
 
 - `example.com` or `.example.com` allows the domain and all its subdomains (`staff@example.com`, `staff@hr.example.com`)
 - `@example.com` allows only this exact domain (`staff@example.com`, but not `staff@hr.example.com`)
