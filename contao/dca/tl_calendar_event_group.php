@@ -28,6 +28,7 @@ $GLOBALS['TL_DCA']['tl_calendar_event_group'] = [
         'sorting' => [
             'mode' => DataContainer::MODE_PARENT,
             'fields' => ['title'],
+            'disableGrouping' => true,
             'headerFields' => ['title'],
             'panelLayout' => 'search,limit',
         ],

@@ -79,3 +79,18 @@ a new calendar. Click the folder icon of a calendar to manage its event groups (
 then pick the group in each event's settings. The event group can be used as a filter in the calendar's event list,
 on the upcoming events page, and it is added as a column to the exports.
 
+Event groups have the same booking settings as an event (override, custom e-mail domains, custom notifications).
+They apply to the events of the group that do not override them, so the order is: event, event group, calendar.
+Each event group has an export button that exports the subscriptions of all its events into one file.
+
+## Attendance
+
+Each subscription in the subscription list has an "Attended" toggle. Tick it once the person attended; the
+subscription list can be filtered by it and the exports have an "Attended" column.
+
+## Permissions of new calendars
+
+When an administrator creates a calendar, the "Back end permissions" of the new calendar are pre-selected with
+every user group that can access the events module, so editors can manage the new calendar straight away.
+Untick a group before saving to keep the calendar from it.
+

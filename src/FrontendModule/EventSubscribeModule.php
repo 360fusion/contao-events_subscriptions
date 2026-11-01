@@ -91,5 +91,8 @@ class EventSubscribeModule extends Module
         }
 
         $this->Template->event = $this->event->row();
+
+        // Served by the event reader module ("Event reader subscribe")
+        $this->Template->icsHref = System::getContainer()->get('contao.routing.content_url_generator')->generate($this->event, ['ics' => 1]);
     }
 }

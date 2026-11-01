@@ -52,9 +52,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['label']['label_callback'] = ['Codefog
 // Summary above the calendar list
 $GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'addSubscriptionsSummary'];
 
-// New calendars are available to the user groups that manage events
-$GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'preselectPermissions'];
-
 // List operations
 $GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['subscriptions_overview'] = [
     'href' => 'key=subscriptions_overview',

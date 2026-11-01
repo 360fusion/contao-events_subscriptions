@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Codefog\EventsSubscriptionsBundle\Cache\RegistrationFieldsCacheWarmer;
+use Codefog\EventsSubscriptionsBundle\EventListener\NewCalendarPermissionsListener;
 use Codefog\EventsSubscriptionsBundle\ExporterHelper;
 use Codefog\EventsSubscriptionsBundle\NotificationCenterHelper;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -26,6 +27,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services
         ->set(ExporterHelper::class)
         ->public()
+    ;
+
+    // New calendars are available to the user groups that manage events
+    $services
+        ->set(NewCalendarPermissionsListener::class)
+        ->autoconfigure(false)
+        ->tag('contao.hook', ['hook' => 'loadDataContainer', 'priority' => -100])
     ;
 
     // Must run after Contao's cache warmer (priority 0), which writes the DCA extracts

@@ -2,6 +2,10 @@
 
 <?php $this->block('content'); ?>
 
+<?php if ($this->icsHref): ?>
+  <p class="ics"><a href="<?= $this->icsHref ?>" download><?= $GLOBALS['TL_LANG']['MSC']['events_subscriptions.addToCalendar'] ?></a></p>
+<?php endif; ?>
+
 <?php $this->insert('eventsubscription_form', $this->getData()) ?>
 
 <?php $this->endblock(); ?>

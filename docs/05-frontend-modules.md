@@ -30,12 +30,25 @@ later, so the module never needs editing. The event list (and Contao's own event
 `?month=YYYYMM` in the URL. An alias that does not exist shows no events.
 
 
+### Add to calendar
+
+The event reader (`?ics=1` on the event URL) returns the event as an iCalendar file. The `event_full_subscribe`
+and `mod_event_subscribe` templates show an "Add to calendar" link, and the notifications have an `event_ics_link`
+token. The event reader module ("Event reader subscribe") must be on the event page for the file to be served.
+
+### Event group heading
+
+With "Filter by URL", the event list shows the chosen event group (or calendar) as its headline and the group's
+description above the events, and uses it as the page title.
+
+
 ## Event navigation
 
 Lists the calendars and their event groups, with the number of upcoming events, linking to the redirect page
 (or the current page) with `?calendar=` or `?group=`. Place it next to an event list with "Filter by URL". Choose
 the `mod_event_navigation_filter` template to show it as a form with category, event group and month dropdowns
-instead of a menu. Calendars and groups without upcoming events can be hidden.
+instead of a menu. Calendars and groups without upcoming events can be hidden. The module loads a small default
+stylesheet (`bundles/codefogeventssubscriptions/event-navigation.css`) that the theme can override.
 
 
 ## Subscribe event form

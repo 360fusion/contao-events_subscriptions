@@ -105,6 +105,8 @@ The list of available tokens in every notification:
 
    A link to the event itself.
 
+   `event_ics_link` is a link to the event's "Add to calendar" (.ics) file.
+
 9. `days_before_event`
 
    A number of days before the event, `0` if the event is past.
