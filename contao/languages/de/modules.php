@@ -28,3 +28,7 @@ $GLOBALS['TL_LANG']['FMD']['event_subscriptions']    = [
     'Mitglied Anmeldeliste',
     'Fügt eine Liste aller Events hinzu, zu denen das aktuelle Mitglied angemeldet ist.',
 ];
+$GLOBALS['TL_LANG']['FMD']['event_navigation']     = [
+    'Veranstaltungsnavigation',
+    'Listet die Kalender und ihre Veranstaltungsgruppen als Navigation oder Filter auf, mit Links zu einer Veranstaltungsliste mit "Nach URL filtern".',
+];

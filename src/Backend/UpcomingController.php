@@ -30,6 +30,7 @@ class UpcomingController extends OverviewController
         $filters = [
             'search' => trim((string) Input::get('search')),
             'calendar' => (int) Input::get('calendar'),
+            'eventGroup' => (int) Input::get('eventGroup'),
             'group' => Config::get('eventsSubscriptionsCalendarGroups') ? (int) Input::get('group') : 0,
             'from' => trim((string) Input::get('from')),
             'to' => trim((string) Input::get('to')),
@@ -48,6 +49,11 @@ class UpcomingController extends OverviewController
         if ($filters['calendar']) {
             $where[] = 'tl_calendar_events.pid=?';
             $values[] = $filters['calendar'];
+        }
+
+        if ($filters['eventGroup']) {
+            $where[] = 'tl_calendar_events.eventGroup=?';
+            $values[] = $filters['eventGroup'];
         }
 
         if ($filters['group']) {
@@ -104,6 +110,7 @@ class UpcomingController extends OverviewController
         $template->filterAction = strtok(Environment::get('requestUri'), '?');
         $template->filterHidden = ['do' => Input::get('do'), 'key' => Input::get('key'), 'rt' => Input::get('rt')];
         $template->calendarOptions = $this->getOptions('SELECT id, title FROM tl_calendar WHERE subscription_enable=1 ORDER BY title');
+        $template->eventGroupOptions = $this->getEventGroupOptions();
         $template->groupOptions = Config::get('eventsSubscriptionsCalendarGroups') ? $this->getOptions('SELECT id, title FROM tl_calendar_group ORDER BY title') : [];
         $template->summary = sprintf(
             $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.summary'],
@@ -112,6 +119,24 @@ class UpcomingController extends OverviewController
         );
 
         return $template->parse();
+    }
+
+    /**
+     * Event groups of the calendars with subscriptions, by calendar title (all of them, as the live search only refreshes the results)
+     *
+     * @return array<string, array<int, string>>
+     */
+    private function getEventGroupOptions(): array
+    {
+        $options = [];
+        $result = Database::getInstance()
+            ->query('SELECT g.id, g.title, c.title AS calendarTitle FROM tl_calendar_event_group g JOIN tl_calendar c ON c.id=g.pid WHERE c.subscription_enable=1 ORDER BY c.title, g.sorting');
+
+        while ($result->next()) {
+            $options[$result->calendarTitle][$result->id] = $result->title;
+        }
+
+        return $options;
     }
 
     private function parseDate(string $value): int|null

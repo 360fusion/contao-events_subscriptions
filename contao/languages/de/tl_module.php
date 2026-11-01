@@ -20,3 +20,19 @@ $GLOBALS['TL_LANG']['tl_module']['jumpTo_unsubscribe'] = [
     'Abmeldung Bestätigungsseite',
     'Bitte wählen Sie die Bestätigungsseite, auf die der Besucher nach der Abmeldung vom Event weitergeleitet wird.',
 ];
+$GLOBALS['TL_LANG']['tl_module']['cal_allCalendars'] = [
+    'Alle Kalender',
+    'Die Veranstaltungen aller Kalender anzeigen, auch später angelegter, damit das Modul nie angepasst werden muss.',
+];
+$GLOBALS['TL_LANG']['tl_module']['cal_filterByUrl'] = [
+    'Nach URL filtern',
+    'Nur die Veranstaltungen des Kalenders, der Veranstaltungsgruppe und des Monats aus der URL anzeigen (?calendar=, ?group=, ?month=), wie vom Modul Veranstaltungsnavigation verlinkt.',
+];
+$GLOBALS['TL_LANG']['tl_module']['cal_hideEmptyGroups'] = [
+    'Leere Einträge ausblenden',
+    'Kalender und Veranstaltungsgruppen ohne kommende Veranstaltungen ausblenden.',
+];
+$GLOBALS['TL_LANG']['tl_module']['cal_showCounts'] = [
+    'Anzahl anzeigen',
+    'Die Anzahl kommender Veranstaltungen neben jedem Eintrag anzeigen.',
+];

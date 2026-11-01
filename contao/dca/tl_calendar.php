@@ -59,6 +59,29 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['subscriptions_overview'
     'button_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'getSubscriptionsOverviewButton'],
 ];
 
+// Event groups: the calendar is the category, its event groups are the courses within it
+$GLOBALS['TL_DCA']['tl_calendar']['config']['ctable'][] = 'tl_calendar_event_group';
+
+$GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['event_groups'] = [
+    'href' => 'table=tl_calendar_event_group',
+    'icon' => 'folderC.svg',
+    'primary' => true,
+];
+
+PaletteManipulator::create()
+    ->addField('alias', 'title', PaletteManipulator::POSITION_AFTER)
+    ->applyToPalette('default', 'tl_calendar');
+
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['alias'] = [
+    'search' => true,
+    'inputType' => 'text',
+    'eval' => ['rgxp' => 'alias', 'doNotCopy' => true, 'unique' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
+    'save_callback' => [
+        ['Codefog\EventsSubscriptionsBundle\DataContainer\EventGroupContainer', 'generateAlias'],
+    ],
+    'sql' => "varchar(255) BINARY NOT NULL default ''",
+];
+
 // Palettes
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_enable';
 $GLOBALS['TL_DCA']['tl_calendar']['palettes']['__selector__'][] = 'subscription_waitingList';

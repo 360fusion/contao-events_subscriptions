@@ -114,3 +114,6 @@ $GLOBALS['TL_LANG']['tl_calendar']['showEvents'] = 'Die Events des Kalenders ID 
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.dynamicSearch'] = 'Dynamische Suche';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.dynamicSearchPlaceholder'] = 'Eventtitel durchsuchen…';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.dynamicSearchHelp'] = 'Beliebige Wörter aus einem Eventtitel in beliebiger Reihenfolge eingeben. Die Liste aktualisiert sich während der Eingabe.';
+$GLOBALS['TL_LANG']['tl_calendar']['alias'] = ['Alias', 'Wird in den Links der Veranstaltungsnavigation verwendet (?calendar=alias). Wird aus dem Titel erzeugt, wenn leer.'];
+$GLOBALS['TL_LANG']['tl_calendar']['event_groups'] = ['Veranstaltungsgruppen', 'Die Veranstaltungsgruppen von Kalender ID %s verwalten'];
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.eventGroup'] = 'Veranstaltungsgruppe';

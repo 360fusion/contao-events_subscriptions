@@ -15,6 +15,11 @@
             <label style="flex:2 1 220px"><?= $L['subscriptions_upcoming.calendar'] ?><br>
                 <select name="calendar" class="tl_select"><option value="">-</option><?php foreach ($this->calendarOptions as $id => $title): ?><option value="<?= $id ?>"<?= $f['calendar'] === $id ? ' selected' : '' ?>><?= $e($title) ?></option><?php endforeach; ?></select>
             </label>
+            <?php if ($this->eventGroupOptions): ?>
+                <label style="flex:2 1 200px"><?= $L['subscriptions_upcoming.eventGroup'] ?><br>
+                    <select name="eventGroup" class="tl_select"><option value="">-</option><?php foreach ($this->eventGroupOptions as $calendarTitle => $groups): ?><optgroup label="<?= $e($calendarTitle) ?>"><?php foreach ($groups as $id => $title): ?><option value="<?= $id ?>"<?= $f['eventGroup'] === $id ? ' selected' : '' ?>><?= $e($title) ?></option><?php endforeach; ?></optgroup><?php endforeach; ?></select>
+                </label>
+            <?php endif; ?>
             <?php if ($this->groupOptions): ?>
                 <label style="flex:1 1 160px"><?= $L['subscriptions_upcoming.group'] ?><br>
                     <select name="group" class="tl_select"><option value="">-</option><?php foreach ($this->groupOptions as $id => $title): ?><option value="<?= $id ?>"<?= $f['group'] === $id ? ' selected' : '' ?>><?= $e($title) ?></option><?php endforeach; ?></select>

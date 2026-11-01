@@ -1,0 +1,48 @@
+<?php $this->extend('block_unsearchable'); ?>
+
+<?php $this->block('content'); ?>
+
+<form action="<?= $this->action ?>" method="get" class="event-filter">
+  <div class="widget widget-select">
+    <label for="ctrl_calendar_<?= $this->id ?>"><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.calendar'] ?></label>
+    <select name="calendar" id="ctrl_calendar_<?= $this->id ?>" class="select">
+      <option value=""><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.all'] ?></option>
+      <?php foreach ($this->items as $calendar): ?>
+        <option value="<?= $this->escape($calendar['value']) ?>"<?php if ((string) $calendar['value'] === $this->current['calendar']): ?> selected<?php endif; ?>><?= $this->escape($calendar['title']) ?><?php if ($this->showCounts): ?> (<?= $calendar['count'] ?>)<?php endif; ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+
+  <div class="widget widget-select">
+    <label for="ctrl_group_<?= $this->id ?>"><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.group'] ?></label>
+    <select name="group" id="ctrl_group_<?= $this->id ?>" class="select">
+      <option value=""><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.all'] ?></option>
+      <?php foreach ($this->items as $calendar): ?>
+        <?php if ($calendar['groups']): ?>
+          <optgroup label="<?= $this->escape($calendar['title']) ?>">
+            <?php foreach ($calendar['groups'] as $group): ?>
+              <option value="<?= $this->escape($group['value']) ?>"<?php if ((string) $group['value'] === $this->current['group']): ?> selected<?php endif; ?>><?= $this->escape($group['title']) ?><?php if ($this->showCounts): ?> (<?= $group['count'] ?>)<?php endif; ?></option>
+            <?php endforeach; ?>
+          </optgroup>
+        <?php endif; ?>
+      <?php endforeach; ?>
+    </select>
+  </div>
+
+  <div class="widget widget-select">
+    <label for="ctrl_month_<?= $this->id ?>"><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.month'] ?></label>
+    <select name="month" id="ctrl_month_<?= $this->id ?>" class="select">
+      <option value=""><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.anyMonth'] ?></option>
+      <?php foreach ($this->months as $value => $label): ?>
+        <option value="<?= $value ?>"<?php if ((string) $value === $this->current['month']): ?> selected<?php endif; ?>><?= $label ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+
+  <div class="widget widget-submit">
+    <button type="submit" class="submit"><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.filter'] ?></button>
+    <?php if ($this->isFiltered): ?><a href="<?= $this->resetHref ?>" class="reset"><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.reset'] ?></a><?php endif; ?>
+  </div>
+</form>
+
+<?php $this->endblock(); ?>

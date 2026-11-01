@@ -99,3 +99,5 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeNotification'] 
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeNotification'] = ['Abmelde-Benachrichtigung', 'Die Benachrichtigung bei der Abmeldung. Leer lassen, um die des Kalenders zu verwenden.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_listUpdateNotification'] = ['Nachrück-Benachrichtigung', 'Die Benachrichtigung, wenn jemand von der Warteliste nachrückt. Leer lassen, um die des Kalenders zu verwenden.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_notification'] = ['Erinnerungs-Benachrichtigung', 'Die Erinnerungs-Benachrichtigung, sofern der Kalender Erinnerungen sendet. Leer lassen, um die des Kalenders zu verwenden.'];
+
+$GLOBALS['TL_LANG']['tl_calendar_events']['eventGroup'] = ['Veranstaltungsgruppe', 'Die Veranstaltungsgruppe (zum Beispiel der Kurs) in diesem Kalender. Die Gruppen werden über das Ordnersymbol in der Kalenderliste verwaltet.'];

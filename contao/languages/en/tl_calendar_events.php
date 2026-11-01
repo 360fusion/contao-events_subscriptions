@@ -102,3 +102,5 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_subscribeNotification'] 
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_unsubscribeNotification'] = ['Unsubscribe notification', 'The notification sent on unsubscription. Leave empty to use the calendar\'s.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_listUpdateNotification'] = ['Waiting list promotion notification', 'The notification sent when a subscriber moves up from the waiting list. Leave empty to use the calendar\'s.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_notification'] = ['Reminder notification', 'The reminder notification, if the calendar sends reminders. Leave empty to use the calendar\'s.'];
+
+$GLOBALS['TL_LANG']['tl_calendar_events']['eventGroup'] = ['Event group', 'The event group (for example the course) within this calendar. Manage the groups with the folder icon in the calendar list.'];
