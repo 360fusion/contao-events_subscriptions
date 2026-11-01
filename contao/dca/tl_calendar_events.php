@@ -148,3 +148,13 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_lastNotificatio
     'eval' => ['rgxp' => 'datim', 'doNotCopy' => true],
     'sql' => ['type' => Types::STRING, 'length' => 10, 'default' => ''],
 ];
+
+// The subscription fields are shared with tl_calendar by reference. Contao 5.7 may load tl_calendar while
+// tl_calendar_events is still loading, and its default labels would then point to tl_calendar's language file.
+foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['fields'] as $name => &$field) {
+    if (str_starts_with($name, 'subscription_') && !array_key_exists('label', $field)) {
+        $field['label'] = &$GLOBALS['TL_LANG']['tl_calendar_events'][$name];
+    }
+}
+
+unset($field);
