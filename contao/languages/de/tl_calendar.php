@@ -86,3 +86,4 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary'] = '%s Kalender · %s
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary.link'] = 'Kommende Events und Anmeldungen anzeigen';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.headline'] = 'Kommende Events und Anmeldungen';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming'] = ['Kommende Events und Anmeldungen', 'Kommende Events und Anmeldungen'];
+$GLOBALS['TL_LANG']['tl_calendar']['showEvents'] = 'Die Events des Kalenders ID %s anzeigen';

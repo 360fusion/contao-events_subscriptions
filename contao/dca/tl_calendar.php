@@ -7,6 +7,9 @@ use Doctrine\DBAL\Types\Types;
 \Contao\Controller::loadDataContainer('tl_calendar_events');
 \Contao\System::loadLanguageFile('tl_calendar_events');
 
+// Link the calendar titles to their events
+$GLOBALS['TL_DCA']['tl_calendar']['list']['label']['label_callback'] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'generateLabel'];
+
 // Summary above the calendar list
 $GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'addSubscriptionsSummary'];
 
