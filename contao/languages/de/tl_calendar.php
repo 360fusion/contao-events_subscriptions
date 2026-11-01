@@ -109,3 +109,5 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.reset'] = 'Zurückset
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.summary'] = '%s Events · %s Plätze belegt';
 $GLOBALS['TL_LANG']['tl_calendar']['calendarGroup'] = ['Kalendergruppe', 'Die Gruppe, zu der dieser Kalender gehört.'];
 $GLOBALS['TL_LANG']['tl_calendar']['calendar_groups'] = ['Kalendergruppen', 'Die Kalendergruppen verwalten'];
+
+$GLOBALS['TL_LANG']['tl_calendar']['showEvents'] = 'Die Events des Kalenders ID %s anzeigen';
