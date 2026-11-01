@@ -125,6 +125,12 @@ Additionally you have to create and specify the reminder notification in the Not
 > In order to make reminders work with no problems make sure that Contao cron is executed
 > at least upon the sending time! The recommended way it to set the cron to be run every minute.
 
+### Always send reminders
+
+By default, subscribers can untick "send me reminders" on the subscription form. Check "Always send reminders" in the
+calendar's reminder settings, or in an event's overridden subscription settings, to hide that checkbox so every
+subscriber receives the reminders.
+
 
 ## Limit subscriptions per member and/or member group
 

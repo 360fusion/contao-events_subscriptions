@@ -145,7 +145,7 @@ abstract class AbstractSubscription implements FrontendDataInterface, ModuleData
         }
 
         // Disable reminder if they are turned on and the user explicitly does not request them
-        if ($event->hasReminders() && !$this->form->fetch('enableReminders')) {
+        if ($event->hasReminderOptOut() && !$this->form->fetch('enableReminders')) {
             $model->disableReminders = 1;
         }
 
@@ -187,7 +187,7 @@ abstract class AbstractSubscription implements FrontendDataInterface, ModuleData
             ]);
         }
 
-        if ($event->hasReminders()) {
+        if ($event->hasReminderOptOut()) {
             $form->addFormField('enableReminders', [
                 'inputType' => 'checkbox',
                 'default' => 1,

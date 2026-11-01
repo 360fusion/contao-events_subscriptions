@@ -123,6 +123,14 @@ class EventConfig
     }
 
     /**
+     * Return true if subscribers can opt out of the reminders
+     */
+    public function hasReminderOptOut(): bool
+    {
+        return $this->hasReminders() && !$this->get('subscription_disableReminders');
+    }
+
+    /**
      * Get the allowed subscription types
      *
      * @return array
