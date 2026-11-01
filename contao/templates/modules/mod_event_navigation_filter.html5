@@ -8,7 +8,7 @@
     <select name="calendar" id="ctrl_calendar_<?= $this->id ?>" class="select">
       <option value=""><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.all'] ?></option>
       <?php foreach ($this->items as $calendar): ?>
-        <option value="<?= $this->escape($calendar['value']) ?>"<?php if ((string) $calendar['value'] === $this->current['calendar']): ?> selected<?php endif; ?>><?= $this->escape($calendar['title']) ?><?php if ($this->showCounts): ?> (<?= $calendar['count'] ?>)<?php endif; ?></option>
+        <option value="<?= \Contao\StringUtil::specialchars($calendar['value']) ?>"<?php if ((string) $calendar['value'] === $this->current['calendar']): ?> selected<?php endif; ?>><?= \Contao\StringUtil::specialchars($calendar['title']) ?><?php if ($this->showCounts): ?> (<?= $calendar['count'] ?>)<?php endif; ?></option>
       <?php endforeach; ?>
     </select>
   </div>
@@ -19,9 +19,9 @@
       <option value=""><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.all'] ?></option>
       <?php foreach ($this->items as $calendar): ?>
         <?php if ($calendar['groups']): ?>
-          <optgroup label="<?= $this->escape($calendar['title']) ?>">
+          <optgroup label="<?= \Contao\StringUtil::specialchars($calendar['title']) ?>">
             <?php foreach ($calendar['groups'] as $group): ?>
-              <option value="<?= $this->escape($group['value']) ?>"<?php if ((string) $group['value'] === $this->current['group']): ?> selected<?php endif; ?>><?= $this->escape($group['title']) ?><?php if ($this->showCounts): ?> (<?= $group['count'] ?>)<?php endif; ?></option>
+              <option value="<?= \Contao\StringUtil::specialchars($group['value']) ?>"<?php if ((string) $group['value'] === $this->current['group']): ?> selected<?php endif; ?>><?= \Contao\StringUtil::specialchars($group['title']) ?><?php if ($this->showCounts): ?> (<?= $group['count'] ?>)<?php endif; ?></option>
             <?php endforeach; ?>
           </optgroup>
         <?php endif; ?>
