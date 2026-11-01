@@ -119,11 +119,53 @@ class Exporter
 
     public function exportByCalendar(CalendarModel $calendar, $startTstamp = null, $endTstamp = null, $format = self::FORMAT_CSV): \SplFileInfo
     {
+        [$data, $subscriptions] = $this->collectEventsData(CalendarEventsModel::findBy('pid', $calendar->id), $startTstamp, $endTstamp);
+
+        // Dispatch the event
+        $this->eventDispatcher->dispatch(
+            EventDispatcher::EVENT_ON_EXPORT_CALENDAR,
+            $event = new ExportCalendarEvent($data, $format, $calendar, $subscriptions)
+        );
+
+        $data = $event->getData();
+
+        return match ($format = $event->getFormat()) {
+            self::FORMAT_CSV => $this->exportToCsv($data),
+            self::FORMAT_EXCEL => $this->exportToExcel($data),
+            default => throw new \InvalidArgumentException(sprintf('Unsupported export type: %s', $format)),
+        };
+    }
+
+    /**
+     * Export the subscriptions of several calendars (e.g. a calendar group) into one file
+     *
+     * @param array<CalendarModel> $calendars
+     */
+    public function exportByCalendars(array $calendars, $startTstamp = null, $endTstamp = null, $format = self::FORMAT_CSV): \SplFileInfo
+    {
+        $ids = array_map(static fn (CalendarModel $calendar) => (int) $calendar->id, $calendars);
+        $events = $ids ? CalendarEventsModel::findBy(['pid IN ('.implode(',', $ids).')'], [], ['order' => 'startTime']) : null;
+
+        [$data] = $this->collectEventsData($events, $startTstamp, $endTstamp);
+
+        return match ($format) {
+            self::FORMAT_CSV => $this->exportToCsv($data),
+            self::FORMAT_EXCEL => $this->exportToExcel($data),
+            default => throw new \InvalidArgumentException(sprintf('Unsupported export type: %s', $format)),
+        };
+    }
+
+    /**
+     * Get the export rows (header first) and the subscriptions of the given events
+     *
+     * @return array{0: array, 1: array}
+     */
+    private function collectEventsData($events, $startTstamp, $endTstamp): array
+    {
         $data = [];
         $subscriptions = [];
 
-        // Get the reader data
-        if (($events = CalendarEventsModel::findBy('pid', $calendar->id)) !== null) {
+        if ($events !== null) {
             $columns = ['pid IN (' . implode(', ', $events->fetchEach('id')) . ')'];
             $values = [];
 
@@ -176,22 +218,11 @@ class Exporter
         }
 
         if (isset($exportColumns)) {
-            $data = [[$exportColumns], ...$data];
+            $data = [$exportColumns, ...$data];
         }
 
-        // Dispatch the event
-        $this->eventDispatcher->dispatch(
-            EventDispatcher::EVENT_ON_EXPORT_CALENDAR,
-            $event = new ExportCalendarEvent($data, $format, $calendar, $subscriptions)
-        );
+        return [$data, $subscriptions];
 
-        $data = $event->getData();
-
-        return match ($format = $event->getFormat()) {
-            self::FORMAT_CSV => $this->exportToCsv($data),
-            self::FORMAT_EXCEL => $this->exportToExcel($data),
-            default => throw new \InvalidArgumentException(sprintf('Unsupported export type: %s', $format)),
-        };
     }
 
     /**

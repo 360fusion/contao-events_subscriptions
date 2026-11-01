@@ -57,3 +57,17 @@ The calendar list shows a summary at the top: the number of calendars, live even
 ended yet, in calendars with subscriptions enabled) and subscriptions to those events. Its link opens a page listing
 all live events of all calendars by date, with their subscriptions, places and waiting list, and links to each
 event's subscriptions.
+
+The upcoming events page can be filtered by event title, calendar, calendar group, start date range and places
+(all events, events with places left, or full events). The line above the list counts the events and taken places
+that match the filters.
+
+## Calendar groups
+
+Enable "Calendar groups" in System › Settings to group calendars in the backend. A "Calendar groups" button then
+appears above the calendar list. Create a group and tick its calendars, or pick the group in a calendar's settings;
+each calendar belongs to one group. With groups enabled:
+
+- the calendar list is shown under group headings,
+- the upcoming events page can be filtered by group,
+- each group has an export button that exports the subscriptions of all its calendars into one CSV/Excel file.

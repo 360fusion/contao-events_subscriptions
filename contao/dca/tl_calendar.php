@@ -16,6 +16,34 @@ use Doctrine\DBAL\Types\Types;
     ],
 ]);
 
+// Calendar groups (System › Settings)
+if (\Contao\Config::get('eventsSubscriptionsCalendarGroups')) {
+    \Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 0, [
+        'calendar_groups' => [
+            'href' => 'table=tl_calendar_group',
+            'icon' => 'folderC.svg',
+            'attributes' => 'data-action="contao--scroll-offset#store"',
+        ],
+    ]);
+
+    // List the calendars under their group
+    $GLOBALS['TL_DCA']['tl_calendar']['list']['sorting']['fields'] = ['calendarGroup', 'title'];
+    $GLOBALS['TL_DCA']['tl_calendar']['list']['sorting']['flag'] = \Contao\DataContainer::SORT_ASC;
+
+    PaletteManipulator::create()
+        ->addField('calendarGroup', 'title_legend', PaletteManipulator::POSITION_APPEND)
+        ->applyToPalette('default', 'tl_calendar');
+}
+
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['calendarGroup'] = [
+    'filter' => true,
+    'inputType' => 'select',
+    'foreignKey' => 'tl_calendar_group.title',
+    'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => 'integer', 'unsigned' => true, 'default' => 0],
+    'relation' => ['type' => 'belongsTo', 'load' => 'lazy'],
+];
+
 // Summary above the calendar list
 $GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'addSubscriptionsSummary'];
 
