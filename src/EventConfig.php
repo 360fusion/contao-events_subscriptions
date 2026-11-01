@@ -143,6 +143,14 @@ class EventConfig
     }
 
     /**
+     * Return true if a guest e-mail address may subscribe to an event only once
+     */
+    public function hasUniqueGuestEmails(): bool
+    {
+        return (bool) $this->get('subscription_uniqueEmails');
+    }
+
+    /**
      * Get the maximum subscriptions
      *
      * @return int

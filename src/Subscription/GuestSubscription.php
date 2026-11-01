@@ -115,6 +115,10 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                                 throw new \RuntimeException(sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailDomainError'], implode(', ', $domains)));
                             }
 
+                            if ($event->hasUniqueGuestEmails() && SubscriptionModel::countBy(['pid=?', 'type=?', 'email=?'], [$event->getEvent()->id, 'guest', $value]) > 0) {
+                                throw new \RuntimeException($GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailUniqueError']);
+                            }
+
                             return $value;
                         },
                     ],

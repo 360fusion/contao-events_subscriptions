@@ -92,6 +92,12 @@ Only the part after the `@` is compared, ignoring upper and lower case, so look-
 `notexample.com` are rejected. The restriction applies to the guest subscription form; subscriptions added in the
 backend are not checked.
 
+### One subscription per e-mail address
+
+Check "One subscription per e-mail address" in the calendar or event settings to prevent the same guest e-mail
+address from subscribing to an event more than once. The guest then sees an error message instead. Subscriptions
+added in the backend are not checked.
+
 
 ## Waiting list
 

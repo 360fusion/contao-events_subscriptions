@@ -93,3 +93,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef']['1
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_mandatoryRef']['0'] = 'Optional';
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_fields_disabled'] = '%s (disabled)';
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_emailDomains'] = ['Allowed e-mail domains', 'Only guests with an e-mail address from one of these domains can subscribe. Enter one domain per line: "example.com" also allows its subdomains, "@example.com" allows only this domain. Leave empty to allow all e-mail addresses.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_uniqueEmails'] = ['One subscription per e-mail address', 'Allow a guest e-mail address to subscribe to an event only once.'];
