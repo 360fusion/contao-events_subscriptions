@@ -41,6 +41,14 @@ class CalendarContainer
     }
 
     /**
+     * Back end styles of the events screens
+     */
+    public static function addBackendStyles(): void
+    {
+        $GLOBALS['TL_CSS']['events_subscriptions_backend'] = 'bundles/codefogeventssubscriptions/backend.css|static';
+    }
+
+    /**
      * Pre-select the user groups that can manage events in the "Back end permissions" of a new calendar
      */
     public function preselectPermissions(DataContainer|null $dc = null): void

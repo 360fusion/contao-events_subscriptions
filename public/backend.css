@@ -1,0 +1,2 @@
+/* The filter panel next to long lists stays in view while scrolling: let it scroll on its own when it is taller than the window */
+#tl_content_filter { max-height: calc(100vh - 30px); overflow-y: auto; overscroll-behavior: contain; }

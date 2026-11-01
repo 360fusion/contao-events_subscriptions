@@ -80,7 +80,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_override'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types'] = [
-    'filter' => true,
     'inputType' => 'checkbox',
     'options_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getTypes'],
     'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'],
@@ -219,14 +218,12 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_notification'] 
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_memberGroupsLimit'] = [
-    'filter' => true,
     'inputType' => 'checkbox',
     'eval' => ['submitOnChange' => true],
     'sql' => ['type' => Types::BOOLEAN, 'default' => false],
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_memberGroups'] = [
-    'filter' => true,
     'inputType' => 'checkbox',
     'flag' => 1,
     'foreignKey' => 'tl_member_group.name',
@@ -257,7 +254,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_unsubscribeEndT
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_numberOfParticipants'] = [
-    'filter' => true,
     'inputType' => 'checkbox',
     'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
     'sql' => ['type' => Types::BOOLEAN, 'default' => false],
@@ -313,3 +309,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['eventGroup'] = [
     'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
     'relation' => ['type' => 'belongsTo', 'load' => 'lazy'],
 ];
+
+// Back end styles (the filter panel scrolls when it is taller than the window)
+$GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'][] = ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'addBackendStyles'];

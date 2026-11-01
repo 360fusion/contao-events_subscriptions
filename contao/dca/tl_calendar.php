@@ -175,7 +175,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_memberGroupsLimit'] = 
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_memberGroups'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_memberGroups'];
 
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_reminders'] = [
-    'filter' => true,
     'inputType' => 'checkbox',
     'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
     'sql' => ['type' => Types::BOOLEAN, 'default' => false],
@@ -232,3 +231,6 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_unsubscribeLinkPage'] 
     'eval' => ['fieldType' => 'radio', 'tl_class' => 'clr'],
     'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
 ];
+
+// Back end styles (the filter panel scrolls when it is taller than the window)
+$GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'addBackendStyles'];

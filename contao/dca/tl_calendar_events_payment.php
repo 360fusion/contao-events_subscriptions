@@ -131,3 +131,6 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment'] = [
         ],
     ],
 ];
+
+// Back end styles (the filter panel scrolls when it is taller than the window)
+$GLOBALS['TL_DCA']['tl_calendar_events_payment']['config']['onload_callback'][] = ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'addBackendStyles'];
