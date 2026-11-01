@@ -4,6 +4,7 @@ namespace Codefog\EventsSubscriptionsBundle\Subscription;
 
 use Codefog\EventsSubscriptionsBundle\EventConfig;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
+use Codefog\EventsSubscriptionsBundle\RegistrationFields;
 use Codefog\HasteBundle\Form\Form;
 use Codefog\HasteBundle\Util\ArrayPosition;
 use Contao\System;
@@ -48,6 +49,16 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
         $model->firstname = $form->fetch('firstname');
         $model->lastname  = $form->fetch('lastname');
         $model->email     = $form->fetch('email');
+
+        $registrationFields = RegistrationFields::fromDatabase();
+
+        foreach ($registrationFields->resolve($event->get('subscription_fields')) as $field) {
+            $name = $registrationFields->virtualFieldName($field['key']);
+            $value = $form->fetch($name);
+
+            // The front end checkbox submits an array
+            $model->$name = 'checkbox' === $field['type'] ? ($value ? '1' : '') : $value;
+        }
     }
 
     /**
@@ -97,7 +108,16 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                     'eval'      => ['mandatory' => true, 'rgxp' => 'email'],
                 ],
                 $position
-            )->addFormField(
+            );
+
+        $registrationFields = RegistrationFields::fromDatabase();
+
+        foreach ($registrationFields->resolve($event->get('subscription_fields')) as $field) {
+            $form->addFormField($registrationFields->virtualFieldName($field['key']), $registrationFields->formFieldConfig($field), $position);
+        }
+
+        $form
+            ->addFormField(
                 'captcha_' . $event->getEvent()->id,
                 [
                     'label'     => &$GLOBALS['TL_LANG']['MSC']['securityQuestion'],
@@ -145,7 +165,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
      */
     public function getExportColumns()
     {
-        return [];
+        return RegistrationFields::fromDatabase()->exportColumns();
     }
 
     /**
@@ -153,12 +173,12 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
      */
     public function getExportRow()
     {
-        return [
+        return array_merge([
             'subscription_firstname' => $this->subscriptionModel->firstname,
             'subscription_lastname'  => $this->subscriptionModel->lastname,
             'subscription_email'     => $this->subscriptionModel->email,
             'subscription_numberOfParticipants' => $this->subscriptionModel->numberOfParticipants,
-        ];
+        ], $this->getRegistrationFieldValues());
     }
 
     /**
@@ -219,6 +239,21 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
             'subscription_email'     => $this->subscriptionModel->email,
             'subscription_numberOfParticipants' => $this->subscriptionModel->numberOfParticipants,
             'unsubscribe_link'       => $this->generateUnsubscribeLink(),
-        ];
+        ] + $this->getRegistrationFieldValues();
+    }
+
+    /**
+     * Get the formatted registration field answers, keyed by token/column name
+     */
+    private function getRegistrationFieldValues(): array
+    {
+        $registrationFields = RegistrationFields::fromDatabase();
+        $values = [];
+
+        foreach ($registrationFields->allFields() as $field) {
+            $values['subscription_field_'.$field['key']] = $registrationFields->formatValue($field, $this->subscriptionModel->{$registrationFields->virtualFieldName($field['key'])});
+        }
+
+        return $values;
     }
 }

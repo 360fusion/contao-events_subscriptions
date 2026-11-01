@@ -37,9 +37,12 @@ class RegistrationFields
         }
     }
 
+    private static self|null $fromDatabase = null;
+
     public static function fromDatabase(): self
     {
-        return new self(array_map(static fn (SubscriptionFieldModel $model) => $model->row(), SubscriptionFieldModel::findAllOrdered()));
+        // The exporter asks every subscription for its columns, so load the fields once per request
+        return self::$fromDatabase ??= new self(array_map(static fn (SubscriptionFieldModel $model) => $model->row(), SubscriptionFieldModel::findAllOrdered()));
     }
 
     /**
