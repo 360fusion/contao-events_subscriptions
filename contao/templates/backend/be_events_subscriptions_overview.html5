@@ -8,7 +8,7 @@
 
     <?php if (isset($this->filters)): ?>
         <?php $f = $this->filters; $e = static fn ($v) => \Contao\StringUtil::specialchars((string) $v); $L = $GLOBALS['TL_LANG']['tl_calendar']; $dateFormat = \Contao\Date::getInputFormat(\Contao\Date::getNumericDateFormat()); ?>
-        <form action="<?= $e($this->filterAction) ?>" method="get" class="tl_tbox" style="padding:12px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
+        <form id="subscriptions-upcoming-filter" action="<?= $e($this->filterAction) ?>" method="get" class="tl_tbox" style="padding:12px 18px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">
             <?php foreach ($this->filterHidden as $name => $value): ?>
                 <input type="hidden" name="<?= $e($name) ?>" value="<?= $e($value) ?>">
             <?php endforeach; ?>
@@ -35,10 +35,41 @@
                 <a href="<?= $e($this->filterAction.'?'.http_build_query($this->filterHidden)) ?>" class="tl_submit"><?= $L['subscriptions_upcoming.reset'] ?></a>
             </span>
         </form>
-        <p class="tl_info" style="margin:0 18px"><?= $this->summary ?></p>
+        <script>
+            // Update the results while typing, keeping the focus in the filter form
+            (() => {
+                const form = document.getElementById('subscriptions-upcoming-filter');
+                let timer, request;
+
+                const update = () => {
+                    const url = new URL(form.action, location.href);
+                    new FormData(form).forEach((value, key) => url.searchParams.set(key, value));
+                    request?.abort();
+                    request = new AbortController();
+
+                    fetch(url, {signal: request.signal, credentials: 'same-origin'})
+                        .then(response => response.text())
+                        .then(html => {
+                            const fresh = new DOMParser().parseFromString(html, 'text/html').getElementById('subscriptions-upcoming-results');
+                            document.getElementById('subscriptions-upcoming-results')?.replaceWith(fresh);
+                            history.replaceState(null, '', url);
+                        })
+                        .catch(() => {});
+                };
+
+                form.addEventListener('input', event => {
+                    clearTimeout(timer);
+                    timer = setTimeout(update, 'SELECT' === event.target.tagName ? 0 : 300);
+                });
+            })();
+        </script>
     <?php endif; ?>
 
-    <div class="tl_tbox" style="padding:12px 18px;">
+    <div id="subscriptions-upcoming-results" class="tl_tbox" style="padding:12px 18px;">
+        <?php if (isset($this->summary)): ?>
+            <p class="tl_info"><?= $this->summary ?></p>
+        <?php endif; ?>
+
         <?php if ($this->entries): ?>
             <table class="tl_listing">
                 <thead>

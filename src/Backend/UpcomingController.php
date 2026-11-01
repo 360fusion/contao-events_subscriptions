@@ -39,9 +39,10 @@ class UpcomingController extends OverviewController
         $where = [self::LIVE_EVENTS_WHERE];
         $values = [];
 
-        if ('' !== $filters['search']) {
+        // Every word must appear somewhere in the title, in any order
+        foreach (preg_split('/\s+/', $filters['search'], -1, PREG_SPLIT_NO_EMPTY) as $word) {
             $where[] = 'tl_calendar_events.title LIKE ?';
-            $values[] = '%'.$filters['search'].'%';
+            $values[] = '%'.addcslashes($word, '%_\\').'%';
         }
 
         if ($filters['calendar']) {
