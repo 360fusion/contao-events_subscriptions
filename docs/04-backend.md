@@ -108,6 +108,9 @@ separately in the user group permissions:
 - **Settings**: a "Booking settings" section with a tile for each of the five settings pages, the registration
   fields, the venues and trainers (once switched on) and the payment providers (once payments are on), and a "Tools and data" section with the e-mail templates,
   the reports, the health check, old booking data and (when switched on) the calendar groups
+  Every tile has a small bar along the bottom: the state on the left (On or Off, "All fine" or "Needs
+  attention", "Signature set") and a number on the right (fields, venues, trainers, providers, payments, attended, e-mails, checks or
+  events).
 
 ### Settings
 
