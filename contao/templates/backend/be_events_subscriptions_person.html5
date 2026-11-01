@@ -1,7 +1,7 @@
 <?php $L = $GLOBALS['TL_LANG']['tl_calendar']; $e = static fn ($v) => \Contao\StringUtil::specialchars((string) $v); ?>
 <div id="tl_buttons">
     <a href="<?= \Contao\StringUtil::ampersand($this->backUrl) ?>" class="header_back" title="<?= $e($GLOBALS['TL_LANG']['MSC']['backBTTitle']) ?>"><?= $GLOBALS['TL_LANG']['MSC']['backBT'] ?></a>
-    <?php if ($this->rows): ?><a href="<?= $e($this->exportUrl) ?>" class="header_theme_import"><?= $L['person.export'] ?></a><?php endif; ?>
+    <?php if ($this->rows): foreach ($this->exportUrls as $format => $url): ?><a href="<?= $e($url) ?>" class="header_theme_import"<?= 'pdf' === $format ? ' target="_blank"' : '' ?>><?= $L['export.'.$format] ?></a><?php endforeach; endif; ?>
 </div>
 
 <div class="maintenance_active">

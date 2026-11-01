@@ -15,7 +15,9 @@
             </select>
         </label>
         <button type="submit" class="tl_submit"><?= $L['subscriptions_upcoming.apply'] ?></button>
-        <a href="<?= $e($this->exportUrl) ?>" class="tl_submit"><?= $L['reports.download'] ?></a>
+        <span style="display:flex;gap:6px;align-items:center"><?= $L['export.download'] ?>:
+            <?php foreach ($this->exportUrls as $format => $url): ?><a href="<?= $e($url) ?>" class="tl_submit"<?= 'pdf' === $format ? ' target="_blank"' : '' ?>><?= $L['export.'.$format] ?></a><?php endforeach; ?>
+        </span>
         <p class="tl_help tl_tip" style="flex:1 1 100%;margin:0"><?= $L['reports.help'] ?></p>
     </form>
 

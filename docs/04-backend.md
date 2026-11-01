@@ -151,7 +151,10 @@ separately in the user group permissions:
 
 Events › Reports shows one row for each month and course: events, places, booked, how full, the waiting list,
 attended and did not attend, cancellations by the booker and the average feedback rating, with a month range, a
-calendar filter and a CSV download.
+calendar filter and downloads as Excel (.xlsx), CSV or OpenDocument (.ods), or as a PDF: the PDF button opens a
+print-ready page and the browser makes the PDF (choose "Save as PDF" as the printer). Numbers stay numbers in the
+spreadsheet files, with a totals row at the end, and a text that starts with `=`, `+`, `-` or `@` is never run as a
+formula. The same five download buttons are on the history page of a person.
 
 - *Filled* counts the places of events that have a limit. Places over the limit are the waiting list.
 - *Attended* and *Did not attend* only count events where someone was marked as attended, so events where

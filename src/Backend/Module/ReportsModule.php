@@ -3,16 +3,15 @@
 namespace Codefog\EventsSubscriptionsBundle\Backend\Module;
 
 use Codefog\EventsSubscriptionsBundle\Features;
+use Codefog\EventsSubscriptionsBundle\Backend\TableExport;
 use Codefog\EventsSubscriptionsBundle\Report;
 use Contao\BackendTemplate;
 use Contao\Config;
-use Contao\CoreBundle\Exception\ResponseException;
 use Contao\Database;
 use Contao\Date;
 use Contao\Environment;
 use Contao\Input;
 use Contao\System;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Events › Reports: fill rate, cancellations, did-not-attend and feedback for each course and month, and the people who keep missing events
@@ -38,8 +37,14 @@ class ReportsModule
         $rows = Report::aggregate($events);
         $attendance = Features::attendance();
 
+        $calendarTitle = '';
+
+        foreach (Database::getInstance()->prepare('SELECT title FROM tl_calendar WHERE id=?')->execute($calendar) as $row) {
+            $calendarTitle = $row['title'];
+        }
+
         if (Input::get('export')) {
-            $this->download($rows, $attendance, $from, $to);
+            $this->download(TableExport::format(Input::get('export')), $rows, Report::totals($events), $attendance, $from, $to, $calendarTitle);
         }
 
         $token = System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue();
@@ -67,7 +72,7 @@ class ReportsModule
         $template->noShowLimit = Features::noShowLimit();
         $template->noShowCount = \count($noShows);
         $template->filterAction = strtok(Environment::get('requestUri'), '?');
-        $template->exportUrl = '?'.http_build_query(['do' => 'event_reports', 'from' => $from, 'to' => $to, 'calendar' => $calendar ?: null, 'export' => 1, 'rt' => $token]);
+        $template->exportUrls = array_combine(TableExport::FORMATS, array_map(static fn (string $format) => '?'.http_build_query(['do' => 'event_reports', 'from' => $from, 'to' => $to, 'calendar' => $calendar ?: null, 'export' => $format, 'rt' => $token]), TableExport::FORMATS));
 
         return $template->parse();
     }
@@ -77,37 +82,39 @@ class ReportsModule
         return \is_string($value) && preg_match('/^\d{4}-(0[1-9]|1[0-2])$/', $value) ? $value : $default;
     }
 
-    private function download(array $rows, bool $attendance, string $from, string $to): never
+    private function download(string $format, array $rows, array $totals, bool $attendance, string $from, string $to, string $calendarTitle): never
     {
         $L = $GLOBALS['TL_LANG']['tl_calendar'];
-        $out = fopen('php://temp', 'w+');
-        fwrite($out, "\xEF\xBB\xBF"); // so Excel reads it as UTF-8
-
-        $header = [$L['reports.month'], $L['reports.course'], $L['reports.calendar'], $L['reports.events'], $L['reports.places'], $L['reports.booked'], $L['reports.fill'], $L['reports.waiting']];
+        $header = [$L['reports.month'], $L['reports.course'], $L['reports.calendar'], $L['reports.events'], $L['reports.places'], $L['reports.booked'], $L['reports.fill'].' (%)', $L['reports.waiting']];
 
         if ($attendance) {
             array_push($header, $L['reports.attended'], $L['reports.missed'], $L['reports.missedRate']);
         }
 
         array_push($header, $L['reports.cancelled'], $L['reports.rating'], $L['reports.ratingCount']);
-        fputcsv($out, $header);
 
-        foreach ($rows as $row) {
-            $line = [$row['month'], $row['course'], $row['calendar'], $row['events'], $row['capacity'] ?: '', $row['booked'], null === $row['fill'] ? '' : $row['fill'].'%', $row['waiting']];
+        // Numbers stay numbers in the file; what is not known is left empty
+        $line = static function (array $row, string $month, string $course, string $calendar) use ($attendance): array {
+            $line = [$month, $course, $calendar, $row['events'], $row['capacity'] ?: '', $row['booked'], $row['fill'] ?? '', $row['waiting']];
 
             if ($attendance) {
-                array_push($line, $row['attended'], $row['missed'], null === $row['missedRate'] ? '' : $row['missedRate'].'%');
+                array_push($line, null === $row['missedRate'] ? '' : $row['attended'], null === $row['missedRate'] ? '' : $row['missed'], $row['missedRate'] ?? '');
             }
 
-            array_push($line, $row['cancelled'], $row['rating'] ?? '', $row['ratingCount']);
-            fputcsv($out, $line);
-        }
+            return array_merge($line, [$row['cancelled'], $row['rating'] ?? '', $row['ratingCount']]);
+        };
 
-        rewind($out);
+        $lines = array_map(static fn (array $row) => $line($row, $row['month'], $row['course'], $row['calendar']), $rows);
+        $lines[] = $line($totals, $L['reports.total'], '', '');
 
-        throw new ResponseException(new Response(stream_get_contents($out), 200, [
-            'Content-Type' => 'text/csv; charset=utf-8',
-            'Content-Disposition' => sprintf('attachment; filename="event-report-%s-to-%s.csv"', $from, $to),
-        ]));
+        TableExport::send(
+            $format,
+            sprintf('event-report-%s-to-%s', $from, $to),
+            $GLOBALS['TL_LANG']['MOD']['event_reports'][0],
+            $header,
+            $lines,
+            array_filter([sprintf($L['reports.period'], $from, $to), $calendarTitle ? $L['reports.calendar'].': '.$calendarTitle : '', $L['reports.help'], $L['reports.notes']]),
+            true,
+        );
     }
 }
