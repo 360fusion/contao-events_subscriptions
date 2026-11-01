@@ -12,9 +12,11 @@
             <?php foreach ($this->filterHidden as $name => $value): ?>
                 <input type="hidden" name="<?= $e($name) ?>" value="<?= $e($value) ?>">
             <?php endforeach; ?>
+            <?php if ($this->calendarOptions): ?>
             <label style="flex:2 1 220px"><?= $L['subscriptions_upcoming.calendar'] ?><br>
                 <select name="calendar" class="tl_select"><option value="">-</option><?php foreach ($this->calendarOptions as $id => $title): ?><option value="<?= $id ?>"<?= $f['calendar'] === $id ? ' selected' : '' ?>><?= $e($title) ?></option><?php endforeach; ?></select>
             </label>
+            <?php endif; ?>
             <?php if ($this->eventGroupOptions): ?>
                 <label style="flex:2 1 200px"><?= $L['subscriptions_upcoming.eventGroup'] ?><br>
                     <select name="eventGroup" class="tl_select"><option value="">-</option><?php foreach ($this->eventGroupOptions as $calendarTitle => $groups): ?><optgroup label="<?= $e($calendarTitle) ?>"><?php foreach ($groups as $id => $title): ?><option value="<?= $id ?>"<?= $f['eventGroup'] === $id ? ' selected' : '' ?>><?= $e($title) ?></option><?php endforeach; ?></optgroup><?php endforeach; ?></select>
@@ -27,6 +29,15 @@
             <?php endif; ?>
             <label style="flex:1 1 120px"><?= $L['subscriptions_upcoming.from'] ?><br><input type="text" name="from" value="<?= $e($f['from']) ?>" placeholder="<?= $e($dateFormat) ?>" class="tl_text"></label>
             <label style="flex:1 1 120px"><?= $L['subscriptions_upcoming.to'] ?><br><input type="text" name="to" value="<?= $e($f['to']) ?>" placeholder="<?= $e($dateFormat) ?>" class="tl_text"></label>
+            <?php if (isset($f['when'])): ?>
+                <label style="flex:1 1 140px"><?= $L['subscriptions_upcoming.when'] ?><br>
+                    <select name="when" class="tl_select">
+                        <option value=""><?= $L['subscriptions_upcoming.whenAll'] ?></option>
+                        <option value="upcoming"<?= 'upcoming' === $f['when'] ? ' selected' : '' ?>><?= $L['subscriptions_upcoming.whenUpcoming'] ?></option>
+                        <option value="past"<?= 'past' === $f['when'] ? ' selected' : '' ?>><?= $L['subscriptions_upcoming.whenPast'] ?></option>
+                    </select>
+                </label>
+            <?php endif; ?>
             <label style="flex:1 1 140px"><?= $L['subscriptions_upcoming.places'] ?><br>
                 <select name="places" class="tl_select">
                     <option value=""><?= $L['subscriptions_upcoming.placesAll'] ?></option>

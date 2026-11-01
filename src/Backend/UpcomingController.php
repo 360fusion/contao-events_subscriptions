@@ -6,7 +6,6 @@ use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\Config;
 use Contao\Database;
-use Contao\Date;
 use Contao\Environment;
 use Contao\Input;
 use Contao\Pagination;
@@ -27,33 +26,18 @@ class UpcomingController extends OverviewController
         System::loadLanguageFile('tl_calendar');
         System::loadLanguageFile('tl_calendar_events');
 
-        $filters = [
-            'search' => trim((string) Input::get('search')),
+        $filters = $this->readFilters() + [
             'calendar' => (int) Input::get('calendar'),
-            'eventGroup' => (int) Input::get('eventGroup'),
             'group' => Config::get('eventsSubscriptionsCalendarGroups') ? (int) Input::get('group') : 0,
-            'from' => trim((string) Input::get('from')),
-            'to' => trim((string) Input::get('to')),
-            'places' => \in_array(Input::get('places'), ['full', 'available'], true) ? Input::get('places') : '',
         ];
 
         $where = [self::LIVE_EVENTS_WHERE];
         $values = [];
-
-        // Every word must appear somewhere in the title, in any order
-        foreach (preg_split('/\s+/', $filters['search'], -1, PREG_SPLIT_NO_EMPTY) as $word) {
-            $where[] = 'tl_calendar_events.title LIKE ?';
-            $values[] = '%'.addcslashes($word, '%_\\').'%';
-        }
+        $this->addFilterConditions($filters, $where, $values);
 
         if ($filters['calendar']) {
             $where[] = 'tl_calendar_events.pid=?';
             $values[] = $filters['calendar'];
-        }
-
-        if ($filters['eventGroup']) {
-            $where[] = 'tl_calendar_events.eventGroup=?';
-            $values[] = $filters['eventGroup'];
         }
 
         if ($filters['group']) {
@@ -61,44 +45,13 @@ class UpcomingController extends OverviewController
             $values[] = $filters['group'];
         }
 
-        if (null !== ($from = $this->parseDate($filters['from']))) {
-            $where[] = 'tl_calendar_events.startTime>=?';
-            $values[] = $from;
-        }
-
-        if (null !== ($to = $this->parseDate($filters['to']))) {
-            $where[] = 'tl_calendar_events.startTime<?';
-            $values[] = strtotime('+1 day', $to);
-        }
-
         $events = Database::getInstance()
             ->prepare('SELECT * FROM tl_calendar_events WHERE '.implode(' AND ', $where).' ORDER BY startTime')
             ->execute(...$values);
 
-        // The places filter needs the subscription counts, so it is applied to the built rows
-        $rows = [];
-
-        foreach ($this->createEntries($events, false) as $group) {
-            foreach ($group['events'] as $event) {
-                $full = $event['maxSubscriptions'] > 0 && $event['subscriptions'] >= $event['maxSubscriptions'];
-
-                if (('full' === $filters['places'] && !$full) || ('available' === $filters['places'] && $full)) {
-                    continue;
-                }
-
-                $rows[] = ['group' => $group['label'], 'event' => $event];
-            }
-        }
-
         $limit = (int) Config::get('resultsPerPage');
-        $page = max(1, (int) Input::get('esp'));
-        $pagination = new Pagination(\count($rows), $limit, 7, 'esp', new BackendTemplate('be_pagination'), true);
-        $entries = [];
-
-        foreach (\array_slice($rows, ($page - 1) * $limit, $limit) as $row) {
-            $entries[$row['group']]['label'] = $row['group'];
-            $entries[$row['group']]['events'][] = $row['event'];
-        }
+        [$entries, $total, $subscriptions] = $this->filterByPlaces($events, $filters['places'], $limit, max(1, (int) Input::get('esp')), false);
+        $pagination = new Pagination($total, $limit, 7, 'esp', new BackendTemplate('be_pagination'), true);
 
         $template = new BackendTemplate('be_events_subscriptions_overview');
         $template->backUrl = Backend::getReferer();
@@ -112,44 +65,9 @@ class UpcomingController extends OverviewController
         $template->calendarOptions = $this->getOptions('SELECT id, title FROM tl_calendar WHERE subscription_enable=1 ORDER BY title');
         $template->eventGroupOptions = $this->getEventGroupOptions();
         $template->groupOptions = Config::get('eventsSubscriptionsCalendarGroups') ? $this->getOptions('SELECT id, title FROM tl_calendar_group ORDER BY title') : [];
-        $template->summary = sprintf(
-            $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.summary'],
-            number_format(\count($rows)),
-            number_format(array_sum(array_map(static fn ($row) => $row['event']['subscriptions'], $rows))),
-        );
+        $template->summary = sprintf($GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.summary'], number_format($total), number_format($subscriptions));
 
         return $template->parse();
-    }
-
-    /**
-     * Event groups of the calendars with subscriptions, by calendar title (all of them, as the live search only refreshes the results)
-     *
-     * @return array<string, array<int, string>>
-     */
-    private function getEventGroupOptions(): array
-    {
-        $options = [];
-        $result = Database::getInstance()
-            ->query('SELECT g.id, g.title, c.title AS calendarTitle FROM tl_calendar_event_group g JOIN tl_calendar c ON c.id=g.pid WHERE c.subscription_enable=1 ORDER BY c.title, g.title');
-
-        while ($result->next()) {
-            $options[$result->calendarTitle][$result->id] = $result->title;
-        }
-
-        return $options;
-    }
-
-    private function parseDate(string $value): int|null
-    {
-        if ('' === $value) {
-            return null;
-        }
-
-        try {
-            return (new Date($value, Date::getNumericDateFormat()))->tstamp;
-        } catch (\OutOfBoundsException) {
-            return null;
-        }
     }
 
     /**

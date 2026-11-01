@@ -121,3 +121,7 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.eventGroup'] = 'Event
 $GLOBALS['TL_LANG']['tl_calendar']['payments'] = ['Payments', 'Show all payments'];
 $GLOBALS['TL_LANG']['tl_calendar']['payment_providers'] = ['Payment providers', 'Set up the payment providers'];
 $GLOBALS['TL_LANG']['tl_calendar']['emails'] = ['E-mails', 'Edit the e-mails sent for bookings'];
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.when'] = 'Events';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.whenAll'] = 'All events';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.whenUpcoming'] = 'Upcoming';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.whenPast'] = 'Past';

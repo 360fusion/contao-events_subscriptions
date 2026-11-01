@@ -51,6 +51,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['list']['operations']['subscriptions'] 
     'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscriptions'],
     'href' => 'table=tl_calendar_events_subscription',
     'icon' => 'mgroup.svg',
+    'primary' => true, // shown next to edit, not in the "…" menu
     'button_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventsContainer', 'getSubscriptionsButton'],
 ];
 
