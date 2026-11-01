@@ -12,6 +12,7 @@ use Doctrine\DBAL\Types\Types;
     'registration_fields' => [
         'href' => 'table=tl_calendar_events_subscription_field',
         'icon' => 'modules.svg',
+        'primary' => true,
         'attributes' => 'data-action="contao--scroll-offset#store"',
     ],
 ]);
