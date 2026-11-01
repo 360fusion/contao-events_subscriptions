@@ -15,13 +15,38 @@ use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\Events
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsReminderType;
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsSubscribeType;
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsUnsubscribeType;
+use Codefog\EventsSubscriptionsBundle\Backend\UpcomingController;
 use Contao\Backend;
 use Contao\Database;
 use Contao\Image;
+use Contao\Input;
+use Contao\Message;
 use Contao\StringUtil;
 
 class CalendarContainer
 {
+    /**
+     * Show the number of calendars, live events and their subscriptions above the calendar list
+     */
+    public function addSubscriptionsSummary(): void
+    {
+        if (Input::get('act') || Input::get('key')) {
+            return;
+        }
+
+        $db = Database::getInstance();
+        $calendars = (int) $db->query('SELECT COUNT(*) AS total FROM tl_calendar')->total;
+        $events = (int) $db->query('SELECT COUNT(*) AS total FROM tl_calendar_events WHERE '.UpcomingController::LIVE_EVENTS_WHERE)->total;
+        $subscriptions = (int) $db->query('SELECT COUNT(*) AS total FROM tl_calendar_events_subscription WHERE pid IN (SELECT id FROM tl_calendar_events WHERE '.UpcomingController::LIVE_EVENTS_WHERE.')')->total;
+
+        Message::addRaw(sprintf(
+            '<p class="tl_info">%s &nbsp;<a href="%s">%s</a></p>',
+            sprintf($GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary'], number_format($calendars), number_format($events), number_format($subscriptions)),
+            StringUtil::ampersand(Backend::addToUrl('key=subscriptions_upcoming')),
+            $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary.link'],
+        ));
+    }
+
     /**
      * Get the "subscriptions overview" button
      *

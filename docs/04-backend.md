@@ -50,3 +50,10 @@ the exported data please check the [Developers](08-developers.md) section.
 As of version 2.15, you can send the notifications manually per every event:
 
 ![](images/backend-notifications.png)
+
+## Upcoming events and subscriptions
+
+The calendar list shows a summary at the top: the number of calendars, live events (published events that have not
+ended yet, in calendars with subscriptions enabled) and subscriptions to those events. Its link opens a page listing
+all live events of all calendars by date, with their subscriptions, places and waiting list, and links to each
+event's subscriptions.

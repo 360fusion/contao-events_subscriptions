@@ -16,6 +16,9 @@ use Doctrine\DBAL\Types\Types;
     ],
 ]);
 
+// Summary above the calendar list
+$GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'addSubscriptionsSummary'];
+
 // List operations
 $GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['subscriptions_overview'] = [
     'href' => 'key=subscriptions_overview',

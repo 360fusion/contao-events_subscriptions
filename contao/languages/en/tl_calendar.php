@@ -87,3 +87,7 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_overview.waitingList'] = 'Wait
  * Global operations
  */
 $GLOBALS['TL_LANG']['tl_calendar']['registration_fields'] = ['Registration fields', 'Manage the additional fields of the guest registration form'];
+
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary'] = '%s calendars · %s live events · %s subscriptions to live events';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary.link'] = 'View upcoming events and subscriptions';
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.headline'] = 'Upcoming events and subscriptions';

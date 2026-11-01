@@ -12,6 +12,7 @@ use Contao\CalendarModel;
 use Contao\Config;
 use Contao\Controller;
 use Contao\Database;
+use Contao\Database\Result;
 use Contao\Date;
 use Contao\Input;
 use Contao\Model\Collection;
@@ -84,19 +85,35 @@ class OverviewController
             ->limit($limit, $offset)
             ->execute($calendarModel->id);
 
+        return $this->createEntries($events);
+    }
+
+    /**
+     * Create the grouped event rows, using the calendar of each event
+     *
+     * @param bool $skipWithoutSubscriptions
+     *
+     * @return array
+     */
+    protected function createEntries(Result $events, $skipWithoutSubscriptions = true)
+    {
         if (!$events->numRows) {
             return [];
         }
 
         $subscriptionFactory = Services::getSubscriptionFactory();
+        $calendars = [];
+        $entries = [];
 
         /** @var CalendarEventsModel $eventModel */
         foreach (Collection::createFromDbResult($events, 'tl_calendar_events') as $eventModel) {
             $subscriptionModels = SubscriptionModel::findBy('pid', $eventModel->id, ['order' => 'dateCreated']);
 
-            if ($subscriptionModels === null) {
+            if ($subscriptionModels === null && $skipWithoutSubscriptions) {
                 continue;
             }
+
+            $calendarModel = $calendars[$eventModel->pid] ??= CalendarModel::findByPk($eventModel->pid);
 
             $groupKey = date('Ym', $eventModel->startTime);
 
@@ -111,7 +128,7 @@ class OverviewController
             $waitingListCount = 0;
 
             /** @var SubscriptionModel $subscriptionModel */
-            foreach ($subscriptionModels as $subscriptionModel) {
+            foreach ($subscriptionModels ?? [] as $subscriptionModel) {
                 try {
                     $subscription = $subscriptionFactory->createFromModel($subscriptionModel);
                 } catch (\InvalidArgumentException $e) {
@@ -131,6 +148,7 @@ class OverviewController
             $entries[$groupKey]['events'][] = [
                 'id' => $eventModel->id,
                 'title' => $eventModel->title,
+                'calendar' => $calendarModel->title,
                 'date' => Date::parse(Config::get($eventModel->addTime ?'datimFormat' : 'dateFormat'), $eventModel->startTime),
                 'subscriptions' => $subscriptionsCount,
                 'maxSubscriptions' => $maximumSubscriptions,
