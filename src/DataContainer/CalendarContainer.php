@@ -27,6 +27,19 @@ use Contao\System;
 class CalendarContainer
 {
     /**
+     * Show the calendar title as a link to its events
+     */
+    public function generateLabel(array $row, string $label): string
+    {
+        return sprintf(
+            '<a href="%s" title="%s">%s</a>',
+            StringUtil::ampersand(Backend::addToUrl('table=tl_calendar_events&id='.$row['id'])),
+            StringUtil::specialchars(sprintf($GLOBALS['TL_LANG']['tl_calendar']['showEvents'], $row['id'])),
+            '' !== (string) $row['title'] ? StringUtil::specialchars($row['title']) : '#'.$row['id'],
+        );
+    }
+
+    /**
      * Show the number of calendars, live events and their subscriptions above the calendar list
      */
     public function addSubscriptionsSummary(): void
