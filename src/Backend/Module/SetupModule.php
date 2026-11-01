@@ -43,6 +43,11 @@ class SetupModule
 
         // Booking settings: one page for each area
         foreach (SettingsContainer::PAGES as $module => $palette) {
+            // Paying by invoice is a payment type, opened from the Payments page
+            if ('event_settings_invoice' === $module) {
+                continue;
+            }
+
             if ($can($module)) {
                 $settings[] = match ($module) {
                     'event_settings' => $tile($S['sections'][$module], $L[$module][1], 'settings.svg', $url(['do' => $module]), null, sprintf($S['setupUnits']['features'][1], \count(array_filter([Features::attendance(), Features::calendarGroups(), Features::oneBookingPerCourse(), Features::venues(), Features::trainers()])))),
@@ -55,7 +60,8 @@ class SetupModule
 
             // The payment providers, once payments are on, right after Payments
             if ('event_settings_payments' === $module && Features::payments() && $can('event_payment_providers')) {
-                $settings[] = $tile($L['event_payment_providers'][0], $L['event_payment_providers'][1], 'settings.svg', $url(['do' => 'event_payment_providers']), null, $unit('providers', $count('tl_calendar_events_payment_provider')));
+                $active = $count('tl_calendar_events_payment_provider', 'published=1');
+                $settings[] = $tile($L['event_payment_providers'][0], $L['event_payment_providers'][1], 'settings.svg', $url(['do' => 'event_payment_providers']), $active ? $state('on', sprintf($S['setupBar']['providersActive'], $active)) : $state('off', $S['setupBar']['providersNone']), $unit('providers', $count('tl_calendar_events_payment_provider')));
             }
 
             // The registration fields are a list of their own, so a tile rather than a page of the form; right after General

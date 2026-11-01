@@ -21,6 +21,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
         '__selector__' => ['eventsSubscriptionsRetention', 'eventsSubscriptionsPayments'],
         'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse,eventsSubscriptionsVenues,eventsSubscriptionsTrainers;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation;{retention_legend},eventsSubscriptionsRetention',
         'payments' => '{payments_legend},eventsSubscriptionsPayments',
+        'invoice' => '{invoice_legend},eventsSubscriptionsInvoice,eventsSubscriptionsInvoiceText',
         'emails' => '{emails_legend},eventsSubscriptionsSenderName,eventsSubscriptionsSenderAddress,eventsSubscriptionsSignature',
         'certificates' => '{certificate_legend},eventsSubscriptionsCertificate,eventsSubscriptionsCertificateOrganisation,eventsSubscriptionsCertificateSignedBy',
         'mailings' => '{mailings_legend},eventsSubscriptionsTrainerNotification,eventsSubscriptionsTrainerHour,eventsSubscriptionsFollowUpNotification',
@@ -28,13 +29,22 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
 
     'subpalettes' => [
         'eventsSubscriptionsRetention' => 'eventsSubscriptionsRetentionMonths,eventsSubscriptionsRetentionAction',
-        'eventsSubscriptionsPayments' => 'eventsSubscriptionsPaymentHold,eventsSubscriptionsInvoiceText',
+        'eventsSubscriptionsPayments' => 'eventsSubscriptionsPaymentTypes,eventsSubscriptionsPaymentHold',
     ],
 
     'fields' => [
         'eventsSubscriptionsPayments' => [
             'inputType' => 'checkbox',
             'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
+        ],
+        'eventsSubscriptionsPaymentTypes' => [
+            'inputType' => 'eventsPaymentTypes',
+            'eval' => ['doNotSaveEmpty' => true, 'tl_class' => 'clr'],
+        ],
+        'eventsSubscriptionsInvoice' => [
+            'inputType' => 'checkbox',
+            'load_callback' => [static fn ($value) => null === $value ? '1' : $value], // on unless switched off
+            'eval' => ['tl_class' => 'clr'],
         ],
         'eventsSubscriptionsPaymentHold' => [
             'inputType' => 'text',

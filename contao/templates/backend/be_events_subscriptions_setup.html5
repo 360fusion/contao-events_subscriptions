@@ -1,25 +1,9 @@
-<?php $dot = ['on' => '#2e9e5b', 'off' => '#8a8f98', 'warn' => '#d9822b']; ?>
 <div class="maintenance_active">
     <h2 class="sub_headline"><?= $GLOBALS['TL_LANG']['MOD']['event_setup'][0] ?></h2>
     <?php foreach ($this->sections as $section): ?>
         <div class="tl_tbox" style="padding:12px 18px 18px">
             <h3 style="margin:6px 0 14px;font-size:1.1em"><?= $section['title'] ?></h3>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px">
-            <?php foreach ($section['tiles'] as $tile): ?>
-                <a href="<?= \Contao\StringUtil::specialchars($tile['href']) ?>" style="display:flex;flex-direction:column;border:1px solid var(--border, #ddd);border-radius:8px;overflow:hidden;color:inherit;text-decoration:none">
-                    <span style="display:block;padding:16px 18px;flex:1 1 auto">
-                        <span style="display:flex;align-items:center;gap:10px;font-weight:600;font-size:1.05em"><?= \Contao\Image::getHtml($tile['icon']) ?> <?= $tile['title'] ?></span>
-                        <span class="tl_gray" style="display:block;margin-top:6px;font-size:.9em"><?= $tile['description'] ?></span>
-                    </span>
-                    <?php if ($tile['state'] || '' !== $tile['count']): ?>
-                        <span style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:6px 18px;border-top:1px solid var(--border, #ddd);background:var(--table-header, rgba(127,127,127,.08));font-size:.85em">
-                            <span style="display:inline-flex;align-items:center;gap:6px;font-weight:600"><?php if ($tile['state']): ?><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:<?= $dot[$tile['state']['level']] ?>"></span><?= $tile['state']['text'] ?><?php endif; ?></span>
-                            <span class="tl_gray"><?= $tile['count'] ?></span>
-                        </span>
-                    <?php endif; ?>
-                </a>
-            <?php endforeach; ?>
-            </div>
+            <?= \Codefog\EventsSubscriptionsBundle\Backend\TileGrid::html($section['tiles']) ?>
         </div>
     <?php endforeach; ?>
 </div>

@@ -55,3 +55,4 @@ $GLOBALS['TL_LANG']['MOD']['event_settings_certificates'] = ['Booking settings: 
 $GLOBALS['TL_LANG']['MOD']['event_settings_mailings'] = ['Booking settings: Before and after events', 'The trainer pack and the thank-you e-mail the site sends by itself'];
 $GLOBALS['TL_LANG']['MOD']['event_venues'] = ['Venues and locations', 'The places events are held: name, address, directions and accessibility'];
 $GLOBALS['TL_LANG']['MOD']['event_trainers'] = ['Trainers', 'The people who run events: name and e-mail address, chosen on events and courses'];
+$GLOBALS['TL_LANG']['MOD']['event_settings_invoice'] = ['Booking settings: Pay by invoice', 'Whether people can pay by invoice, and the instructions they see'];

@@ -74,6 +74,16 @@ final class Features
     }
 
     /**
+     * Paying by invoice or purchase order: on unless switched off
+     */
+    public static function invoice(): bool
+    {
+        $value = Config::get('eventsSubscriptionsInvoice');
+
+        return null === $value || (bool) $value;
+    }
+
+    /**
      * How long an unpaid card booking keeps its place: 30 minutes (the shortest a provider's payment page lasts) up to a day
      */
     public static function paymentHoldMinutes(): int

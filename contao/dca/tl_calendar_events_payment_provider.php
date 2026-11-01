@@ -23,7 +23,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment_provider'] = [
             'mode' => DataContainer::MODE_SORTED,
             'fields' => ['title'],
             'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
-            'panelLayout' => 'limit',
+            'panelLayout' => 'filter;limit',
         ],
         'label' => [
             'fields' => ['title'],
@@ -32,6 +32,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment_provider'] = [
         'operations' => [
             'edit',
             'delete',
+            'toggle',
             'show',
         ],
     ],
@@ -39,11 +40,11 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment_provider'] = [
     // Palettes
     'palettes' => [
         '__selector__' => ['type'],
-        'default' => '{title_legend},title,type',
-        'stripe' => '{title_legend},title,type;{config_legend},currency,secretKey',
-        'paypal' => '{title_legend},title,type;{config_legend},live,currency,clientId,clientSecret',
-        'mollie' => '{title_legend},title,type;{config_legend},currency,apiKey',
-        'govukpay' => '{title_legend},title,type;{config_legend},apiKey',
+        'default' => '{title_legend},title,type;{publish_legend},published',
+        'stripe' => '{title_legend},title,type;{config_legend},currency,secretKey;{publish_legend},published',
+        'paypal' => '{title_legend},title,type;{config_legend},live,currency,clientId,clientSecret;{publish_legend},published',
+        'mollie' => '{title_legend},title,type;{config_legend},currency,apiKey;{publish_legend},published',
+        'govukpay' => '{title_legend},title,type;{config_legend},apiKey;{publish_legend},published',
     ],
 
     // Fields
@@ -65,6 +66,15 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment_provider'] = [
             'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['typeRef'],
             'eval' => ['mandatory' => true, 'includeBlankOption' => true, 'submitOnChange' => true, 'tl_class' => 'w50'],
             'sql' => ['type' => Types::STRING, 'length' => 32, 'default' => ''],
+        ],
+        // Switched off, a provider is no longer offered on new bookings, but keeps its settings and its payments can still be refunded
+        'published' => [
+            'filter' => true,
+            'toggle' => true,
+            'inputType' => 'checkbox',
+            'eval' => ['doNotCopy' => true, 'tl_class' => 'clr'],
+            'save_callback' => [['Codefog\\EventsSubscriptionsBundle\\DataContainer\\PaymentContainer', 'validateActive']],
+            'sql' => ['type' => Types::BOOLEAN, 'default' => false],
         ],
         'live' => [
             'inputType' => 'checkbox',

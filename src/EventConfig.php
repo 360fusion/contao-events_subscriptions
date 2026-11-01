@@ -14,6 +14,7 @@ namespace Codefog\EventsSubscriptionsBundle;
 use Codefog\EventsSubscriptionsBundle\Model\EventGroupModel;
 use Codefog\EventsSubscriptionsBundle\Model\PaymentProviderModel;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentDecision;
+use Codefog\EventsSubscriptionsBundle\Payment\ProviderFactory;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\StringUtil;
@@ -86,7 +87,16 @@ class EventConfig
             return [];
         }
 
-        return PaymentDecision::availableMethods($this->getPrice(), StringUtil::deserialize($this->getSettingsSource('subscription_customPayment')->subscription_paymentMethods, true), null !== $this->getPaymentProvider());
+        return PaymentDecision::availableMethods($this->getPrice(), StringUtil::deserialize($this->getSettingsSource('subscription_customPayment')->subscription_paymentMethods, true), null !== $this->getPaymentProvider(), Features::invoice());
+    }
+
+    /**
+     * The event has a price and payment methods, but none of them can be offered right now (provider switched off, invoice switched
+     * off): it must not turn into a free event, so booking waits until a method is available again
+     */
+    public function isPaymentUnavailable(): bool
+    {
+        return Features::payments() && $this->getPrice() > 0 && [] !== StringUtil::deserialize($this->getSettingsSource('subscription_customPayment')->subscription_paymentMethods, true) && [] === $this->getAvailablePaymentMethods();
     }
 
     /**
@@ -96,7 +106,10 @@ class EventConfig
     {
         $id = (int) ($this->getSettingsSource('subscription_customPayment')->subscription_paymentProvider ?: $this->calendar->subscription_paymentProvider);
 
-        return $id ? PaymentProviderModel::findByPk($id) : null;
+        $provider = $id ? PaymentProviderModel::findByPk($id) : null;
+
+        // A provider switched off, or without its account details, takes no new bookings; its settings and payments (refunds, webhooks) stay
+        return $provider && $provider->published && ProviderFactory::hasCredentials($provider->row()) ? $provider : null;
     }
 
     /**

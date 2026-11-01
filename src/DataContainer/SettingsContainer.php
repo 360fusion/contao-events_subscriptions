@@ -19,6 +19,7 @@ class SettingsContainer
     public const PAGES = [
         'event_settings' => 'default',
         'event_settings_payments' => 'payments',
+        'event_settings_invoice' => 'invoice',
         'event_settings_emails' => 'emails',
         'event_settings_certificates' => 'certificates',
         'event_settings_mailings' => 'mailings',
@@ -29,6 +30,14 @@ class SettingsContainer
      */
     public function selectPalette(): void
     {
+        // Switches that are on until switched off are stored as on when their page is opened: the form cannot tell a setting that was
+        // never saved from an unticked box, so switching one off the first time would otherwise be lost
+        foreach (['eventsSubscriptionsAttendance', 'eventsSubscriptionsCertificate', 'eventsSubscriptionsInvoice'] as $key) {
+            if (null === Config::get($key)) {
+                Config::persist($key, true);
+            }
+        }
+
         $dca = &$GLOBALS['TL_DCA']['tl_events_subscriptions_settings'];
         $page = self::PAGES[(string) Input::get('do')] ?? 'default';
         $dca['palettes']['default'] = $dca['palettes'][$page];
@@ -36,9 +45,6 @@ class SettingsContainer
         System::loadLanguageFile('tl_events_subscriptions_settings');
         $this->explain($page);
 
-        if ('payments' === $page && Features::payments()) {
-            $this->addProvidersPanel();
-        }
     }
 
     /**
@@ -61,6 +67,7 @@ class SettingsContainer
         'general' => 'event_settings',
         'mailings' => 'event_settings_mailings',
         'providers' => 'event_payment_providers',
+        'payments' => 'event_settings_payments',
         'retention' => 'event_retention',
         'reports' => 'event_reports',
         'venues' => 'event_venues',
@@ -114,62 +121,6 @@ class SettingsContainer
     }
 
     /**
-     * The payment providers at a glance, with links to manage them and to the payments
-     */
-    private function addProvidersPanel(): void
-    {
-        System::loadLanguageFile('tl_calendar_events_payment_provider');
-
-        $L = $GLOBALS['TL_LANG']['tl_events_subscriptions_settings'];
-        $router = System::getContainer()->get('router');
-        $link = static fn (array $query): string => StringUtil::specialchars($router->generate('contao_backend', $query));
-        $rows = Database::getInstance()->query('SELECT id, title, type, live, currency, secretKey, apiKey FROM tl_calendar_events_payment_provider ORDER BY title')->fetchAllAssoc();
-        $html = '<p style="margin:0 0 6px"><strong>'.$L['providersTitle'].'</strong></p>';
-
-        if ($rows) {
-            $html .= '<ul style="margin:4px 0 8px 22px;padding:0;list-style:disc">';
-
-            foreach ($rows as $row) {
-                $mode = $this->getProviderMode($row);
-                $html .= sprintf(
-                    '<li style="margin:4px 0"><a href="%s"><strong>%s</strong></a> · %s%s · %s</li>',
-                    $link(['do' => 'event_payment_providers', 'act' => 'edit', 'id' => $row['id']]),
-                    StringUtil::specialchars($row['title']),
-                    StringUtil::specialchars($GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['typeRef'][$row['type']] ?? $row['type']),
-                    $mode ? ' · '.$L['providerMode'][$mode] : '',
-                    StringUtil::specialchars($row['currency'] ?: 'GBP'),
-                );
-            }
-
-            $html .= '</ul>';
-        } else {
-            $html .= '<p style="margin:6px 0">'.$L['providersNone'].'</p>';
-        }
-
-        $html .= sprintf('<p style="margin:6px 0 0"><a href="%s">%s</a> · <a href="%s">%s</a></p>', $link(['do' => 'event_payment_providers']), $L['providersManage'], $link(['do' => 'event_payments']), $L['paymentsList']);
-
-        Message::addRaw('<div class="tl_info" style="padding:14px 18px;line-height:1.5">'.$html.'</div>');
-    }
-
-    /**
-     * Test or live, from what the provider says: PayPal has a switch, the others follow the key (empty when it cannot be told)
-     */
-    private function getProviderMode(array $row): string
-    {
-        if ('paypal' === $row['type']) {
-            return $row['live'] ? 'live' : 'test';
-        }
-
-        $key = (string) ('stripe' === $row['type'] ? $row['secretKey'] : $row['apiKey']);
-
-        return match (true) {
-            str_contains($key, '_live_'), str_starts_with($key, 'live_') => 'live',
-            str_contains($key, '_test_'), str_starts_with($key, 'test_') => 'test',
-            default => '',
-        };
-    }
-
-    /**
      * Lines about the current situation, shown under the explanation
      *
      * @return list<string>
@@ -198,7 +149,7 @@ class SettingsContainer
                 break;
 
             case 'payments':
-                $providers = (int) $db->query('SELECT COUNT(*) AS n FROM tl_calendar_events_payment_provider')->n;
+                $providers = (int) $db->query('SELECT COUNT(*) AS n FROM tl_calendar_events_payment_provider WHERE published=1')->n;
                 $lines[] = Features::payments()
                     ? ($providers ? sprintf($L['paymentsOn'], $providers) : $L['paymentsOnNoProvider'])
                     : $L['paymentsOff'];

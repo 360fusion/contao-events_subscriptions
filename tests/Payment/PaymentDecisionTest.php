@@ -30,4 +30,12 @@ class PaymentDecisionTest extends TestCase
         // An unknown choice falls back to the first method offered
         $this->assertSame(PaymentStatus::INVOICE, PaymentDecision::decide(['invoice'], [], 'ann@gmail.com', 'card', false));
     }
+
+    public function testInvoiceCanBeSwitchedOff(): void
+    {
+        $this->assertSame(['card'], PaymentDecision::availableMethods(1250, ['card', 'invoice'], true, false));
+        $this->assertSame([], PaymentDecision::availableMethods(1250, ['card', 'invoice'], false, false));
+        $this->assertSame([], PaymentDecision::availableMethods(1250, ['invoice'], true, false));
+        $this->assertSame(['invoice'], PaymentDecision::availableMethods(1250, ['invoice'], false));
+    }
 }

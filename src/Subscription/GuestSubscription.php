@@ -24,7 +24,7 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
      */
     public function canSubscribe(EventConfig $event)
     {
-        return $this->getSubscriptionValidator()->canSubscribe($event);
+        return !$event->isPaymentUnavailable() && $this->getSubscriptionValidator()->canSubscribe($event);
     }
 
     /**

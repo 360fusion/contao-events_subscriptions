@@ -5,7 +5,7 @@
         <?php endif; ?>
 
         <?php if (!$type['isSubscribed'] && !$type['canSubscribe'] && ($this->isSubscriptionClosed || !$this->isEventPast)): ?>
-            <p class="message"><?= $GLOBALS['TL_LANG']['MSC'][$this->isSubscriptionClosed ? 'events_subscriptions.subscriptionClosed' : ($this->isFull ? 'events_subscriptions.eventFull' : 'events_subscriptions.subscribeNotAllowed')] ?></p>
+            <p class="message"><?= $GLOBALS['TL_LANG']['MSC'][$this->isSubscriptionClosed ? 'events_subscriptions.subscriptionClosed' : ($this->isPaymentUnavailable ? 'events_subscriptions.paymentUnavailableEvent' : ($this->isFull ? 'events_subscriptions.eventFull' : 'events_subscriptions.subscribeNotAllowed'))] ?></p>
         <?php endif; ?>
 
         <?php if ($type['canSubscribe'] && $this->subscribeWaitingList): ?>

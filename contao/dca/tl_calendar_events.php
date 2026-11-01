@@ -169,7 +169,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_paymentMethods'
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_paymentProvider'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentProvider'],
     'inputType' => 'select',
-    'foreignKey' => 'tl_calendar_events_payment_provider.title',
+    'options_callback' => ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\PaymentContainer', 'getProviderOptions'],
     'eval' => ['includeBlankOption' => true, 'tl_class' => 'w50 clr'],
     'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
 ];

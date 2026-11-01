@@ -228,3 +228,4 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.venueMap'] = 'View map';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] += ['event_venue_directions' => 'Venue directions', 'event_venue_accessibility' => 'Venue accessibility', 'event_venue_map' => 'Venue map link'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] += ['event_trainer_name' => 'Trainer name'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] += ['payment_invoice_text' => 'Invoice instructions'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailableEvent'] = 'Booking is not available at the moment. Please try again later or contact the team.';

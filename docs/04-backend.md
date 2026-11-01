@@ -122,11 +122,20 @@ separately in the user group permissions:
     bookings of events that ended more than the chosen number of months ago are anonymised (places, attendance and
     payment amounts are kept) or deleted. Anonymising also clears text columns of the subscription table that are
     no longer defined, e.g. left over from an older extension.
-  - **Payments**: switches payments on. Once on, the page lists the payment providers (test or live, currency) with
-    links to add or edit them and to the payments list, and has two settings: how long an unpaid card booking holds its
-    place (30 to 1440 minutes, default 30) and the instructions for paying by invoice, shown on the booking form and
-    available as the e-mail tag `##payment_invoice_text##`. The Payments menu item, the price settings and the payment providers
-    appear once it is on.
+  - **Payments**: switches payments on. Once on, the **payment types** show as tiles right under the switch: each card
+    provider (Stripe, PayPal, Mollie, GOV.UK Pay) with Active, Inactive or "Add account details" and Test or Live with
+    its currency, a **Pay by invoice** tile, and a dashed tile to add a provider. Click a tile to change it. The page
+    also sets how long an unpaid card booking holds its place (30 to 1440 minutes, default 30). The Payments menu item and the price
+    settings appear once payments are on.
+    - A **provider** can be switched off without deleting it (the Active tick, or the toggle button in its list). It is
+      then not offered on new bookings, but its settings stay and payments already made with it can still be refunded
+      and updated. A provider can only be made active once its account details are entered (Stripe: secret key;
+      PayPal: client ID and secret; Mollie and GOV.UK Pay: API key); a new provider starts inactive.
+    - **Pay by invoice** has its own page: an Active switch (on unless switched off) and the instructions people see on
+      the booking form, also available as the e-mail tag `##payment_invoice_text##`.
+    - An event with a price and payment methods, none of which can be offered right now (the provider is inactive or
+      has no details, invoice is switched off), takes no bookings until one is available again. It never turns into a
+      free event.
   - **E-mail signatures**: the sender of all event e-mails (saving updates them) and the signature for the `##signature##` tag.
   - **Certificates**: certificates of attendance on or off, the organisation name and who signs.
   - **Before and after events**: the trainer pack and after-the-event e-mails, and the hour the trainer pack goes out.

@@ -228,3 +228,4 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.venueMap'] = 'Karte ansehen';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] += ['event_venue_directions' => 'Anfahrt zum Ort', 'event_venue_accessibility' => 'Barrierefreiheit des Ortes', 'event_venue_map' => 'Kartenlink des Ortes'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] += ['event_trainer_name' => 'Name des Trainers'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] += ['payment_invoice_text' => 'Hinweise zur Rechnung'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailableEvent'] = 'Die Anmeldung ist im Moment nicht möglich. Bitte versuchen Sie es später erneut oder wenden Sie sich an das Team.';

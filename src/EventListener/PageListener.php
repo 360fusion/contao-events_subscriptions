@@ -67,7 +67,15 @@ class PageListener
         $eventId = (int) $model->pid;
 
         if ('pay' === $action && \in_array($payment->status, [PaymentStatus::PENDING, PaymentStatus::UNPAID], true)) {
-            throw new RedirectResponseException($manager->startCheckout($payment, Services::getEventConfigFactory()->create($eventId), $model), 303);
+            $config = Services::getEventConfigFactory()->create($eventId);
+
+            // The provider was switched off meanwhile: say so instead of failing
+            if (null === $config->getPaymentProvider()) {
+                Services::getFlashMessage()->set($GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'], $eventId);
+                Controller::redirect($cleanUrl);
+            }
+
+            throw new RedirectResponseException($manager->startCheckout($payment, $config, $model), 303);
         }
 
         try {

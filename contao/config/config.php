@@ -99,6 +99,10 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
         'tables' => ['tl_events_subscriptions_settings'],
         'hideInNavigation' => true,
     ],
+    'event_settings_invoice' => [
+        'tables' => ['tl_events_subscriptions_settings'],
+        'hideInNavigation' => true,
+    ],
     'event_settings_payments' => [
         'tables' => ['tl_events_subscriptions_settings'],
         'hideInNavigation' => true,
@@ -134,6 +138,9 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
 ]]);
 
 unset($calendarModule);
+
+// The payment types on the Payments settings page
+$GLOBALS['BE_FFL']['eventsPaymentTypes'] = 'Codefog\EventsSubscriptionsBundle\Widget\PaymentTypesWidget';
 
 // Frontend modules
 $GLOBALS['FE_MOD']['events']['event_list_subscribe'] = 'Codefog\EventsSubscriptionsBundle\FrontendModule\EventListModule';

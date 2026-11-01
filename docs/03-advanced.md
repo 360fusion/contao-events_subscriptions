@@ -172,8 +172,9 @@ month, e.g. February.
 
 Events can have a price. Guests then pay by card online, or by invoice with a purchase order or cost centre.
 
-1. Go to Events › Settings › Payment providers and add a provider: Stripe, PayPal, Mollie or GOV.UK Pay.
-   Enter the provider's test keys first. Card details are entered on the provider's own payment page, never on
+1. Go to Events › Settings › Payments, tick Payments and use the dashed tile to add a provider: Stripe, PayPal, Mollie
+   or GOV.UK Pay. A new provider starts inactive; enter its account details and tick Active. Enter the provider's
+   test keys first. Card details are entered on the provider's own payment page, never on
    the site. Copy the webhook URL shown in the provider list into the provider's webhook settings (Stripe:
    `checkout.session.completed` and `checkout.session.expired`; PayPal: `CHECKOUT.ORDER.APPROVED` and
    `PAYMENT.CAPTURE.COMPLETED`; Mollie sets it per payment; GOV.UK Pay: payment succeeded/failed).

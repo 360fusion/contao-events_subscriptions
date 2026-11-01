@@ -10,19 +10,19 @@ use Codefog\EventsSubscriptionsBundle\SubscriptionValidator;
 final class PaymentDecision
 {
     /**
-     * Payment methods that can be offered: card needs a provider
+     * Payment methods that can be offered: card needs a provider, invoice needs to be switched on
      *
      * @param list<string> $methods
      *
      * @return list<string>
      */
-    public static function availableMethods(int $price, array $methods, bool $hasProvider): array
+    public static function availableMethods(int $price, array $methods, bool $hasProvider, bool $invoiceActive = true): array
     {
         if ($price <= 0) {
             return [];
         }
 
-        return array_values(array_filter($methods, static fn ($method) => 'invoice' === $method || ('card' === $method && $hasProvider)));
+        return array_values(array_filter($methods, static fn ($method) => ('invoice' === $method && $invoiceActive) || ('card' === $method && $hasProvider)));
     }
 
     /**

@@ -52,6 +52,7 @@ trait SubscriptionTrait
         $data['subscriptionPlacesTaken'] = $placesTaken;
         $data['subscriptionPlacesLeft'] = $data['subscriptionMaximum'] > 0 ? max(0, $data['subscriptionMaximum'] - $placesTaken) : null;
         $data['isFull'] = $data['subscriptionMaximum'] > 0 && $placesTaken >= $data['subscriptionMaximum'];
+        $data['isPaymentUnavailable'] = $config->isPaymentUnavailable();
         $data['isSubscriptionClosed'] = $data['isEventPast'] || $data['subscribeEndTime']['tstamp'] <= time();
 
         // Add a helper variable that indicates subscription to a waiting list (see #32)

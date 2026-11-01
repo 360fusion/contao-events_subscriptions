@@ -20,6 +20,46 @@ class ProviderFactory
         'govukpay' => ['apiKey'],
     ];
 
+    /**
+     * The credential fields of the provider that are still empty ("type" when no provider was chosen)
+     *
+     * @return list<string>
+     */
+    public static function missingCredentials(array $record): array
+    {
+        if (!isset(self::TYPES[$record['type'] ?? ''])) {
+            return ['type'];
+        }
+
+        return array_values(array_filter(self::TYPES[$record['type']], static fn (string $field) => '' === trim((string) ($record[$field] ?? ''))));
+    }
+
+    /**
+     * A provider can only be used once its account details are entered
+     */
+    public static function hasCredentials(array $record): bool
+    {
+        return [] === self::missingCredentials($record);
+    }
+
+    /**
+     * Test or live: PayPal has a switch, the others follow the key (empty when it cannot be told)
+     */
+    public static function mode(array $record): string
+    {
+        if ('paypal' === ($record['type'] ?? '')) {
+            return $record['live'] ? 'live' : 'test';
+        }
+
+        $key = (string) ('stripe' === ($record['type'] ?? '') ? ($record['secretKey'] ?? '') : ($record['apiKey'] ?? ''));
+
+        return match (true) {
+            str_contains($key, '_live_'), str_starts_with($key, 'live_') => 'live',
+            str_contains($key, '_test_'), str_starts_with($key, 'test_') => 'test',
+            default => '',
+        };
+    }
+
     public static function create(array $record, HttpClientInterface|null $client = null): ProviderInterface
     {
         $client ??= HttpClient::create(['timeout' => 20]);
