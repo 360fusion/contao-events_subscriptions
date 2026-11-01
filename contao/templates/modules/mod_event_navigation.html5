@@ -2,16 +2,16 @@
 
 <?php $this->block('content'); ?>
 
-<nav aria-label="<?= $this->headline ? $this->escape(strip_tags($this->headline)) : $GLOBALS['TL_LANG']['MSC']['eventNavigation.label'] ?>">
+<nav aria-label="<?= $this->headline ? \Contao\StringUtil::specialchars(strip_tags($this->headline)) : $GLOBALS['TL_LANG']['MSC']['eventNavigation.label'] ?>">
   <ul class="level_1">
     <li<?php if (!$this->isFiltered): ?> class="active"<?php endif; ?>><a href="<?= $this->resetHref ?>"<?php if (!$this->isFiltered): ?> aria-current="page"<?php endif; ?>><?= $GLOBALS['TL_LANG']['MSC']['eventNavigation.all'] ?></a></li>
     <?php foreach ($this->items as $calendar): ?>
       <li class="<?= $calendar['active'] ? 'active trail' : '' ?><?= $calendar['groups'] ? ' submenu' : '' ?>">
-        <a href="<?= $calendar['href'] ?>"<?php if ($calendar['active'] && !$this->current['group']): ?> aria-current="page"<?php endif; ?>><?= $this->escape($calendar['title']) ?><?php if ($this->showCounts): ?> <span class="count">(<?= $calendar['count'] ?>)</span><?php endif; ?></a>
+        <a href="<?= $calendar['href'] ?>"<?php if ($calendar['active'] && !$this->current['group']): ?> aria-current="page"<?php endif; ?>><?= \Contao\StringUtil::specialchars($calendar['title']) ?><?php if ($this->showCounts): ?> <span class="count">(<?= $calendar['count'] ?>)</span><?php endif; ?></a>
         <?php if ($calendar['groups']): ?>
           <ul class="level_2">
             <?php foreach ($calendar['groups'] as $group): ?>
-              <li<?php if ($group['active']): ?> class="active"<?php endif; ?>><a href="<?= $group['href'] ?>"<?php if ($group['active']): ?> aria-current="page"<?php endif; ?>><?= $this->escape($group['title']) ?><?php if ($this->showCounts): ?> <span class="count">(<?= $group['count'] ?>)</span><?php endif; ?></a></li>
+              <li<?php if ($group['active']): ?> class="active"<?php endif; ?>><a href="<?= $group['href'] ?>"<?php if ($group['active']): ?> aria-current="page"<?php endif; ?>><?= \Contao\StringUtil::specialchars($group['title']) ?><?php if ($this->showCounts): ?> <span class="count">(<?= $group['count'] ?>)</span><?php endif; ?></a></li>
             <?php endforeach; ?>
           </ul>
         <?php endif; ?>
