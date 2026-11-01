@@ -81,3 +81,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_timeRef'] = [
     'months'  => 'month(s)',
     'years'   => 'year(s)',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events']['eventGroup'] = ['Event group', 'The event group (for example the course) within this calendar. Manage the groups with the folder icon in the calendar list.'];

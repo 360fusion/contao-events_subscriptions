@@ -3,6 +3,7 @@
 // Backend modules
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subscription';
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_group';
+$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_event_group';
 
 $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_export'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\ExportController',
@@ -38,6 +39,7 @@ $GLOBALS['FE_MOD']['events']['event_list_subscribe'] = 'Codefog\EventsSubscripti
 $GLOBALS['FE_MOD']['events']['event_reader_subscribe'] = 'Codefog\EventsSubscriptionsBundle\FrontendModule\EventReaderModule';
 $GLOBALS['FE_MOD']['events']['event_subscribe'] = 'Codefog\EventsSubscriptionsBundle\FrontendModule\EventSubscribeModule';
 $GLOBALS['FE_MOD']['events']['event_subscriptions'] = 'Codefog\EventsSubscriptionsBundle\FrontendModule\EventSubscriptionsModule';
+$GLOBALS['FE_MOD']['events']['event_navigation'] = 'Codefog\EventsSubscriptionsBundle\FrontendModule\EventNavigationModule';
 
 // Hooks
 $GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptionsBundle\EventDispatcher::EVENT_ON_SUBSCRIBE][] = [
@@ -66,6 +68,11 @@ $GLOBALS['TL_HOOKS']['reviseTable'][] = [
 
 $GLOBALS['TL_HOOKS']['getAllEvents'][] = [
     'Codefog\EventsSubscriptionsBundle\EventListener\EventsListener',
+    'onGetAllEvents',
+];
+
+$GLOBALS['TL_HOOKS']['getAllEvents'][] = [
+    'Codefog\EventsSubscriptionsBundle\EventListener\EventGroupFilterListener',
     'onGetAllEvents',
 ];
 

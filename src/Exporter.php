@@ -11,6 +11,7 @@ use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\Config;
 use Contao\Controller;
+use Contao\Database;
 use Contao\Date;
 use Contao\File;
 use Contao\System;
@@ -239,6 +240,7 @@ class Exporter
         $columns = [
             'event_id'                 => $headerFields['event_id'],
             'event_title'              => $headerFields['event_title'],
+            'event_group'              => $headerFields['event_group'],
             'event_start'              => $headerFields['event_start'],
             'event_end'                => $headerFields['event_end'],
             'subscription_date'        => $headerFields['subscription_date'],
@@ -280,6 +282,7 @@ class Exporter
         $eventData = [
             'event_id'    => $event->id,
             'event_title' => $event->title,
+            'event_group' => (string) Database::getInstance()->prepare('SELECT title FROM tl_calendar_event_group WHERE id=?')->execute((int) $event->eventGroup)->title,
             'event_start' => Date::parse(Config::get('datimFormat'), $event->startTime),
             'event_end'   => Date::parse(Config::get('datimFormat'), $event->endTime),
         ];

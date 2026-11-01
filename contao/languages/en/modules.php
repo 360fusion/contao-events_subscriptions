@@ -28,3 +28,7 @@ $GLOBALS['TL_LANG']['FMD']['event_subscriptions']    = [
     'User event subscriptions',
     'Adds a list of events that the current user is subscribed to.',
 ];
+$GLOBALS['TL_LANG']['FMD']['event_navigation']     = [
+    'Event navigation',
+    'Lists the calendars and their event groups as navigation or filter, linking to an event list with "Filter by URL".',
+];

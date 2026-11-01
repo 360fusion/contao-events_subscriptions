@@ -13,6 +13,7 @@ namespace Codefog\EventsSubscriptionsBundle\FrontendModule;
 
 use Codefog\EventsSubscriptionsBundle\Services;
 use Contao\BackendTemplate;
+use Contao\Database;
 use Contao\Calendar;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
@@ -55,6 +56,11 @@ class EventReaderModule extends ModuleEventReader
             $objTemplate->href = StringUtil::specialcharsUrl(System::getContainer()->get('router')->generate('contao_backend', array('do'=>'themes', 'table'=>'tl_module', 'act'=>'edit', 'id'=>$this->id)));
 
             return $objTemplate->parse();
+        }
+
+        // New calendars show up without editing the module
+        if ($this->cal_allCalendars) {
+            $this->cal_calendar = Database::getInstance()->query('SELECT id FROM tl_calendar')->fetchEach('id');
         }
 
         return parent::generate();

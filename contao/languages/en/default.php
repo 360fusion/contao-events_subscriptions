@@ -44,6 +44,7 @@ $GLOBALS['TL_LANG']['ERR']['events_subscriptions.memberAlreadySubscribed'] = 'Me
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.exportHeaderFields'] = [
     'event_id'                 => 'Event ID',
     'event_title'              => 'Event title',
+    'event_group'              => 'Event group',
     'event_start'              => 'Event start',
     'event_end'                => 'Event end',
     'subscription_date'        => 'Subscription date',
@@ -59,3 +60,12 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.memberExportHeaderFields'] = [
     'member_id'       => 'Member ID',
     'member_username' => 'Member username',
 ];
+
+$GLOBALS['TL_LANG']['MSC']['eventNavigation.label'] = 'Events';
+$GLOBALS['TL_LANG']['MSC']['eventNavigation.all'] = 'All events';
+$GLOBALS['TL_LANG']['MSC']['eventNavigation.calendar'] = 'Category';
+$GLOBALS['TL_LANG']['MSC']['eventNavigation.group'] = 'Event group';
+$GLOBALS['TL_LANG']['MSC']['eventNavigation.month'] = 'Month';
+$GLOBALS['TL_LANG']['MSC']['eventNavigation.anyMonth'] = 'Any month';
+$GLOBALS['TL_LANG']['MSC']['eventNavigation.filter'] = 'Filter';
+$GLOBALS['TL_LANG']['MSC']['eventNavigation.reset'] = 'Reset';

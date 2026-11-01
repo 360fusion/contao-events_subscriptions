@@ -148,3 +148,21 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_lastNotificatio
     'eval' => ['rgxp' => 'datim', 'doNotCopy' => true],
     'sql' => ['type' => Types::STRING, 'length' => 10, 'default' => ''],
 ];
+
+// Event group (a course within the calendar)
+\Contao\CoreBundle\DataContainer\PaletteManipulator::create()
+    ->addField('eventGroup', 'author', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_AFTER)
+    ->applyToPalette('default', 'tl_calendar_events')
+    ->applyToPalette('internal', 'tl_calendar_events')
+    ->applyToPalette('article', 'tl_calendar_events')
+    ->applyToPalette('external', 'tl_calendar_events');
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['eventGroup'] = [
+    'filter' => true,
+    'inputType' => 'select',
+    'options_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\EventGroupContainer', 'getEventGroupOptions'],
+    'foreignKey' => 'tl_calendar_event_group.title',
+    'eval' => ['includeBlankOption' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
+    'relation' => ['type' => 'belongsTo', 'load' => 'lazy'],
+];
