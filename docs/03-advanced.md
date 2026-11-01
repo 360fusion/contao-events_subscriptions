@@ -52,6 +52,20 @@ Possible scenarios:
   the form to subscribe to the waiting list (if its limit allows that).
 
 
+### Allowed e-mail domains
+
+You can limit guest subscriptions to e-mail addresses from certain domains, for example so that only staff with a
+company address can book. Enter one domain per line in "Allowed e-mail domains" in the calendar or event settings.
+Leave the list empty to allow all e-mail addresses.
+
+- `example.com` or `.example.com` allows the domain and all its subdomains (`staff@example.com`, `staff@hr.example.com`)
+- `@example.com` allows only this exact domain (`staff@example.com`, but not `staff@hr.example.com`)
+
+Only the part after the `@` is compared, ignoring upper and lower case, so look-alike domains such as
+`notexample.com` are rejected. The restriction applies to the guest subscription form; subscriptions added in the
+backend are not checked.
+
+
 ## Waiting list
 
 Sometimes you may want to limit the maximum number of subscriptions but still allow the users to subscribe

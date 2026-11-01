@@ -272,4 +272,44 @@ class SubscriptionValidator
 
         return count(array_intersect($allowedGroups, $member->getMemberGroups())) > 0;
     }
+
+    /**
+     * Return true if the e-mail address belongs to one of the allowed domains. An empty list allows all addresses.
+     *
+     * "example.com" and ".example.com" allow the domain and its subdomains, "@example.com" allows the domain only.
+     *
+     * @param array<string> $allowedDomains
+     */
+    public function isEmailDomainAllowed(string $email, array $allowedDomains): bool
+    {
+        $allowedDomains = array_filter(array_map(static fn ($domain) => strtolower(trim($domain)), $allowedDomains));
+
+        if (0 === count($allowedDomains)) {
+            return true;
+        }
+
+        $domain = strtolower(substr(strrchr($email, '@') ?: '', 1));
+
+        if ('' === $domain) {
+            return false;
+        }
+
+        foreach ($allowedDomains as $allowedDomain) {
+            if (str_starts_with($allowedDomain, '@')) {
+                if ($domain === substr($allowedDomain, 1)) {
+                    return true;
+                }
+
+                continue;
+            }
+
+            $allowedDomain = ltrim($allowedDomain, '.');
+
+            if ($domain === $allowedDomain || str_ends_with($domain, '.'.$allowedDomain)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

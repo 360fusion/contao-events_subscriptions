@@ -26,7 +26,7 @@ PaletteManipulator::create()
     ->addField('subscription_enable', 'subscription_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('default', 'tl_calendar');
 
-$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable'] = 'subscription_types,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_waitingList,subscription_reminders,subscription_unsubscribeLinkPage,subscription_subscribeNotification,subscription_unsubscribeNotification,subscription_listUpdateNotification';
+$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable'] = 'subscription_types,subscription_emailDomains,subscription_memberGroupsLimit,subscription_maximum,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_waitingList,subscription_reminders,subscription_unsubscribeLinkPage,subscription_subscribeNotification,subscription_unsubscribeNotification,subscription_listUpdateNotification';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_numberOfParticipants'] = 'subscription_numberOfParticipantsLimit';
@@ -41,6 +41,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_enable'] = [
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_types'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_emailDomains'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_emailDomains'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_maximum'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_subscribeEndTime'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_subscribeEndTime'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_unsubscribeEndTime'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_unsubscribeEndTime'];
