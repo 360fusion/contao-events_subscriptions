@@ -207,6 +207,7 @@ venue choice to type them yourself again.
   site's own `event_full` template needs no change). The e-mail tags are `##event_venue_directions##`,
   `##event_venue_accessibility##` and `##event_venue_map##`.
 - Switching venues off hides the tile and the Venue choice; events keep their location and address.
+- Tick **Show Venues and locations in the left menu** under the Venues switch (off by default) to add a link in the Events menu. The tile on the Settings page stays either way.
 
 ## Trainers
 
@@ -224,6 +225,8 @@ and course that uses them. Deleting a trainer copies their address into the type
 used them, so their packs still go out. Unticking *Available for events* hides a trainer from the choice; events that
 already use them keep them. Switching Trainers off hides the tile and the choice; a trainer already chosen is still
 used. The trainer's name is the e-mail tag `##event_trainer_name##` (empty when only an address was typed).
+
+Tick **Show Trainers in the left menu** under the Trainers switch (off by default) to add a link in the Events menu. The tile on the Settings page stays either way.
 
 ## Settings
 

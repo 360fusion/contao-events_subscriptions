@@ -23,6 +23,13 @@ class BackendMenuListener
             $tree->getChild('events_subscriptions')?->removeChild('event_payments');
         }
 
+        // Venues and Trainers: off unless ticked on the General page
+        foreach (['event_venues' => Features::venuesMenu(), 'event_trainers' => Features::trainersMenu()] as $module => $show) {
+            if (!$show) {
+                $tree->getChild('events_subscriptions')?->removeChild($module);
+            }
+        }
+
         $names = array_keys($tree->getChildren());
 
         if (!\in_array('events_subscriptions', $names, true) || false === ($content = array_search('content', $names, true))) {

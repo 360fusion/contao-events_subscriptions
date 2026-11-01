@@ -72,14 +72,12 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
         'tables' => ['tl_nc_notification', 'tl_nc_message', 'tl_nc_language'],
         'event_emailTest' => ['Codefog\EventsSubscriptionsBundle\Backend\EventEmailTestController', 'run'],
     ],
-    // Opened from Settings, once switched on
+    // In the left menu only when switched on and ticked in Settings (see BackendMenuListener); always opened from Settings
     'event_venues' => [
         'tables' => ['tl_calendar_events_venue'],
-        'hideInNavigation' => true,
     ],
     'event_trainers' => [
         'tables' => ['tl_calendar_events_trainer'],
-        'hideInNavigation' => true,
     ],
     'event_payments' => [
         'tables' => ['tl_calendar_events_payment'],

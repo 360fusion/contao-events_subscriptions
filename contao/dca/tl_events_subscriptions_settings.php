@@ -18,7 +18,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
 
     // One page for each area of Events › Settings › Booking settings, chosen by the module (see SettingsContainer::selectPalette())
     'palettes' => [
-        '__selector__' => ['eventsSubscriptionsRetention', 'eventsSubscriptionsPayments'],
+        '__selector__' => ['eventsSubscriptionsRetention', 'eventsSubscriptionsPayments', 'eventsSubscriptionsVenues', 'eventsSubscriptionsTrainers'],
         'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse,eventsSubscriptionsVenues,eventsSubscriptionsTrainers;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation;{retention_legend},eventsSubscriptionsRetention',
         'payments' => '{payments_legend},eventsSubscriptionsPayments',
         'invoice' => '{invoice_legend},eventsSubscriptionsInvoice,eventsSubscriptionsInvoiceText',
@@ -30,6 +30,8 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
     'subpalettes' => [
         'eventsSubscriptionsRetention' => 'eventsSubscriptionsRetentionMonths,eventsSubscriptionsRetentionAction',
         'eventsSubscriptionsPayments' => 'eventsSubscriptionsPaymentTypes,eventsSubscriptionsPaymentHold,eventsSubscriptionsPaymentsMenu',
+        'eventsSubscriptionsVenues' => 'eventsSubscriptionsVenuesMenu',
+        'eventsSubscriptionsTrainers' => 'eventsSubscriptionsTrainersMenu',
     ],
 
     'fields' => [
@@ -71,11 +73,19 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
         ],
         'eventsSubscriptionsTrainers' => [
             'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50'],
+            'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
+        ],
+        'eventsSubscriptionsTrainersMenu' => [
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'clr'],
         ],
         'eventsSubscriptionsVenues' => [
             'inputType' => 'checkbox',
-            'eval' => ['tl_class' => 'w50'],
+            'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
+        ],
+        'eventsSubscriptionsVenuesMenu' => [
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'clr'],
         ],
         'eventsSubscriptionsOneBookingPerCourse' => [
             'inputType' => 'checkbox',

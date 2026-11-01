@@ -74,6 +74,19 @@ final class Features
     }
 
     /**
+     * The Venues and Trainers lists in the left menu: off until ticked, next to the switch that turns the list on
+     */
+    public static function venuesMenu(): bool
+    {
+        return self::venues() && (bool) Config::get('eventsSubscriptionsVenuesMenu');
+    }
+
+    public static function trainersMenu(): bool
+    {
+        return self::trainers() && (bool) Config::get('eventsSubscriptionsTrainersMenu');
+    }
+
+    /**
      * The Payments list (payments, refunds, invoices) in the left menu: shown unless switched off; hidden, it opens from a tile on the Settings page
      */
     public static function paymentsMenu(): bool
