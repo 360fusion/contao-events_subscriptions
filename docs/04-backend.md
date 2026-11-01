@@ -186,6 +186,23 @@ venue choice to type them yourself again.
   `##event_venue_accessibility##` and `##event_venue_map##`.
 - Switching venues off hides the menu item and the Venue choice; events keep their location and address.
 
+## Trainers
+
+Switch it on in Events › Settings › Booking settings › General. Events › Trainers then keeps the people who run events:
+name, e-mail address and whether they are still offered. The list shows how many events and courses use each trainer.
+
+Events and courses get a **Trainer** choice above the *Trainer e-mail address*. The trainer pack e-mail goes to:
+
+1. the trainer chosen on the event, otherwise the e-mail address typed on the event,
+2. then, if the event has neither, the trainer chosen on its course, otherwise the address typed on the course.
+
+On the same event or course, a chosen trainer comes before a typed address. Use the typed address for someone who is not
+in the list. The address is read when the pack is sent, so changing a trainer's e-mail address changes it for every event
+and course that uses them. Deleting a trainer copies their address into the typed address of the events and courses that
+used them, so their packs still go out. Unticking *Available for events* hides a trainer from the choice; events that
+already use them keep them. Switching Trainers off hides the menu item and the choice; a trainer already chosen is still
+used. The trainer's name is the e-mail tag `##event_trainer_name##` (empty when only an address was typed).
+
 ## Settings
 
 - *One booking per course* (off by default): stops someone booking a second upcoming date of a course they are

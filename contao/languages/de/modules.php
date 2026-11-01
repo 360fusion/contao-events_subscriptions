@@ -54,3 +54,4 @@ $GLOBALS['TL_LANG']['MOD']['event_settings_emails'] = ['Buchungseinstellungen: E
 $GLOBALS['TL_LANG']['MOD']['event_settings_certificates'] = ['Buchungseinstellungen: Bescheinigungen', 'Teilnahmebescheinigungen und ihr Inhalt'];
 $GLOBALS['TL_LANG']['MOD']['event_settings_mailings'] = ['Buchungseinstellungen: Vor und nach Veranstaltungen', 'Trainer-Mail und Dankes-E-Mail, die die Seite selbst sendet'];
 $GLOBALS['TL_LANG']['MOD']['event_venues'] = ['Veranstaltungsorte', 'Die Orte, an denen Veranstaltungen stattfinden: Name, Adresse, Anfahrt und Barrierefreiheit'];
+$GLOBALS['TL_LANG']['MOD']['event_trainers'] = ['Trainer', 'Die Personen, die Veranstaltungen leiten: Name und E-Mail-Adresse, bei Veranstaltungen und Kursen auswählbar'];

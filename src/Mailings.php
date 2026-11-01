@@ -48,7 +48,7 @@ class Mailings
 
             $event = (new CalendarEventsModel())->setRow($row);
 
-            if ('' === ($email = $this->getTrainerEmail($row))) {
+            if ('' === ($email = Trainer::forEvent($row)['email'])) {
                 continue;
             }
 
@@ -110,20 +110,6 @@ class Mailings
     }
 
     /**
-     * The trainer set on the event, otherwise the one of its course
-     */
-    private function getTrainerEmail(array $event): string
-    {
-        $email = (string) $event['subscription_trainerEmail'];
-
-        if ('' === $email && $event['eventGroup']) {
-            $email = (string) Database::getInstance()->prepare('SELECT subscription_trainerEmail FROM tl_calendar_event_group WHERE id=?')->execute($event['eventGroup'])->subscription_trainerEmail;
-        }
-
-        return trim($email);
-    }
-
-    /**
      * @return array{0: string, 1: int, 2: int} The attendee list as text, the number of bookings and the number of places
      */
     private function getAttendees(EventConfig $config): array
@@ -131,18 +117,12 @@ class Mailings
         $blocks = [];
         $places = 0;
 
+        $sender = Services::getNotificationSender();
+
         foreach (array_filter(Attendees::forEvent($config), static fn (array $row) => !$row['waiting']) as $row) {
-            $lines = [sprintf('%d. %s%s', \count($blocks) + 1, $row['name'], $row['email'] ? ' <'.$row['email'].'>' : '')];
-
-            if ($row['places'] > 1) {
-                $lines[] = '   '.$GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants'].': '.$row['places'];
-            }
-
-            foreach ($row['answers'] as [$label, $value]) {
-                $lines[] = '   '.$label.': '.$value;
-            }
-
-            $blocks[] = implode("\n", $lines);
+            // The same lines as the ##subscription_details## tag of the booking e-mails, so nobody has to list the form fields again
+            $details = (string) ($sender->getTokensForSubscription(SubscriptionModel::findByPk($row['id']))['subscription_details'] ?? '');
+            $blocks[] = (\count($blocks) + 1).".\n".('' !== $details ? $details : $row['name']);
             $places += $row['places'];
         }
 

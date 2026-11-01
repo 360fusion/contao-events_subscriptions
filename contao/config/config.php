@@ -75,6 +75,9 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
     'event_venues' => [
         'tables' => ['tl_calendar_events_venue'],
     ],
+    'event_trainers' => [
+        'tables' => ['tl_calendar_events_trainer'],
+    ],
     'event_payments' => [
         'tables' => ['tl_calendar_events_payment'],
         'payment_refund' => ['Codefog\EventsSubscriptionsBundle\Backend\PaymentController', 'run'],

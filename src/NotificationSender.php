@@ -167,6 +167,9 @@ class NotificationSender
         $tokens['event_venue_accessibility'] = (string) ($venue['accessibility'] ?? '');
         $tokens['event_venue_map'] = (string) ($venue['mapLink'] ?? '');
 
+        // The trainer chosen on the event or its course (empty when only an address was typed)
+        $tokens['event_trainer_name'] = Trainer::forEvent($event->row())['name'];
+
         // The shared signature of Events › Settings › Booking settings
         $tokens['signature'] = Features::text('eventsSubscriptionsSignature');
         $tokens['signature_html'] = nl2br(htmlspecialchars($tokens['signature']), false);

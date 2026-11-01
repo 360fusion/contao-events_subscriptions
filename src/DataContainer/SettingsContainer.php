@@ -60,6 +60,7 @@ class SettingsContainer
         'retention' => 'event_retention',
         'reports' => 'event_reports',
         'venues' => 'event_venues',
+        'trainers' => 'event_trainers',
     ];
 
     /**
@@ -143,7 +144,7 @@ class SettingsContainer
             case 'mailings':
                 $count = static fn (string $type) => (int) $db->prepare('SELECT COUNT(*) AS n FROM tl_nc_notification WHERE type=?')->execute($type)->n;
                 $lines[] = sprintf($L['mailingsReady'], $count('events_subscriptions_trainer'), $count('events_subscriptions_followUp'));
-                $lines[] = sprintf($L['trainerEvents'], (int) $db->prepare("SELECT COUNT(*) AS n FROM tl_calendar_events e WHERE e.published=1 AND e.startTime>? AND (e.subscription_trainerEmail!='' OR (e.eventGroup>0 AND EXISTS (SELECT 1 FROM tl_calendar_event_group g WHERE g.id=e.eventGroup AND g.subscription_trainerEmail!='')))")->execute(time())->n);
+                $lines[] = sprintf($L['trainerEvents'], (int) $db->prepare("SELECT COUNT(*) AS n FROM tl_calendar_events e WHERE e.published=1 AND e.startTime>? AND (e.subscription_trainerEmail!='' OR e.subscription_trainer>0 OR (e.eventGroup>0 AND EXISTS (SELECT 1 FROM tl_calendar_event_group g WHERE g.id=e.eventGroup AND (g.subscription_trainerEmail!='' OR g.subscription_trainer>0))))")->execute(time())->n);
                 break;
         }
 

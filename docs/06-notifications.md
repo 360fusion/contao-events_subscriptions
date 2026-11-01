@@ -139,10 +139,15 @@ changing the e-mail. Meant for plain text e-mails.
 Two more e-mail types are sent by the site on its own once an e-mail of that type is chosen under Events › Settings ›
 Booking settings › Before and after events. Each is sent once for every event or booking, from the hourly cron job.
 
-- **Trainer pack the day before** (`events_subscriptions_trainer`): goes to the trainer e-mail address of the event,
-  or of its course when the event has none, at the chosen hour (16:00 by default) for events starting tomorrow. An
-  event that is still today and was missed is sent at once. Tags: `##attendee_list##` (everyone booked, with their
-  answers, waiting list left out), `##attendee_count##`, `##attendee_places##` and the event tags.
+Both e-mails are created by `contao:migrate` with the standard e-mail fields (sender from Booking settings or from an
+existing event e-mail, recipient `##recipient_email##`, subject, plain text, signature) as soon as the Notification
+Center has an e-mail gateway. An e-mail that already exists is never created again or changed.
+
+- **Trainer pack the day before** (`events_subscriptions_trainer`): goes to the trainer of the event (chosen from
+  Trainers, or an e-mail address typed on it), or of its course when the event has none, at the chosen hour (16:00 by default) for events starting tomorrow. An
+  event that is still today and was missed is sent at once. Tags: `##attendee_list##` (everyone booked, waiting
+  list left out; each person is listed with the same lines as the `##subscription_details##` tag, so the form fields
+  never have to be listed again), `##attendee_count##`, `##attendee_places##`, `##event_trainer_name##` and the event tags.
 - **After the event** (`events_subscriptions_followUp`): goes the day after, from 09:00, to everyone marked as attended
   (to every confirmed booking when Attendance is switched off). Only events that ended in the last 3 days are
   considered, so switching it on never writes to people who attended long ago. Tags: the booking tags and

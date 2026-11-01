@@ -289,8 +289,8 @@ class EventEmailContainer
             $items = '';
 
             foreach ($tags as $token => $label) {
-                // The venue tags only exist once venues are switched on
-                if (!Features::venues() && str_starts_with($token, 'event_venue_')) {
+                // The venue and trainer tags only exist once those lists are switched on
+                if ((!Features::venues() && str_starts_with($token, 'event_venue_')) || (!Features::trainers() && 'event_trainer_name' === $token)) {
                     continue;
                 }
 

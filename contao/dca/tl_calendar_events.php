@@ -214,6 +214,15 @@ if (\Codefog\EventsSubscriptionsBundle\Features::venues()) {
     unset($palette);
 }
 
+// Trainers: the choice is shown once the Trainers list is switched on; a typed address (below) is used when none is chosen
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_trainer'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_trainer'],
+    'inputType' => 'select',
+    'options_callback' => ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\TrainerContainer', 'getOptions'],
+    'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
+];
+
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_trainerEmail'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_trainerEmail'],
     'inputType' => 'text',

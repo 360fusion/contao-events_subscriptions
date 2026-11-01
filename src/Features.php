@@ -73,6 +73,14 @@ final class Features
         return (bool) Config::get('eventsSubscriptionsVenues');
     }
 
+    /**
+     * Trainers: a list of people, chosen on events and courses
+     */
+    public static function trainers(): bool
+    {
+        return (bool) Config::get('eventsSubscriptionsTrainers');
+    }
+
     public static function calendarGroups(): bool
     {
         return (bool) Config::get('eventsSubscriptionsCalendarGroups');

@@ -28,6 +28,11 @@ class BackendMenuListener
             $tree->getChild('events_subscriptions')?->removeChild('event_venues');
         }
 
+        // Trainers switched on in Events › Settings › Booking settings › General
+        if (!Features::trainers()) {
+            $tree->getChild('events_subscriptions')?->removeChild('event_trainers');
+        }
+
         $names = array_keys($tree->getChildren());
 
         if (!\in_array('events_subscriptions', $names, true) || false === ($content = array_search('content', $names, true))) {

@@ -22,6 +22,7 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     ;
 
     $services->load('Codefog\\EventsSubscriptionsBundle\\NotificationCenter\\', __DIR__ . '/../src/NotificationCenter');
+    $services->load('Codefog\\EventsSubscriptionsBundle\\Migration\\', __DIR__ . '/../src/Migration');
 
     $services
         ->load('Codefog\\EventsSubscriptionsBundle\\Controller\\', __DIR__ . '/../src/Controller')
