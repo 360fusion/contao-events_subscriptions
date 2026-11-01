@@ -340,8 +340,37 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
             'subscription_lastname'  => $this->subscriptionModel->lastname,
             'subscription_email'     => $this->subscriptionModel->email,
             'subscription_numberOfParticipants' => $this->subscriptionModel->numberOfParticipants,
+            'subscription_details'   => $this->getDetails(),
             'unsubscribe_link'       => $this->generateUnsubscribeLink(),
         ] + $this->getRegistrationFieldValues();
+    }
+
+    /**
+     * Everything the booking form asked for this event, including registration fields added later
+     */
+    private function getDetails(): string
+    {
+        System::loadLanguageFile('tl_calendar_events_subscription');
+
+        $L = $GLOBALS['TL_LANG']['tl_calendar_events_subscription'];
+        $event = EventConfig::create($this->subscriptionModel->pid);
+        $answers = [
+            [$L['firstname'][0], $this->subscriptionModel->firstname],
+            [$L['lastname'][0], $this->subscriptionModel->lastname],
+            [$L['email'][0], $this->subscriptionModel->email],
+        ];
+
+        if ($event->canProvideNumberOfParticipants()) {
+            $answers[] = [$GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants'], $this->subscriptionModel->numberOfParticipants];
+        }
+
+        $registrationFields = RegistrationFields::fromDatabase();
+
+        foreach ($registrationFields->resolve($event->get('subscription_fields')) as $field) {
+            $answers[] = [$field['label'], $registrationFields->formatValue($field, $this->subscriptionModel->{$registrationFields->virtualFieldName($field['key'])})];
+        }
+
+        return $this->formatDetails($answers);
     }
 
     /**

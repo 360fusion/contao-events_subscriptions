@@ -303,4 +303,22 @@ abstract class AbstractSubscription implements FrontendDataInterface, ModuleData
      * @return Form|bool
      */
     abstract protected function createForm(EventConfig $event);
+
+    /**
+     * The booking's answers as "Label: value" lines for the ##subscription_details## e-mail tag. Blank answers are left out.
+     *
+     * @param list<array{0: string, 1: mixed}> $answers Label and value pairs, in form order
+     */
+    protected function formatDetails(array $answers): string
+    {
+        $lines = [];
+
+        foreach ($answers as [$label, $value]) {
+            if ('' !== trim((string) $value)) {
+                $lines[] = $label.': '.$value;
+            }
+        }
+
+        return implode("\n", $lines);
+    }
 }

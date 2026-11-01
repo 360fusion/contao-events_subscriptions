@@ -297,6 +297,19 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
 
         $tokens['subscription_numberOfParticipants'] = $this->subscriptionModel->numberOfParticipants;
 
+        System::loadLanguageFile('tl_calendar_events_subscription');
+        $answers = [
+            [$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['firstname'][0], $member->firstname],
+            [$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastname'][0], $member->lastname],
+            [$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['email'][0], $member->email],
+        ];
+
+        if (EventConfig::create($this->subscriptionModel->pid)->canProvideNumberOfParticipants()) {
+            $answers[] = [$GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants'], $this->subscriptionModel->numberOfParticipants];
+        }
+
+        $tokens['subscription_details'] = $this->formatDetails($answers);
+
         return $tokens;
     }
 }

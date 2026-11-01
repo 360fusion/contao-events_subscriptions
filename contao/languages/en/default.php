@@ -116,6 +116,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTagGroups'] = ['other' => 'Other', 'booking' => 'Booking', 'event' => 'Event', 'links' => 'Links', 'payment' => 'Payment'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
+    'subscription_details' => 'All booking details',
     'signature' => 'Signature',
     'subscription_firstname' => 'First name',
     'subscription_lastname' => 'Last name',

@@ -11,7 +11,7 @@ final class EmailTags
      * Group => token => label key in $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags']
      */
     private const CATALOGUE = [
-        'booking' => ['subscription_firstname', 'subscription_lastname', 'subscription_email', 'subscription_numberOfParticipants'],
+        'booking' => ['subscription_details', 'subscription_firstname', 'subscription_lastname', 'subscription_email', 'subscription_numberOfParticipants'],
         'event' => ['event_title', 'event_startDate', 'event_startTime', 'event_endDate', 'event_endTime', 'event_location', 'event_address', 'event_teaser', 'days_before_event', 'calendar_title'],
         'links' => ['event_link', 'event_ics_link', 'unsubscribe_link'],
         'payment' => ['payment_amount', 'payment_status', 'payment_method', 'purchase_order', 'payment_link'],
