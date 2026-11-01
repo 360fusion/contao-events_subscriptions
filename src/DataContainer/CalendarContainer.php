@@ -22,6 +22,7 @@ use Contao\Image;
 use Contao\Input;
 use Contao\Message;
 use Contao\StringUtil;
+use Contao\System;
 
 class CalendarContainer
 {
@@ -39,12 +40,21 @@ class CalendarContainer
         $events = (int) $db->query('SELECT COUNT(*) AS total FROM tl_calendar_events WHERE '.UpcomingController::LIVE_EVENTS_WHERE)->total;
         $subscriptions = (int) $db->query('SELECT COUNT(*) AS total FROM tl_calendar_events_subscription WHERE pid IN (SELECT id FROM tl_calendar_events WHERE '.UpcomingController::LIVE_EVENTS_WHERE.')')->total;
 
+        // Prefetched pages (e.g. hovering a menu link) queue the summary without showing it, so replace a queued one
+        $flashBag = System::getContainer()->get('request_stack')->getSession()->getFlashBag();
+
+        foreach ($flashBag->get('contao.BE.raw') as $message) {
+            if (!str_contains($message, 'subscriptions-summary')) {
+                $flashBag->add('contao.BE.raw', $message);
+            }
+        }
+
         Message::addRaw(sprintf(
-            '<p class="tl_info">%s &nbsp;<a href="%s">%s</a></p>',
+            '<p class="tl_info subscriptions-summary">%s &nbsp;<a href="%s">%s</a></p>',
             sprintf($GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary'], number_format($calendars), number_format($events), number_format($subscriptions)),
             StringUtil::ampersand(Backend::addToUrl('key=subscriptions_upcoming')),
             $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary.link'],
-        ));
+        ), 'BE');
     }
 
     /**
