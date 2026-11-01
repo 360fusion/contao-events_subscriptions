@@ -220,3 +220,9 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.public'] = [
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.noAttendees'] = 'No one has booked.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.sameCourseError'] = 'You are already booked on another date of this course: %s (%s). Please cancel that booking first, using the link in your confirmation e-mail.';
+
+// Venues and locations
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.venueDirections'] = 'Getting there:';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.venueAccessibility'] = 'Accessibility:';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.venueMap'] = 'View map';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] += ['event_venue_directions' => 'Venue directions', 'event_venue_accessibility' => 'Venue accessibility', 'event_venue_map' => 'Venue map link'];

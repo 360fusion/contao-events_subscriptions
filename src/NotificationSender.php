@@ -161,6 +161,12 @@ class NotificationSender
         $tokens['event_link'] = Events::generateEventUrl($event, true);
         $tokens['event_ics_link'] = $tokens['event_link'].(str_contains($tokens['event_link'], '?') ? '&' : '?').'ics=1';
 
+        // The venue chosen on the event (the location and address are the event's own fields)
+        $venue = Features::venues() && $event->venue ? Venue::find((int) $event->venue) : null;
+        $tokens['event_venue_directions'] = (string) ($venue['directions'] ?? '');
+        $tokens['event_venue_accessibility'] = (string) ($venue['accessibility'] ?? '');
+        $tokens['event_venue_map'] = (string) ($venue['mapLink'] ?? '');
+
         // The shared signature of Events › Settings › Booking settings
         $tokens['signature'] = Features::text('eventsSubscriptionsSignature');
         $tokens['signature_html'] = nl2br(htmlspecialchars($tokens['signature']), false);

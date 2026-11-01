@@ -220,3 +220,9 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.public'] = [
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.noAttendees'] = 'Es gibt keine Anmeldungen.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.sameCourseError'] = 'Sie sind bereits für einen anderen Termin dieses Kurses angemeldet: %s (%s). Bitte stornieren Sie diese Anmeldung zuerst über den Link in Ihrer Bestätigungs-E-Mail.';
+
+// Veranstaltungsorte
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.venueDirections'] = 'Anfahrt:';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.venueAccessibility'] = 'Barrierefreiheit:';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.venueMap'] = 'Karte ansehen';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] += ['event_venue_directions' => 'Anfahrt zum Ort', 'event_venue_accessibility' => 'Barrierefreiheit des Ortes', 'event_venue_map' => 'Kartenlink des Ortes'];

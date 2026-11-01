@@ -152,3 +152,9 @@ Booking settings › Before and after events. Each is sent once for every event 
 
 `##booking_link##` (manage my booking), `##certificate_link##` and `##feedback_link##` are available in every booking
 e-mail. See "The booker's own pages" in the back end and booking chapters.
+
+### Venue tags
+
+With Venues and locations switched on, `##event_venue_directions##`, `##event_venue_accessibility##` and
+`##event_venue_map##` give the directions, accessibility information and map link of the venue chosen on the event
+(empty when there is none). The venue's name and address are the usual `##event_location##` and `##event_address##`.

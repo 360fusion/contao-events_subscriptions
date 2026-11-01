@@ -19,7 +19,7 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsText
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextWaitingList'] = ['Event is full, waiting list open', 'Leave empty to use the default text shown in grey.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextConfirmation'] = ['After booking', 'Shown after booking when no thank-you page is set. Leave empty to use the default text shown in grey.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['features_legend'] = 'Features';
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['emails_legend'] = 'E-mails';
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['emails_legend'] = 'Sender and signature';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['wording_legend'] = 'Booking form texts';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionOlderThan'] = 'Events that ended more than';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['retentionMonths'] = 'months ago';
@@ -47,7 +47,7 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsNoSh
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['mailings_legend'] = 'Before and after the event';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['certificate_legend'] = 'Certificate';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['reports_legend'] = 'Reports';
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['sections'] = ['event_settings' => 'General', 'event_settings_payments' => 'Payments', 'event_settings_emails' => 'E-mails', 'event_settings_certificates' => 'Certificates', 'event_settings_mailings' => 'Before and after events'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['sections'] = ['event_settings' => 'General', 'event_settings_payments' => 'Payments', 'event_settings_emails' => 'E-mail signatures', 'event_settings_certificates' => 'Certificates', 'event_settings_mailings' => 'Before and after events'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['setupSections'] = ['settings' => 'Booking settings', 'tools' => 'Tools and data'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['setupStatus'] = ['on' => 'On', 'off' => 'Off', 'mailings' => '%s of 2 on'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['payments_legend'] = 'Payments';
@@ -58,7 +58,8 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['statusTitle'] = 'How th
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['explain'] = [
     'default' => [
         ['p', 'These settings apply to the whole booking system. Settings for one calendar, course or event (places, deadlines, waiting list, registration fields, reminders) are set where you edit that calendar, course or event in {calendars}.'],
-        ['ul', ['<strong>Features</strong>: <em>Attendance</em> adds the Attended tick to bookings, a filter and an export column. It is needed for check-in, certificates and the did-not-attend figures in {reports}. <em>Calendar groups</em> lists calendars under their group. <em>One booking per course</em> stops someone booking two dates of the same course.', '<strong>New calendars</strong>: choose a calendar to copy. Every new calendar then starts with its booking settings and can be changed afterwards.', '<strong>Reports</strong>: how many missed events make someone a repeat no-show. They are listed in {reports} and marked in {subscribers}.', '<strong>Booking form texts</strong>: the wording people see on the event page. Leave a box empty to use the default text, shown in grey.', '<strong>Keeping booking details</strong>: tick it to remove names, e-mail addresses and answers of old bookings automatically, by anonymising or deleting them. You can also review and delete them by hand at any time in {retention}.']],
+        ['ul', ['<strong>Features</strong>: <em>Attendance</em> adds the Attended tick to bookings, a filter and an export column. It is needed for check-in, certificates and the did-not-attend figures in {reports}. <em>Calendar groups</em> lists calendars under their group. <em>One booking per course</em> stops someone booking two dates of the same course.', '<strong>Venues and locations</strong>: tick it to keep a list of the places events are held, under {venues}. Each event then has a <em>Venue</em> choice that fills in its location and address on the website, with directions, accessibility and a map link on the event page.',
+   '<strong>New calendars</strong>: choose a calendar to copy. Every new calendar then starts with its booking settings and can be changed afterwards.', '<strong>Reports</strong>: how many missed events make someone a repeat no-show. They are listed in {reports} and marked in {subscribers}.', '<strong>Booking form texts</strong>: the wording people see on the event page. Leave a box empty to use the default text, shown in grey.', '<strong>Keeping booking details</strong>: tick it to remove names, e-mail addresses and answers of old bookings automatically, by anonymising or deleting them. You can also review and delete them by hand at any time in {retention}.']],
     ],
     'payments' => [
         ['p', 'Payments let a calendar, course or event have a price. People pay by card online, or give an invoice, purchase order or cost centre reference. Everything below stays hidden until you tick the box and save.'],
@@ -98,3 +99,4 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['status'] = [
     'mailingsReady' => 'E-mails ready to choose: %s trainer pack, %s after the event. If a number is 0, create that e-mail in {emails} first.',
     'trainerEvents' => '%s upcoming events have a trainer e-mail address, so would send a trainer pack.',
 ];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsVenues'] = ['Venues and locations', 'Keep a list of the places events are held. Adds Venues and locations to the Events menu and a Venue choice on every event, which fills in the location and address shown on the website.'];

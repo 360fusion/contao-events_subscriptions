@@ -3,6 +3,7 @@
 namespace Codefog\EventsSubscriptionsBundle\DataContainer;
 
 use Codefog\EventsSubscriptionsBundle\Email\EmailTags;
+use Codefog\EventsSubscriptionsBundle\Features;
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsEventType;
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsListUpdateType;
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsReminderType;
@@ -288,6 +289,11 @@ class EventEmailContainer
             $items = '';
 
             foreach ($tags as $token => $label) {
+                // The venue tags only exist once venues are switched on
+                if (!Features::venues() && str_starts_with($token, 'event_venue_')) {
+                    continue;
+                }
+
                 $items .= sprintf('<li><button type="button" data-token="##%1$s##" title="##%1$s##">%2$s</button></li>', $token, StringUtil::specialchars($label));
             }
 

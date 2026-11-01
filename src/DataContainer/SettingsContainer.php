@@ -59,6 +59,7 @@ class SettingsContainer
         'providers' => 'event_payment_providers',
         'retention' => 'event_retention',
         'reports' => 'event_reports',
+        'venues' => 'event_venues',
     ];
 
     /**

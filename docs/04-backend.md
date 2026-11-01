@@ -121,7 +121,7 @@ separately in the user group permissions:
     no longer defined, e.g. left over from an older extension.
   - **Payments**: switches payments on. The Payments menu item, the price settings and the payment providers
     appear once it is on.
-  - **E-mails**: the sender of all event e-mails (saving updates them) and the signature for the `##signature##` tag.
+  - **E-mail signatures**: the sender of all event e-mails (saving updates them) and the signature for the `##signature##` tag.
   - **Certificates**: certificates of attendance on or off, the organisation name and who signs.
   - **Before and after events**: the trainer pack and after-the-event e-mails, and the hour the trainer pack goes out.
 
@@ -165,6 +165,26 @@ formula. The same five download buttons are on the history page of a person.
 Events › Settings › Booking settings › General). Waiting list places never count. The same people are marked "missed N"
 in the Subscribers list. Click a name in the Subscribers list or the no-show list for **all their bookings** (outcome
 for each, with an export). The history only shows the calendars the user may access.
+
+## Venues and locations
+
+Switch it on in Events › Settings › Booking settings › General. Events › Venues and locations then keeps the places
+events are held: name, street, town, postcode, "Getting there" (directions and parking), "Accessibility", a map link, and
+whether the place is still offered on events. The list shows the address and how many events use each place.
+
+Every event gets a **Venue** choice above its location. When you save an event with a venue, its *location* is set to the
+venue's name and its *address* to "street, town, postcode". They are the event's normal location and address fields, so
+every event list, the event page, the calendar file (ICS) and the `##event_location##` and `##event_address##` e-mail
+tags show the venue without changing any template. Those two fields are read-only while a venue is chosen; empty the
+venue choice to type them yourself again.
+
+- Editing a venue updates the location and address of all its events.
+- Deleting a venue keeps the location and address its events have now, and only removes the link.
+- Unticking *Available for events* hides the place from the Venue choice; events that already use it keep it.
+- The event page shows the directions, the accessibility information and a "View map" link under the location (the
+  site's own `event_full` template needs no change). The e-mail tags are `##event_venue_directions##`,
+  `##event_venue_accessibility##` and `##event_venue_map##`.
+- Switching venues off hides the menu item and the Venue choice; events keep their location and address.
 
 ## Settings
 

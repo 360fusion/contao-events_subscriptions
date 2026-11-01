@@ -19,7 +19,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
     // One page for each area of Events › Settings › Booking settings, chosen by the module (see SettingsContainer::selectPalette())
     'palettes' => [
         '__selector__' => ['eventsSubscriptionsRetention'],
-        'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation;{retention_legend},eventsSubscriptionsRetention',
+        'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse,eventsSubscriptionsVenues;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation;{retention_legend},eventsSubscriptionsRetention',
         'payments' => '{payments_legend},eventsSubscriptionsPayments',
         'emails' => '{emails_legend},eventsSubscriptionsSenderName,eventsSubscriptionsSenderAddress,eventsSubscriptionsSignature',
         'certificates' => '{certificate_legend},eventsSubscriptionsCertificate,eventsSubscriptionsCertificateOrganisation,eventsSubscriptionsCertificateSignedBy',
@@ -41,6 +41,10 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
             'eval' => ['tl_class' => 'w50'],
         ],
         'eventsSubscriptionsCalendarGroups' => [
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'w50'],
+        ],
+        'eventsSubscriptionsVenues' => [
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50'],
         ],

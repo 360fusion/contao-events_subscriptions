@@ -65,6 +65,14 @@ final class Features
         return str_replace('\\n', "\n", (string) Config::get($key));
     }
 
+    /**
+     * Venues and locations: a list of places, chosen on the event
+     */
+    public static function venues(): bool
+    {
+        return (bool) Config::get('eventsSubscriptionsVenues');
+    }
+
     public static function calendarGroups(): bool
     {
         return (bool) Config::get('eventsSubscriptionsCalendarGroups');

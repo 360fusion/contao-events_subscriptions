@@ -72,6 +72,9 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
         'tables' => ['tl_nc_notification', 'tl_nc_message', 'tl_nc_language'],
         'event_emailTest' => ['Codefog\EventsSubscriptionsBundle\Backend\EventEmailTestController', 'run'],
     ],
+    'event_venues' => [
+        'tables' => ['tl_calendar_events_venue'],
+    ],
     'event_payments' => [
         'tables' => ['tl_calendar_events_payment'],
         'payment_refund' => ['Codefog\EventsSubscriptionsBundle\Backend\PaymentController', 'run'],
@@ -141,6 +144,12 @@ $GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptionsBundle\EventDispatcher::EVENT_O
 $GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptionsBundle\EventDispatcher::EVENT_ON_UNSUBSCRIBE][] = [
     'Codefog\EventsSubscriptionsBundle\EventListener\NotificationListener',
     'onUnsubscribe',
+];
+
+// The venue's directions, accessibility and map link under the location of an event page
+$GLOBALS['TL_HOOKS']['parseFrontendTemplate'][] = [
+    'Codefog\EventsSubscriptionsBundle\EventListener\VenueListener',
+    'onParseFrontendTemplate',
 ];
 
 $GLOBALS['TL_HOOKS']['loadDataContainer'][] = [

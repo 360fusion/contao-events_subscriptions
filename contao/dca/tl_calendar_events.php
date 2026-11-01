@@ -22,6 +22,15 @@ if (($index = array_search(['tl_calendar_events', 'checkPermission'], $GLOBALS['
     ];
 }
 
+$GLOBALS['TL_DCA']['tl_calendar_events']['config']['onload_callback'][] = [
+    'Codefog\EventsSubscriptionsBundle\DataContainer\VenueContainer',
+    'lockLocation',
+];
+$GLOBALS['TL_DCA']['tl_calendar_events']['config']['onsubmit_callback'][] = [
+    'Codefog\EventsSubscriptionsBundle\DataContainer\VenueContainer',
+    'syncEvent',
+];
+
 // Global operations
 ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar_events']['list']['global_operations'], 0, [
     'subscriptions_overview' => [
@@ -185,6 +194,25 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_uniqueEmails'] 
     'eval' => ['tl_class' => 'clr'],
     'sql' => ['type' => Types::BOOLEAN, 'default' => false],
 ];
+
+// Venues and locations: the column always exists, the choice is shown once venues are switched on
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['venue'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['venue'],
+    'inputType' => 'select',
+    'options_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\VenueContainer', 'getOptions'],
+    'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
+];
+
+if (\Codefog\EventsSubscriptionsBundle\Features::venues()) {
+    foreach (['default', 'internal', 'article', 'external'] as $palette) {
+        \Contao\CoreBundle\DataContainer\PaletteManipulator::create()
+            ->addField('venue', 'location', \Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE)
+            ->applyToPalette($palette, 'tl_calendar_events');
+    }
+
+    unset($palette);
+}
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_trainerEmail'] = [
     'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_trainerEmail'],
