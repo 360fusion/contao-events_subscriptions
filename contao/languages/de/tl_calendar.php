@@ -143,3 +143,4 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscribers.searchHelp'] = 'Beliebige Wörte
 $GLOBALS['TL_LANG']['tl_calendar']['subscribers'] = ['Teilnehmer', 'Alle Anmeldungen aller Kalender'];
 $GLOBALS['TL_LANG']['tl_calendar']['subscribers.headlineAll'] = 'Alle Teilnehmer';
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_peopleAll'] = ['Alle Teilnehmer', 'Alle Anmeldungen aller Kalender'];
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_export'] = ['Anmeldungen exportieren', 'Anmeldungen des aktuellen Kalenders exportieren'];

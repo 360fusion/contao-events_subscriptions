@@ -20,6 +20,10 @@ $GLOBALS['TL_LANG']['tl_module']['jumpTo_unsubscribe'] = [
     'Abmeldung Bestätigungsseite',
     'Bitte wählen Sie die Bestätigungsseite, auf die der Besucher nach der Abmeldung vom Event weitergeleitet wird.',
 ];
+$GLOBALS['TL_LANG']['tl_module']['cal_showParticipants'] = [
+    'Anzahl der Teilnehmer anzeigen',
+    'Die Anzahl der Teilnehmer je Anmeldung anzeigen.',
+];
 $GLOBALS['TL_LANG']['tl_module']['cal_allCalendars'] = [
     'Alle Kalender',
     'Die Veranstaltungen aller Kalender anzeigen, auch später angelegter, damit das Modul nie angepasst werden muss.',

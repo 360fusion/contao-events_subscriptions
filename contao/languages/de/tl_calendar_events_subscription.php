@@ -24,6 +24,10 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['disableReminders'] = [
     'Erinnerungen deaktivieren',
     'Event Erinnerungen für diesen Teilnehmer nicht aktivieren.',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['sendNotification'] = [
+    'Benachrichtigung senden',
+    'Eine Anmeldebestätigung an den Teilnehmer senden.',
+];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['numberOfParticipants'] = [
     'Anzahl der Teilnehmer',
     'Hier können Sie die Anzahl der Teilnehmer eingeben.',
@@ -56,6 +60,10 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['new'] = [
     'Neue Anmeldung',
     'Erstellen Sie eine neue Anmeldung',
 ];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup'] = [
+    'Neu aus Mitgliedergruppe',
+    'Mehrere Anmeldungen aus einer Mitgliedergruppe erstellen',
+];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['show'] = [
     'Anmeldung Details',
     'Zeige Details der Anmeldung ID %s',
@@ -83,6 +91,8 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['typeRef'] = [
  */
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summary'] = 'Es gibt %s Anmeldung(en) für dieses Event.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['summaryMax'] = 'Es gibt %s von %s möglichen Anmeldungen zu diesem Event.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['activeMembers'] = 'Aktiv';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['inactiveMembers'] = 'Inaktiv';
 
 /**
  * Export
@@ -94,12 +104,37 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excelFormatHint']
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.csv'] = 'Export als CSV';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['export.excel'] = 'Export als Excel';
 
+// Backend breadcrumb
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['subscriptions_export'] = [null, 'Anmeldungen von Event ID %s exportieren'];
+
+/**
+ * New from member group
+ */
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.headline'] = 'Anmeldungen aus Mitgliedergruppe erstellen';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.explanation'] = 'Hier können Sie mehrere Mitglieder auf einmal für das Event anmelden, indem Sie die Mitgliedergruppen auswählen:';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.subscribableMemberGroups'] = 'Mitgliedergruppen mit Anmeldeberechtigung';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.otherMemberGroups'] = 'Andere Mitgliedergruppen';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.noMembers'] = 'Es gibt keine aktiven Mitglieder, die angemeldet werden können.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.memberStatus'] = 'Mitgliedsstatus';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.sendNotification'] = 'Benachrichtigung senden';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.submit'] = 'Anmeldungen erstellen';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.confirmation'] = '%s Mitglieder erfolgreich für dieses Event angemeldet!';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.memberStatusRef'] = [
+    'all' => 'Alle Mitglieder',
+    'active' => 'Nur aktive Mitglieder',
+    'preActive' => 'Aktive + bald aktive Mitglieder (Aktivierungsdatum in der Zukunft)',
+];
+
+// Backend breadcrumb
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['subscriptions_newFromMemberGroup'] = [null, 'Anmeldungen aus Mitgliedergruppe für Event ID %s erstellen'];
+
 /**
  * Notification
  */
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.headline'] = 'Event Benachrichtigungen';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.explanation'] = 'Hier können Sie eine Benachrichtigung zu diesem Event an ausgewählte Mitgliedergruppen senden:';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.notification'] = 'Benachrichtigung';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.notificationExplanation'] = 'Bitte wählen Sie die Benachrichtigung, die gesendet werden soll.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribersHeadline'] = 'Eventteilnehmer';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.subscribersExplanation'] = 'Senden Sie eine Benachrichtigung an alle Teilnehmer des aktuellen Events. Die Benachrichtigung wird sowohl an Gast- als auch an Mitgliederteilnehmer gesendet.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.groupsHeadline'] = 'Nicht angemeldete Mitglieder';
