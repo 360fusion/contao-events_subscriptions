@@ -62,6 +62,11 @@ $GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['subscriptions_overview'
 // Event groups: the calendar is the category, its event groups are the courses within it
 $GLOBALS['TL_DCA']['tl_calendar']['config']['ctable'][] = 'tl_calendar_event_group';
 
+// New calendars use the event page most calendars already use, so editors do not have to know which page it is
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['jumpTo']['default'] = static fn () => (int) \Contao\Database::getInstance()
+    ->query('SELECT jumpTo FROM tl_calendar WHERE jumpTo>0 AND tstamp>0 GROUP BY jumpTo ORDER BY COUNT(*) DESC LIMIT 1')
+    ->jumpTo;
+
 $GLOBALS['TL_DCA']['tl_calendar']['list']['operations']['event_groups'] = [
     'href' => 'table=tl_calendar_event_group',
     'icon' => 'folderC.svg',
