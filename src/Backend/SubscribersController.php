@@ -24,8 +24,8 @@ class SubscribersController extends OverviewController
 {
     public function run()
     {
-        // One calendar (row link), or all calendars with subscriptions (button above the calendar list)
-        $all = 'subscriptions_peopleAll' === Input::get('key');
+        // One calendar (row link), or all calendars with subscriptions (Events › Subscribers)
+        $all = 'subscriptions_peopleAll' === Input::get('key') || 'event_subscribers' === Input::get('do');
         $calendar = $all ? null : CalendarModel::findByPk(Input::get('id'));
 
         if (!$all && (null === $calendar || !$calendar->subscription_enable)) {

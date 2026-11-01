@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Codefog\EventsSubscriptionsBundle\Cache\RegistrationFieldsCacheWarmer;
+use Codefog\EventsSubscriptionsBundle\EventListener\BackendMenuListener;
 use Codefog\EventsSubscriptionsBundle\EventListener\EventEmailsListener;
 use Codefog\EventsSubscriptionsBundle\EventListener\NewCalendarPermissionsListener;
 use Codefog\EventsSubscriptionsBundle\ExporterHelper;
@@ -47,6 +48,13 @@ return static function (ContainerConfigurator $containerConfigurator): void {
         ->set(EventEmailsListener::class)
         ->autoconfigure(false)
         ->tag('contao.hook', ['hook' => 'loadDataContainer', 'priority' => -200])
+    ;
+
+    // After the menu items were added
+    $services
+        ->set(BackendMenuListener::class)
+        ->autoconfigure(false)
+        ->tag('kernel.event_listener', ['event' => 'contao.backend_menu_build', 'priority' => -100])
     ;
 
     // Must run after Contao's cache warmer (priority 0), which writes the DCA extracts

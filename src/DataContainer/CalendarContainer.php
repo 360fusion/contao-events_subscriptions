@@ -104,7 +104,7 @@ class CalendarContainer
         Message::addRaw(sprintf(
             '<p class="tl_info subscriptions-summary">%s &nbsp;<a href="%s">%s</a></p>',
             sprintf($GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary'], number_format($calendars), number_format($events), number_format($subscriptions)),
-            StringUtil::ampersand(Backend::addToUrl('key=subscriptions_upcoming')),
+            StringUtil::ampersand(System::getContainer()->get('router')->generate('contao_backend', ['do' => 'event_upcoming'])),
             $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_summary.link'],
         ), 'BE');
     }

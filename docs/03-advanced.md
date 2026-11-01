@@ -172,7 +172,7 @@ month, e.g. February.
 
 Events can have a price. Guests then pay by card online, or by invoice with a purchase order or cost centre.
 
-1. Click "Payment providers" above the calendar list and add a provider: Stripe, PayPal, Mollie or GOV.UK Pay.
+1. Go to Events › Setup › Payment providers and add a provider: Stripe, PayPal, Mollie or GOV.UK Pay.
    Enter the provider's test keys first. Card details are entered on the provider's own payment page, never on
    the site. Copy the webhook URL shown in the provider list into the provider's webhook settings (Stripe:
    `checkout.session.completed` and `checkout.session.expired`; PayPal: `CHECKOUT.ORDER.APPROVED` and
@@ -192,7 +192,7 @@ What happens when a guest books:
 - **Waiting list:** no payment is taken. The `##payment_link##` token in the waiting list promotion e-mail lets the
   guest pay once they have a place.
 
-"Payments" above the calendar list shows every payment, also of cancelled bookings, with refund (full refunds
+Events › Payments shows every payment, also of cancelled bookings, with refund (full refunds
 through the provider) and "Mark as paid" buttons. Cancelling a booking never refunds automatically. The webhook body
 is never trusted: the status is always fetched from the provider's API.
 

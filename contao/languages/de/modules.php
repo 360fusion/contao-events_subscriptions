@@ -32,3 +32,16 @@ $GLOBALS['TL_LANG']['FMD']['event_navigation']     = [
     'Veranstaltungsnavigation',
     'Listet die Kalender und ihre Veranstaltungsgruppen als Navigation oder Filter auf, mit Links zu einer Veranstaltungsliste mit "Nach URL filtern".',
 ];
+
+/**
+ * Backend-Menü: die Gruppe "Veranstaltungen"
+ */
+$GLOBALS['TL_LANG']['MOD']['events_subscriptions'] = 'Veranstaltungen';
+$GLOBALS['TL_LANG']['MOD']['calendar'] = ['Kalender', 'Die Kalender, ihre Veranstaltungen und Anmeldungen verwalten'];
+$GLOBALS['TL_LANG']['MOD']['event_upcoming'] = ['Kommende Veranstaltungen', 'Die kommenden Veranstaltungen aller Kalender und ihre Anmeldungen'];
+$GLOBALS['TL_LANG']['MOD']['event_subscribers'] = ['Teilnehmer', 'Alle Anmeldungen der Veranstaltungen aller Kalender'];
+$GLOBALS['TL_LANG']['MOD']['event_emails'] = ['E-Mails', 'Die E-Mails zu den Anmeldungen'];
+$GLOBALS['TL_LANG']['MOD']['event_payments'] = ['Zahlungen', 'Zahlungen, Erstattungen und Rechnungen der Anmeldungen'];
+$GLOBALS['TL_LANG']['MOD']['event_setup'] = ['Einrichtung', 'Anmeldefelder, Zahlungsanbieter und weitere Anmeldeeinstellungen'];
+$GLOBALS['TL_LANG']['MOD']['event_fields'] = ['Anmeldefelder', 'Die zusätzlichen Felder des Gast-Anmeldeformulars, gewählt pro Kalender, Veranstaltungsgruppe oder Veranstaltung'];
+$GLOBALS['TL_LANG']['MOD']['event_payment_providers'] = ['Zahlungsanbieter', 'Die Konten für Kartenzahlungen: Stripe, PayPal, Mollie oder GOV.UK Pay'];

@@ -22,7 +22,7 @@ class EventEmailTestController
     public function run(): void
     {
         $container = System::getContainer();
-        $backUrl = $container->get('router')->generate('contao_backend', ['do' => 'calendar', 'table' => 'tl_nc_notification']);
+        $backUrl = $container->get('router')->generate('contao_backend', ['do' => 'event_emails']);
         $L = $GLOBALS['TL_LANG']['tl_nc_notification'];
 
         if (!EventEmailContainer::canManage() || !$container->get('contao.csrf.token_manager')->isTokenValid(new CsrfToken($container->getParameter('contao.csrf_token_name'), (string) Input::get('rt')))) {

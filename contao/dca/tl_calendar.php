@@ -7,49 +7,7 @@ use Doctrine\DBAL\Types\Types;
 \Contao\Controller::loadDataContainer('tl_calendar_events');
 \Contao\System::loadLanguageFile('tl_calendar_events');
 
-// Global operations
-\Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 0, [
-    'registration_fields' => [
-        'href' => 'table=tl_calendar_events_subscription_field',
-        'icon' => 'modules.svg',
-        'primary' => true,
-        'attributes' => 'data-action="contao--scroll-offset#store"',
-    ],
-]);
-
-\Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 1, [
-    'subscribers' => [
-        'href' => 'key=subscriptions_peopleAll',
-        'icon' => 'member.svg',
-        'primary' => true,
-        'attributes' => 'data-action="contao--scroll-offset#store"',
-    ],
-    'emails' => [
-        'href' => 'table=tl_nc_notification',
-        'icon' => 'resend.svg',
-        'primary' => true,
-        'attributes' => 'data-action="contao--scroll-offset#store"',
-    ],
-    'payments' => [
-        'href' => 'table=tl_calendar_events_payment',
-        'icon' => 'tablewizard.svg',
-        'primary' => true,
-        'attributes' => 'data-action="contao--scroll-offset#store"',
-    ],
-    'payment_providers' => [
-        'href' => 'table=tl_calendar_events_payment_provider',
-        'icon' => 'settings.svg',
-        'primary' => true,
-        'attributes' => 'data-action="contao--scroll-offset#store"',
-    ],
-]);
-
-// Only users who may manage the notifications see the e-mails
-$GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = static function (): void {
-    if (!\Codefog\EventsSubscriptionsBundle\DataContainer\EventEmailContainer::canManage()) {
-        unset($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations']['emails']);
-    }
-};
+// E-mails, payments, subscribers and the setup are in the "Events" group of the back end menu
 
 // Calendar groups (System › Settings)
 if (\Contao\Config::get('eventsSubscriptionsCalendarGroups')) {
@@ -72,7 +30,7 @@ if (\Contao\Config::get('eventsSubscriptionsCalendarGroups')) {
 }
 
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['calendarGroup'] = [
-    'filter' => true,
+    'filter' => (bool) \Contao\Config::get('eventsSubscriptionsCalendarGroups'),
     'inputType' => 'select',
     'foreignKey' => 'tl_calendar_group.title',
     'eval' => ['includeBlankOption' => true, 'chosen' => true, 'tl_class' => 'w50'],

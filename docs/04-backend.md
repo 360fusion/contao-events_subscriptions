@@ -94,3 +94,16 @@ When an administrator creates a calendar, the "Back end permissions" of the new 
 every user group that can access the events module, so editors can manage the new calendar straight away.
 Untick a group before saving to keep the calendar from it.
 
+
+## The Events menu
+
+The extension groups everything about events in an "Events" group of the back end menu. Each entry can be granted
+separately in the user group permissions:
+
+- **Calendars**: the calendars, their events and bookings (the core events module, same URL `do=calendar`)
+- **Upcoming events**: the upcoming events of all calendars with filters and search
+- **Subscribers**: everyone booked, across all calendars, with filters and search (each calendar has a person icon
+  for its own subscribers)
+- **E-mails**: the simple editor of the event e-mails
+- **Payments**: payments, refunds and invoices
+- **Setup**: tiles for the registration fields, the payment providers and (when switched on) the calendar groups

@@ -19,7 +19,7 @@ class PaymentController
     public function run(): void
     {
         $container = System::getContainer();
-        $backUrl = $container->get('router')->generate('contao_backend', ['do' => 'calendar', 'table' => 'tl_calendar_events_payment']);
+        $backUrl = $container->get('router')->generate('contao_backend', ['do' => 'event_payments']);
 
         // The links change payments, so they need the request token
         if (!$container->get('contao.csrf.token_manager')->isTokenValid(new CsrfToken($container->getParameter('contao.csrf_token_name'), (string) Input::get('rt')))) {

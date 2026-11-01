@@ -113,7 +113,7 @@ The list of available tokens in every notification:
 
 ## E-mails (simple editor)
 
-"E-mails" above the calendar list shows the event notifications as a plain list: the name, when the e-mail is
+Events › E-mails shows the event notifications as a plain list: the name, when the e-mail is
 sent, how many calendars, event groups and events use it, its subject, and a warning when an e-mail is not set up
 (nothing is sent) or switched off. It is shown to users who may access the Notification Center.
 

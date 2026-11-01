@@ -107,5 +107,5 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_customPayment'] = ['Eige
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_price'] = ['Preis pro Person', 'Der Preis in der Währung des Anbieters, z. B. 12.50. Leer oder 0 für kostenlos.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethods'] = ['Zahlungsarten', 'Wie bezahlt werden kann. Kartenzahlungen benötigen einen Zahlungsanbieter.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'] = ['card' => 'Karte (online)', 'invoice' => 'Rechnung / Bestellnummer / Kostenstelle'];
-$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentProvider'] = ['Zahlungsanbieter', 'Der Anbieter für Kartenzahlungen, eingerichtet über "Zahlungsanbieter" über der Kalenderliste.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentProvider'] = ['Zahlungsanbieter', 'Der Anbieter für Kartenzahlungen, eingerichtet unter Veranstaltungen › Einrichtung › Zahlungsanbieter.'];
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_freeEmailDomains'] = ['Kostenlos für diese E-Mail-Domains', 'Gäste mit einer E-Mail-Adresse dieser Domains melden sich kostenlos an, z. B. nhs.net (auch Subdomains) oder @nhs.net (nur genau diese Domain).'];

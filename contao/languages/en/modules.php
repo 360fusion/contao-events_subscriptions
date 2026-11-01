@@ -32,3 +32,16 @@ $GLOBALS['TL_LANG']['FMD']['event_navigation']     = [
     'Event navigation',
     'Lists the calendars and their event groups as navigation or filter, linking to an event list with "Filter by URL".',
 ];
+
+/**
+ * Back end menu: the "Events" group
+ */
+$GLOBALS['TL_LANG']['MOD']['events_subscriptions'] = 'Events';
+$GLOBALS['TL_LANG']['MOD']['calendar'] = ['Calendars', 'Manage the calendars, their events and bookings'];
+$GLOBALS['TL_LANG']['MOD']['event_upcoming'] = ['Upcoming events', 'The upcoming events of all calendars and their bookings'];
+$GLOBALS['TL_LANG']['MOD']['event_subscribers'] = ['Subscribers', 'Everyone booked on the events of all calendars'];
+$GLOBALS['TL_LANG']['MOD']['event_emails'] = ['E-mails', 'The e-mails sent for bookings'];
+$GLOBALS['TL_LANG']['MOD']['event_payments'] = ['Payments', 'Payments, refunds and invoices of bookings'];
+$GLOBALS['TL_LANG']['MOD']['event_setup'] = ['Setup', 'Registration fields, payment providers and other booking settings'];
+$GLOBALS['TL_LANG']['MOD']['event_fields'] = ['Registration fields', 'The extra fields guests fill in when booking, chosen per calendar, event group or event'];
+$GLOBALS['TL_LANG']['MOD']['event_payment_providers'] = ['Payment providers', 'The accounts for card payments: Stripe, PayPal, Mollie or GOV.UK Pay'];

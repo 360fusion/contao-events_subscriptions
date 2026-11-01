@@ -2,12 +2,8 @@
 
 // Backend modules
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subscription';
-$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_subscription_field';
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_group';
 $GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_event_group';
-$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_payment_provider';
-$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_calendar_events_payment';
-$GLOBALS['BE_MOD']['content']['calendar']['tables'][] = 'tl_nc_notification';
 
 $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_export'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\ExportController',
@@ -33,18 +29,6 @@ $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_exportEventGroup'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\ExportCalendarController',
     'run',
 ];
-$GLOBALS['BE_MOD']['content']['calendar']['payment_refund'] = [
-    'Codefog\EventsSubscriptionsBundle\Backend\PaymentController',
-    'run',
-];
-$GLOBALS['BE_MOD']['content']['calendar']['payment_markPaid'] = [
-    'Codefog\EventsSubscriptionsBundle\Backend\PaymentController',
-    'run',
-];
-$GLOBALS['BE_MOD']['content']['calendar']['event_emailTest'] = [
-    'Codefog\EventsSubscriptionsBundle\Backend\EventEmailTestController',
-    'run',
-];
 $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_upcoming'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\UpcomingController',
     'run',
@@ -61,6 +45,43 @@ $GLOBALS['BE_MOD']['content']['calendar']['subscriptions_overview'] = [
     'Codefog\EventsSubscriptionsBundle\Backend\OverviewController',
     'run',
 ];
+
+// The "Events" group of the back end menu: the calendars (core module, same URL do=calendar) and the booking tools
+$calendarModule = $GLOBALS['BE_MOD']['content']['calendar'];
+unset($GLOBALS['BE_MOD']['content']['calendar']);
+
+\Contao\ArrayUtil::arrayInsert($GLOBALS['BE_MOD'], 1, ['events_subscriptions' => [
+    'calendar' => $calendarModule,
+    'event_upcoming' => [
+        'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\UpcomingModule',
+    ],
+    'event_subscribers' => [
+        'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\SubscribersModule',
+    ],
+    'event_emails' => [
+        'tables' => ['tl_nc_notification', 'tl_nc_message', 'tl_nc_language'],
+        'event_emailTest' => ['Codefog\EventsSubscriptionsBundle\Backend\EventEmailTestController', 'run'],
+    ],
+    'event_payments' => [
+        'tables' => ['tl_calendar_events_payment'],
+        'payment_refund' => ['Codefog\EventsSubscriptionsBundle\Backend\PaymentController', 'run'],
+        'payment_markPaid' => ['Codefog\EventsSubscriptionsBundle\Backend\PaymentController', 'run'],
+    ],
+    'event_setup' => [
+        'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\SetupModule',
+    ],
+    // Opened from Setup
+    'event_fields' => [
+        'tables' => ['tl_calendar_events_subscription_field'],
+        'hideInNavigation' => true,
+    ],
+    'event_payment_providers' => [
+        'tables' => ['tl_calendar_events_payment_provider'],
+        'hideInNavigation' => true,
+    ],
+]]);
+
+unset($calendarModule);
 
 // Frontend modules
 $GLOBALS['FE_MOD']['events']['event_list_subscribe'] = 'Codefog\EventsSubscriptionsBundle\FrontendModule\EventListModule';

@@ -45,7 +45,7 @@ class EventEmailContainer
 
     public static function canManage(): bool
     {
-        return System::getContainer()->get('security.helper')->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_MODULE, 'nc_notifications');
+        return System::getContainer()->get('security.helper')->isGranted(ContaoCorePermissions::USER_CAN_ACCESS_MODULE, 'event_emails');
     }
 
     /**
