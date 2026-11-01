@@ -145,3 +145,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] = 
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.noRecipients'] = 'There are no active members to send this notification to.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.confirmation'] = '%s notifications sent successfully!';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.lastNotificationDate'] = 'Last notification sent at %s.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['registration_fields_legend'] = 'Registration fields';

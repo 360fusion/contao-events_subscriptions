@@ -41,6 +41,11 @@ $GLOBALS['TL_HOOKS'][\Codefog\EventsSubscriptionsBundle\EventDispatcher::EVENT_O
     'onUnsubscribe',
 ];
 
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = [
+    'Codefog\EventsSubscriptionsBundle\EventListener\RegistrationFieldsListener',
+    'onLoadDataContainer',
+];
+
 $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = [
     'Codefog\EventsSubscriptionsBundle\EventListener\InsertTagsListener',
     'onReplace',

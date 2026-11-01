@@ -110,3 +110,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.submit'] = 
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.noRecipients'] = 'Es gibt keine aktiven Mitglieder, an welche diese Benachrichtigung gesendet werden kann.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.confirmation'] = '%s Benachrichtigungen erfolgreich gesendet!';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.lastNotificationDate'] = 'Letzte Benachrichtigung gesendet am %s.';
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['registration_fields_legend'] = 'Anmeldefelder';

@@ -74,6 +74,9 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
 
     // Fields
     'fields' => [
+        'registrationFields' => [
+            'sql' => ['type' => 'json', 'notnull' => false],
+        ],
         'id' => [
             'sql' => ['type' => 'integer', 'unsigned' => true, 'autoincrement' => true],
         ],
