@@ -22,6 +22,22 @@ Based on the genuine event reader module enhanced with the subscription function
 on the genuine event reader module it offers the same features as it's ancestor.
 
 
+### All calendars and filter by URL
+
+Both modules have an "All calendars" option: they then show the events of every calendar, including calendars added
+later, so the module never needs editing. The event list (and Contao's own event list and event menu) have a
+"Filter by URL" option: they then only show the events matching `?calendar=<alias>`, `?group=<alias>` and
+`?month=YYYYMM` in the URL. An alias that does not exist shows no events.
+
+
+## Event navigation
+
+Lists the calendars and their event groups, with the number of upcoming events, linking to the redirect page
+(or the current page) with `?calendar=` or `?group=`. Place it next to an event list with "Filter by URL". Choose
+the `mod_event_navigation_filter` template to show it as a form with category, event group and month dropdowns
+instead of a menu. Calendars and groups without upcoming events can be hidden.
+
+
 ## Subscribe event form
 
 The module that should be placed on the same page as the event reader module. It displays
