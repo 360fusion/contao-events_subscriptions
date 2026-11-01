@@ -3,7 +3,7 @@
 use Contao\DC_File;
 
 /*
- * Events › Setup › Booking settings, in five pages (General, Payments, E-mails, Certificates, Before and after events). Stored in the system configuration, like System › Settings.
+ * Events › Settings › Booking settings, in five pages (General, Payments, E-mails, Certificates, Before and after events). Stored in the system configuration, like System › Settings.
  */
 $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
     'config' => [
@@ -16,7 +16,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
         'onsubmit_callback' => [['Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer', 'applySender']],
     ],
 
-    // One page for each area of Events › Setup › Booking settings, chosen by the module (see SettingsContainer::selectPalette())
+    // One page for each area of Events › Settings › Booking settings, chosen by the module (see SettingsContainer::selectPalette())
     'palettes' => [
         '__selector__' => ['eventsSubscriptionsRetention'],
         'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation;{retention_legend},eventsSubscriptionsRetention',

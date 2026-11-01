@@ -14,7 +14,7 @@ use Contao\Input;
 use Contao\System;
 
 /**
- * Events › Reports: fill rate, cancellations, did-not-attend and feedback for each course and month, and the people who keep missing events
+ * Events › Settings › Reports: fill rate, cancellations, did-not-attend and feedback for each course and month, and the people who keep missing events
  */
 class ReportsModule
 {

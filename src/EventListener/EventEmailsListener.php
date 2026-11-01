@@ -7,7 +7,7 @@ use Contao\DataContainer;
 use Contao\Input;
 
 /**
- * Opened as Events › E-mails (do=event_emails), the notifications show as a simple list of the event e-mails with one edit form.
+ * Opened as Events › Settings › E-mail templates (do=event_emails), the notifications show as a simple list of the event e-mails with one edit form.
  * Runs after the Notification Center's own DCA callbacks (priority -200). The Notification Center itself is unchanged.
  */
 class EventEmailsListener

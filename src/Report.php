@@ -6,7 +6,7 @@ use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Contao\Database;
 
 /**
- * Numbers for Events › Reports. Unpaid card bookings (pending, failed) are never counted.
+ * Numbers for Events › Settings › Reports. Unpaid card bookings (pending, failed) are never counted.
  * "Places" are numberOfParticipants, as everywhere else; a booking without the field counts as one place.
  */
 final class Report

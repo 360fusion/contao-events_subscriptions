@@ -150,7 +150,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
     'payment_link' => 'Link "Jetzt bezahlen"',
 ];
 
-// Veranstaltungen › Einrichtung › Prüfung: [Problem, alles in Ordnung]
+// Veranstaltungen › Einstellungen › Prüfung: [Problem, alles in Ordnung]
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.health'] = [
     'emails' => ['%s E-Mails werden verwendet, senden aber nichts (nicht eingerichtet oder ausgeschaltet)', 'Alle verwendeten E-Mails senden etwas'],
     'noConfirmation' => ['%s Kalender nehmen Anmeldungen ohne Bestätigungs-E-Mail an', 'Jeder Kalender mit Anmeldungen sendet eine Bestätigungs-E-Mail'],

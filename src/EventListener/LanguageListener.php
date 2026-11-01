@@ -5,7 +5,7 @@ namespace Codefog\EventsSubscriptionsBundle\EventListener;
 use Codefog\EventsSubscriptionsBundle\Features;
 
 /**
- * The booking form texts changed in Events › Setup › Booking settings replace the default texts
+ * The booking form texts changed in Events › Settings › Booking settings replace the default texts
  */
 class LanguageListener
 {

@@ -11,7 +11,7 @@ use Contao\Database;
 use Contao\System;
 
 /**
- * Events › Setup: one page with a tile per settings area
+ * Events › Settings: one page with a tile per settings area, the e-mail templates and the reports
  */
 class SetupModule
 {
@@ -47,6 +47,8 @@ class SetupModule
         }
 
         $areas = [
+            'event_emails' => ['icon' => 'mover.svg', 'count' => 'SELECT COUNT(*) AS n FROM tl_nc_notification WHERE type LIKE \'events_subscription%\''],
+            'event_reports' => ['icon' => 'show.svg'],
             'event_health' => ['icon' => 'important.svg'],
             'event_retention' => ['icon' => 'delete.svg'],
             'event_fields' => ['table' => 'tl_calendar_events_subscription_field', 'icon' => 'modules.svg', 'count' => 'SELECT COUNT(*) AS n FROM tl_calendar_events_subscription_field WHERE disabled=0'],
@@ -65,6 +67,7 @@ class SetupModule
                 'count' => match ($module) {
                     // Past events whose bookings still have personal data
                     'event_retention' => (int) $db->prepare("SELECT COUNT(DISTINCT e.id) AS n FROM tl_calendar_events e JOIN tl_calendar_events_subscription s ON s.pid=e.id AND s.lastname!=? WHERE GREATEST(e.startTime, e.endTime)<?")->execute(\Codefog\EventsSubscriptionsBundle\Retention::ANONYMISED, strtotime(sprintf('-%d months', \Codefog\EventsSubscriptionsBundle\Retention::months())))->n,
+                    'event_reports' => '',
                     // Number of checks that need attention
                     'event_health' => \count(array_filter(HealthModule::getChecks(), static fn ($check) => $check['count'] > 0)),
                     default => (int) $db->query($area['count'])->n,

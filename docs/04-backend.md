@@ -104,13 +104,12 @@ separately in the user group permissions:
 - **Upcoming events**: the upcoming events of all calendars with filters and search
 - **Subscribers**: everyone booked, across all calendars, with filters and search (each calendar has a person icon
   for its own subscribers)
-- **E-mails**: the simple editor of the event e-mails
-- **Payments**: payments, refunds and invoices
-- **Setup**: a "Booking settings" section with a tile for each of the five settings pages, and a "Tools and data"
-  section with the health check, old booking data, registration fields, the payment providers and (when switched on)
-  the calendar groups
+- **Payments**: payments, refunds and invoices (when switched on)
+- **Settings**: a "Booking settings" section with a tile for each of the five settings pages, and a "Tools and data"
+  section with the e-mail templates, the reports, the health check, old booking data, registration fields, the
+  payment providers and (when switched on) the calendar groups
 
-### Setup
+### Settings
 
 - **Booking settings**, in five pages:
   - **General**: the feature switches (attendance, calendar groups, one booking per course); a calendar whose
@@ -149,7 +148,7 @@ separately in the user group permissions:
 
 ## Reports
 
-Events › Reports shows one row for each month and course: events, places, booked, how full, the waiting list,
+Events › Settings › Reports shows one row for each month and course: events, places, booked, how full, the waiting list,
 attended and did not attend, cancellations by the booker and the average feedback rating, with a month range, a
 calendar filter and downloads as Excel (.xlsx), CSV or OpenDocument (.ods), or as a PDF: the PDF button opens a
 print-ready page and the browser makes the PDF (choose "Save as PDF" as the printer). Numbers stay numbers in the
@@ -163,7 +162,7 @@ formula. The same five download buttons are on the history page of a person.
   reports were added. Bookings deleted by hand in the back end are not counted.
 
 **Repeat no-shows** lists people who booked and did not attend at least N events in the last 12 months (3 by default,
-Events › Setup › Booking settings › General). Waiting list places never count. The same people are marked "missed N"
+Events › Settings › Booking settings › General). Waiting list places never count. The same people are marked "missed N"
 in the Subscribers list. Click a name in the Subscribers list or the no-show list for **all their bookings** (outcome
 for each, with an export). The history only shows the calendars the user may access.
 

@@ -43,7 +43,7 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsFoll
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificate'] = ['Teilnahmebescheinigungen', 'Wer als teilgenommen markiert ist, kann eine druckbare Bescheinigung öffnen. Benötigt Teilnahme.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificateOrganisation'] = ['Name der Organisation auf der Bescheinigung', 'Steht oben auf der Bescheinigung'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsCertificateSignedBy'] = ['Unterzeichnet von', 'Steht unten auf der Bescheinigung neben dem Ausstellungsdatum'];
-$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsNoShowLimit'] = ['Wiederholt nicht erschienen ab', 'In Veranstaltungen › Berichte Personen auflisten, die in den letzten 12 Monaten so viele Termine gebucht und nicht besucht haben.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsNoShowLimit'] = ['Wiederholt nicht erschienen ab', 'In Veranstaltungen › Einstellungen › Berichte Personen auflisten, die in den letzten 12 Monaten so viele Termine gebucht und nicht besucht haben.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['mailings_legend'] = 'Vor und nach der Veranstaltung';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['certificate_legend'] = 'Bescheinigung';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['reports_legend'] = 'Berichte';

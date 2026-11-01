@@ -76,7 +76,7 @@ class CronListener
     }
 
     /**
-     * Anonymise or delete old bookings, if switched on in Events › Setup › Booking settings
+     * Anonymise or delete old bookings, if switched on in Events › Settings › Booking settings
      */
     public function onDailyJob(): void
     {

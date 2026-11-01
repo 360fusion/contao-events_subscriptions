@@ -9,7 +9,7 @@ use Contao\Database;
 use Contao\System;
 
 /**
- * Removes the personal data of bookings for events that ended a while ago (Events › Setup › Booking settings)
+ * Removes the personal data of bookings for events that ended a while ago (Events › Settings › Booking settings)
  */
 class Retention
 {
@@ -59,7 +59,7 @@ class Retention
     }
 
     /**
-     * Anonymise or delete the bookings of the chosen events (Events › Setup › Old booking data)
+     * Anonymise or delete the bookings of the chosen events (Events › Settings › Old booking data)
      *
      * @param list<int> $eventIds
      */

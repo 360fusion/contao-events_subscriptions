@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 
 // E-mails, payments, subscribers and the setup are in the "Events" group of the back end menu
 
-// Calendar groups (Events › Setup › Booking settings)
+// Calendar groups (Events › Settings › Booking settings)
 if (\Codefog\EventsSubscriptionsBundle\Features::calendarGroups()) {
     \Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 0, [
         'calendar_groups' => [
@@ -41,7 +41,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['calendarGroup'] = [
 // Link the calendar titles to their events
 $GLOBALS['TL_DCA']['tl_calendar']['list']['label']['label_callback'] = ['Codefog\EventsSubscriptionsBundle\DataContainer\CalendarContainer', 'generateLabel'];
 
-// New calendars copy the booking settings of the template calendar (Events › Setup › Booking settings)
+// New calendars copy the booking settings of the template calendar (Events › Settings › Booking settings)
 $GLOBALS['TL_DCA']['tl_calendar']['config']['oncreate_callback'][] = static fn ($table, $insertId) => (new \Codefog\EventsSubscriptionsBundle\DataContainer\SettingsContainer())->applyTemplateCalendar((string) $table, (int) $insertId);
 
 // Summary above the calendar list
@@ -196,7 +196,7 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_unsubscribeLinkPage'] 
 // Back end styles (the filter panel scrolls when it is taller than the window)
 $GLOBALS['TL_DCA']['tl_calendar']['config']['onload_callback'][] = ['Codefog\\EventsSubscriptionsBundle\\DataContainer\\CalendarContainer', 'addBackendStyles'];
 
-// Payments switched off in Events › Setup › Booking settings
+// Payments switched off in Events › Settings › Booking settings
 if (!\Codefog\EventsSubscriptionsBundle\Features::payments()) {
     $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable'] = str_replace(',subscription_price,subscription_paymentMethods,subscription_paymentProvider,subscription_freeEmailDomains', '', $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable']);
 }

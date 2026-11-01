@@ -106,7 +106,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMessage'] = [
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'] = 'Card payments are not available at the moment, please try again later or choose another payment method.';
 
-// Events › E-mails
+// Events › Settings › E-mail templates
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
     'events_subscriptions_trainer' => 'Trainer pack the day before',
     'events_subscriptions_followUp' => 'After the event (certificate, feedback)',
@@ -150,7 +150,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTags'] = [
     'payment_link' => 'Pay now link',
 ];
 
-// Events › Setup › Health check: [problem, all fine]
+// Events › Settings › Health check: [problem, all fine]
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.health'] = [
     'emails' => ['%s e-mails are used by calendars, groups or events but send nothing (not set up or switched off)', 'All e-mails in use send something'],
     'noConfirmation' => ['%s calendars take bookings without a confirmation e-mail', 'Every calendar with bookings sends a confirmation e-mail'],

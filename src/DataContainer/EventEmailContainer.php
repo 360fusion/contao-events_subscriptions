@@ -20,7 +20,7 @@ use Contao\StringUtil;
 use Contao\System;
 
 /**
- * The simple "E-mails" view of the event notifications (Events › E-mails). Each e-mail is a notification with one
+ * The simple "E-mails" view of the event notifications (Events › Settings › E-mail templates). Each e-mail is a notification with one
  * message and one language in the Notification Center: this view edits the content of that language directly.
  */
 class EventEmailContainer

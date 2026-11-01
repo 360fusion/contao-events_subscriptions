@@ -1,6 +1,6 @@
 <?php
 
-// Events › E-mails (the simple view of the event notifications)
+// Events › Settings › E-mail templates (the simple view of the event notifications)
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailTitle'] = ['Name', 'A name to recognise the e-mail, e.g. "Booking confirmation".'];
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailType'] = ['Sent', 'When the e-mail is sent. Choose which e-mail a calendar, event group or event uses in its subscription settings.'];
 $GLOBALS['TL_LANG']['tl_nc_notification']['emailSubject'] = ['Subject', 'The subject line. Tags can be used here too.'];

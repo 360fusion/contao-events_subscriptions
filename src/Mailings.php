@@ -10,7 +10,7 @@ use Contao\System;
 
 /**
  * The e-mails the site sends by itself around an event: the trainer pack the day before and the thank-you (certificate, feedback) the day after.
- * Each is on once an e-mail is chosen in Events › Setup › Booking settings, and sent once for every event or booking.
+ * Each is on once an e-mail is chosen in Events › Settings › Booking settings, and sent once for every event or booking.
  */
 class Mailings
 {

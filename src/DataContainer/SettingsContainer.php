@@ -167,7 +167,7 @@ class SettingsContainer
     }
 
     /**
-     * A new calendar starts with the booking settings of the template calendar (Events › Setup › Booking settings)
+     * A new calendar starts with the booking settings of the template calendar (Events › Settings › Booking settings)
      */
     public function applyTemplateCalendar(string $table, int $insertId): void
     {

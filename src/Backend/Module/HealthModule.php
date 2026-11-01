@@ -12,7 +12,7 @@ use Contao\StringUtil;
 use Contao\System;
 
 /**
- * Events › Setup › Health check: settings that probably need attention
+ * Events › Settings › Health check: settings that probably need attention
  */
 class HealthModule
 {

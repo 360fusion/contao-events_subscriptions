@@ -66,7 +66,9 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
     'event_subscribers' => [
         'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\SubscribersModule',
     ],
+    // Opened from Settings
     'event_emails' => [
+        'hideInNavigation' => true,
         'tables' => ['tl_nc_notification', 'tl_nc_message', 'tl_nc_language'],
         'event_emailTest' => ['Codefog\EventsSubscriptionsBundle\Backend\EventEmailTestController', 'run'],
     ],
@@ -75,13 +77,15 @@ unset($GLOBALS['BE_MOD']['content']['calendar']);
         'payment_refund' => ['Codefog\EventsSubscriptionsBundle\Backend\PaymentController', 'run'],
         'payment_markPaid' => ['Codefog\EventsSubscriptionsBundle\Backend\PaymentController', 'run'],
     ],
+    // Opened from Settings
     'event_reports' => [
         'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\ReportsModule',
+        'hideInNavigation' => true,
     ],
     'event_setup' => [
         'callback' => 'Codefog\EventsSubscriptionsBundle\Backend\Module\SetupModule',
     ],
-    // Opened from Setup
+    // Opened from Settings
     'event_settings' => [
         'tables' => ['tl_events_subscriptions_settings'],
         'hideInNavigation' => true,

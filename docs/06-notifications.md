@@ -113,7 +113,7 @@ The list of available tokens in every notification:
 
 ## E-mails (simple editor)
 
-Events › E-mails shows the event notifications as a plain list: the name, when the e-mail is
+Events › Settings › E-mail templates shows the event notifications as a plain list: the name, when the e-mail is
 sent, how many calendars, event groups and events use it, its subject, and a warning when an e-mail is not set up
 (nothing is sent) or switched off. It is shown to users who may access the Notification Center.
 
@@ -136,7 +136,7 @@ changing the e-mail. Meant for plain text e-mails.
 
 ### Trainer pack and after-the-event e-mails
 
-Two more e-mail types are sent by the site on its own once an e-mail of that type is chosen under Events › Setup ›
+Two more e-mail types are sent by the site on its own once an e-mail of that type is chosen under Events › Settings ›
 Booking settings › Before and after events. Each is sent once for every event or booking, from the hourly cron job.
 
 - **Trainer pack the day before** (`events_subscriptions_trainer`): goes to the trainer e-mail address of the event,

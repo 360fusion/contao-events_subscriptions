@@ -5,7 +5,7 @@ namespace Codefog\EventsSubscriptionsBundle;
 use Contao\Config;
 
 /**
- * Feature switches of Events › Setup › Booking settings
+ * Feature switches of Events › Settings › Booking settings
  */
 final class Features
 {

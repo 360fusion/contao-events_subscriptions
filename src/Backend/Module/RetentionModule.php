@@ -15,7 +15,7 @@ use Contao\Message;
 use Contao\System;
 
 /**
- * Events › Setup › Old booking data: the past events whose bookings still have personal data, to anonymise or delete
+ * Events › Settings › Old booking data: the past events whose bookings still have personal data, to anonymise or delete
  */
 class RetentionModule
 {
