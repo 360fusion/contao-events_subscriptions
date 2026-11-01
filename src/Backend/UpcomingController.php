@@ -130,7 +130,7 @@ class UpcomingController extends OverviewController
     {
         $options = [];
         $result = Database::getInstance()
-            ->query('SELECT g.id, g.title, c.title AS calendarTitle FROM tl_calendar_event_group g JOIN tl_calendar c ON c.id=g.pid WHERE c.subscription_enable=1 ORDER BY c.title, g.sorting');
+            ->query('SELECT g.id, g.title, c.title AS calendarTitle FROM tl_calendar_event_group g JOIN tl_calendar c ON c.id=g.pid WHERE c.subscription_enable=1 ORDER BY c.title, g.title');
 
         while ($result->next()) {
             $options[$result->calendarTitle][$result->id] = $result->title;
