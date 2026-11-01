@@ -33,6 +33,11 @@ class RegistrationFields
     public function __construct(array $fieldRows)
     {
         foreach ($fieldRows as $row) {
+            // Skip records that were never saved (new or copied ones), they have no key yet
+            if ('' === (string) $row['fieldKey'] || !$row['tstamp']) {
+                continue;
+            }
+
             $this->rows[(int) $row['id']] = $row;
         }
     }
@@ -114,6 +119,8 @@ class RegistrationFields
                 break;
 
             case 'checkbox':
+                // The label is the checkbox option, like upstream's "enable reminders" checkbox
+                unset($config['label']);
                 $config['options'] = [1 => $field['label']];
                 break;
         }
@@ -142,7 +149,8 @@ class RegistrationFields
 
     public function formatValue(array $field, mixed $value): string
     {
-        if ('checkbox' === ($field['type'] ?? null)) {
+        // A checkbox that was never asked (null) stays blank instead of saying "no"
+        if ('checkbox' === ($field['type'] ?? null) && null !== $value) {
             return $value ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'];
         }
 

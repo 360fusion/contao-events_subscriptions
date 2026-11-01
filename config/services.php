@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Codefog\EventsSubscriptionsBundle\Cache\RegistrationFieldsCacheWarmer;
 use Codefog\EventsSubscriptionsBundle\ExporterHelper;
 use Codefog\EventsSubscriptionsBundle\NotificationCenterHelper;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -25,5 +26,12 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services
         ->set(ExporterHelper::class)
         ->public()
+    ;
+
+    // Must run after Contao's cache warmer (priority 0), which writes the DCA extracts
+    $services
+        ->set(RegistrationFieldsCacheWarmer::class)
+        ->autoconfigure(false)
+        ->tag('kernel.cache_warmer', ['priority' => -1])
     ;
 };

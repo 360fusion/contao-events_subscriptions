@@ -10,10 +10,10 @@ use PHPUnit\Framework\TestCase;
 class RegistrationFieldsTest extends TestCase
 {
     private const ROWS = [
-        ['id' => 1, 'label' => 'Ward / Area', 'fieldKey' => 'ward_area', 'type' => 'text', 'options' => null, 'mandatory' => 1, 'disabled' => 0],
-        ['id' => 2, 'label' => 'Diet', 'fieldKey' => 'diet', 'type' => 'select', 'options' => 'a:2:{i:0;s:4:"None";i:1;s:5:"Vegan";}', 'mandatory' => 0, 'disabled' => 0],
-        ['id' => 3, 'label' => 'Old', 'fieldKey' => 'old', 'type' => 'text', 'options' => null, 'mandatory' => 0, 'disabled' => 1],
-        ['id' => 4, 'label' => 'Approved', 'fieldKey' => 'approved', 'type' => 'checkbox', 'options' => null, 'mandatory' => 0, 'disabled' => 0],
+        ['id' => 1, 'tstamp' => 1, 'label' => 'Ward / Area', 'fieldKey' => 'ward_area', 'type' => 'text', 'options' => null, 'mandatory' => 1, 'disabled' => 0],
+        ['id' => 2, 'tstamp' => 1, 'label' => 'Diet', 'fieldKey' => 'diet', 'type' => 'select', 'options' => 'a:2:{i:0;s:4:"None";i:1;s:5:"Vegan";}', 'mandatory' => 0, 'disabled' => 0],
+        ['id' => 3, 'tstamp' => 1, 'label' => 'Old', 'fieldKey' => 'old', 'type' => 'text', 'options' => null, 'mandatory' => 0, 'disabled' => 1],
+        ['id' => 4, 'tstamp' => 1, 'label' => 'Approved', 'fieldKey' => 'approved', 'type' => 'checkbox', 'options' => null, 'mandatory' => 0, 'disabled' => 0],
     ];
 
     protected function setUp(): void
@@ -107,9 +107,34 @@ class RegistrationFieldsTest extends TestCase
         $approved = $f->resolve([['field' => '4', 'mandatory' => '']])[0];
         $this->assertSame('Yes', $f->formatValue($approved, '1'));
         $this->assertSame('No', $f->formatValue($approved, ''));
-        $this->assertSame('No', $f->formatValue($approved, null));
         $this->assertSame('<script>x</script>', $f->formatValue(['type' => 'text'], '<script>x</script>'));
         $this->assertSame('', $f->formatValue(['type' => 'text'], null));
+    }
+
+    public function testRowsWithoutKeyOrUnsavedAreIgnored(): void
+    {
+        $rows = self::ROWS;
+        $rows[] = ['id' => 5, 'tstamp' => 1, 'label' => 'Copy A', 'fieldKey' => '', 'type' => 'text', 'options' => null, 'mandatory' => 0, 'disabled' => 0];
+        $rows[] = ['id' => 6, 'tstamp' => 1, 'label' => 'Copy B', 'fieldKey' => '', 'type' => 'text', 'options' => null, 'mandatory' => 0, 'disabled' => 0];
+        $rows[] = ['id' => 7, 'tstamp' => 0, 'label' => 'New', 'fieldKey' => 'new', 'type' => 'text', 'options' => null, 'mandatory' => 0, 'disabled' => 0];
+        $f = new RegistrationFields($rows);
+        $this->assertSame(['ward_area', 'diet', 'old', 'approved'], array_column($f->allFields(), 'key'));
+        $this->assertArrayNotHasKey('subscription_field_', $f->exportColumns());
+        $this->assertSame([], $f->resolve([['field' => '5', 'mandatory' => ''], ['field' => '7', 'mandatory' => '']]));
+    }
+
+    public function testUnansweredCheckboxIsBlank(): void
+    {
+        $approved = (new RegistrationFields(self::ROWS))->allFields()[3];
+        $this->assertSame('', $approved['type'] === 'checkbox' ? (new RegistrationFields(self::ROWS))->formatValue($approved, null) : 'not a checkbox');
+    }
+
+    public function testCheckboxLabelIsShownOnce(): void
+    {
+        $f = new RegistrationFields(self::ROWS);
+        $c = $f->formFieldConfig(['key' => 'a', 'label' => 'Approved', 'type' => 'checkbox', 'options' => [], 'mandatory' => false]);
+        $this->assertArrayNotHasKey('label', $c);
+        $this->assertSame([1 => 'Approved'], $c['options']);
     }
 
     public function testNoFieldsDefined(): void
