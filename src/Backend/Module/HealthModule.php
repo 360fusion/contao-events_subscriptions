@@ -30,6 +30,7 @@ class HealthModule
         System::loadLanguageFile('tl_events_subscriptions_settings');
 
         $template = new BackendTemplate('be_events_subscriptions_health');
+        $template->backUrl = \Codefog\EventsSubscriptionsBundle\Backend\BackLink::url();
         $template->checks = self::getChecks();
 
         return $template->parse();

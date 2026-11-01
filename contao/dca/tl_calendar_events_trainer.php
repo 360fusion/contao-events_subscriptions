@@ -29,6 +29,11 @@ $GLOBALS['TL_DCA']['tl_calendar_events_trainer'] = [
             'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',
         ],
+        'global_operations' => [
+            'back' => ['label' => &$GLOBALS['TL_LANG']['MSC']['backBT'], 'href' => '', 'class' => 'header_back', 'primary' => true, 'button_callback' => ['Codefog\\EventsSubscriptionsBundle\\Backend\\BackLink', 'toSettings']],
+            'new',
+            'all',
+        ],
         'label' => [
             'fields' => ['name'],
             'label_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\TrainerContainer', 'generateLabel'],

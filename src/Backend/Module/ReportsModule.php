@@ -61,6 +61,7 @@ class ReportsModule
         }
 
         $template = new BackendTemplate('be_events_subscriptions_reports');
+        $template->backUrl = \Codefog\EventsSubscriptionsBundle\Backend\BackLink::url();
         $template->from = $from;
         $template->to = $to;
         $template->calendar = $calendar;

@@ -64,6 +64,7 @@ class RetentionModule
         unset($row);
 
         $template = new BackendTemplate('be_events_subscriptions_retention');
+        $template->backUrl = \Codefog\EventsSubscriptionsBundle\Backend\BackLink::url();
         $template->months = $months;
         $template->perPage = $perPage;
         $template->perPageOptions = self::PER_PAGE;

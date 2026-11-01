@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\DataContainer;
 
+use Codefog\EventsSubscriptionsBundle\Backend\BackLink;
 use Codefog\EventsSubscriptionsBundle\EventListener\LanguageListener;
 use Codefog\EventsSubscriptionsBundle\Features;
 use Contao\Config;
@@ -68,6 +69,7 @@ class SettingsContainer
         'mailings' => 'event_settings_mailings',
         'providers' => 'event_payment_providers',
         'payments' => 'event_settings_payments',
+        'health' => 'event_health',
         'retention' => 'event_retention',
         'reports' => 'event_reports',
         'venues' => 'event_venues',
@@ -117,7 +119,11 @@ class SettingsContainer
             .'<style>.events-explain .when-open,.events-explain[open] .when-closed{display:none}.events-explain[open] .when-open{display:inline}</style>'
             .'<script>(()=>{const d=document.querySelector("details.events-explain");if(!d)return;const k="events-explain-"+d.dataset.page;try{d.open="1"===localStorage.getItem(k)}catch(e){}d.addEventListener("toggle",()=>{try{localStorage.setItem(k,d.open?"1":"0")}catch(e){}})})()</script>';
 
-        Message::addRaw('<div class="tl_info" style="padding:14px 18px;line-height:1.5">'.$intro.$details.'</div>');
+        // The pages are opened from the Settings page (the invoice page from the Payments page)
+        Message::addRaw('<div id="tl_buttons" style="margin:0 0 10px">'.BackLink::html('invoice' === $page ? 'event_settings_payments' : 'event_setup').'</div>');
+
+        // Contao's own padding leaves room for the icon at the left; the first line starts level with it
+        Message::addRaw('<div class="tl_info">'.str_replace('margin:6px 0', 'margin:0', $intro).$details.'</div>');
     }
 
     /**

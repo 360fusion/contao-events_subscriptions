@@ -19,3 +19,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['inactive'] = 'inacti
 $GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['toggle'] = ['Active or inactive', 'Switch provider ID %s on or off'];
 $GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['detailsMissing'] = 'details missing';
 $GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['activeNeedsDetails'] = 'Enter the account details first (%s), then this provider can be made active.';
+$GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['typeText'] = ['stripe' => 'Cards, Apple Pay and Google Pay', 'paypal' => 'PayPal checkout', 'mollie' => 'Cards and other methods through Mollie', 'govukpay' => 'The UK government payment service'];

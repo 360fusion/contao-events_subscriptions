@@ -1,4 +1,7 @@
 <?php $L = $GLOBALS['TL_LANG']['tl_calendar']; $e = static fn ($v) => \Contao\StringUtil::specialchars((string) $v); $pct = static fn ($v) => null === $v ? '–' : $v.'%'; ?>
+<div id="tl_buttons">
+    <a href="<?= \Contao\StringUtil::ampersand($this->backUrl) ?>" class="header_back" title="<?= \Contao\StringUtil::specialchars($GLOBALS['TL_LANG']['MSC']['backBTTitle']) ?>" accesskey="b"><?= $GLOBALS['TL_LANG']['MSC']['backBT'] ?></a>
+</div>
 <div class="maintenance_active">
     <h2 class="sub_headline"><?= $GLOBALS['TL_LANG']['MOD']['event_reports'][0] ?></h2>
 

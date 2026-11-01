@@ -49,6 +49,9 @@ class EventEmailsListener
             'delete' => $operations['delete'] ?? null,
         ]);
 
+        // Back to the Settings page, where the list is opened from
+        $dca['list']['global_operations'] = ['back' => ['label' => &$GLOBALS['TL_LANG']['MSC']['backBT'], 'href' => '', 'class' => 'header_back', 'primary' => true, 'button_callback' => ['Codefog\\EventsSubscriptionsBundle\\Backend\\BackLink', 'toSettings']]] + ($dca['list']['global_operations'] ?? []);
+
         $dca['palettes'] = ['__selector__' => [], 'default' => '{title_legend},title,type'];
         $dca['fields']['type']['options_callback'] = [$container, 'getTypeOptions'];
         $dca['fields']['type']['reference'] = &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'];

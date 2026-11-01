@@ -8,8 +8,8 @@ use Contao\Database;
 use Contao\System;
 
 /**
- * The ways to pay as tiles, under the on/off switch of Booking settings › Payments: each card provider, paying by invoice, and a
- * tile to add a provider. A provider says if it is active, or that its account details are missing.
+ * The ways to pay as tiles, under the on/off switch of Booking settings › Payments: every kind of card provider (Stripe, PayPal, Mollie,
+ * GOV.UK Pay) and paying by invoice. A provider that is not set up, or has no account details, is shown inactive.
  */
 final class PaymentTypes
 {
@@ -25,21 +25,40 @@ final class PaymentTypes
         $db = Database::getInstance();
         $tiles = [];
 
-        foreach ($db->query('SELECT * FROM tl_calendar_events_payment_provider ORDER BY title')->fetchAllAssoc() as $row) {
-            $mode = ProviderFactory::mode($row);
+        $rows = $db->query('SELECT * FROM tl_calendar_events_payment_provider WHERE tstamp>0 ORDER BY title')->fetchAllAssoc();
+        $token = $container->get('contao.csrf.token_manager')->getDefaultTokenValue();
+        $inactive = ['level' => 'off', 'text' => $L['paymentTypes']['inactive']];
 
-            $tiles[] = [
-                'title' => $row['title'],
-                'description' => $P['typeRef'][$row['type']] ?? (string) $row['type'],
-                'icon' => 'settings.svg',
-                'href' => $router->generate('contao_backend', ['do' => 'event_payment_providers', 'act' => 'edit', 'id' => $row['id']]),
-                'state' => match (true) {
-                    !ProviderFactory::hasCredentials($row) => ['level' => 'warn', 'text' => $L['paymentTypes']['needsDetails']],
-                    (bool) $row['published'] => ['level' => 'on', 'text' => $L['paymentTypes']['active']],
-                    default => ['level' => 'off', 'text' => $L['paymentTypes']['inactive']],
-                },
-                'count' => implode(' · ', array_filter([$mode ? $L['providerMode'][$mode] : '', (string) ($row['currency'] ?: 'GBP')])),
-            ];
+        // Every kind of provider is listed. One that is set up shows its state; one that is not stays inactive and opens a new form of its kind.
+        foreach (array_keys(ProviderFactory::TYPES) as $type) {
+            $own = array_filter($rows, static fn (array $row) => $type === $row['type']);
+
+            if (!$own) {
+                $tiles[] = [
+                    'title' => $P['typeRef'][$type],
+                    'description' => $P['typeText'][$type],
+                    'icon' => 'settings.svg',
+                    'href' => $router->generate('contao_backend', ['do' => 'event_payment_providers', 'act' => 'create', 'type' => $type, 'rt' => $token]),
+                    'state' => $inactive,
+                    'count' => $L['paymentTypes']['notSetUp'],
+                ];
+
+                continue;
+            }
+
+            foreach ($own as $row) {
+                $mode = ProviderFactory::mode($row);
+                $complete = ProviderFactory::hasCredentials($row);
+
+                $tiles[] = [
+                    'title' => $row['title'],
+                    'description' => $P['typeText'][$type],
+                    'icon' => 'settings.svg',
+                    'href' => $router->generate('contao_backend', ['do' => 'event_payment_providers', 'act' => 'edit', 'id' => $row['id']]),
+                    'state' => $complete && $row['published'] ? ['level' => 'on', 'text' => $L['paymentTypes']['active']] : $inactive,
+                    'count' => $complete ? implode(' · ', array_filter([$mode ? $L['providerMode'][$mode] : '', (string) ($row['currency'] ?: 'GBP')])) : $L['paymentTypes']['detailsMissing'],
+                ];
+            }
         }
 
         $invoices = (int) $db->query("SELECT COUNT(*) AS n FROM tl_calendar_events_payment WHERE method='invoice'")->n;
@@ -50,14 +69,6 @@ final class PaymentTypes
             'href' => $router->generate('contao_backend', ['do' => 'event_settings_invoice']),
             'state' => Features::invoice() ? ['level' => 'on', 'text' => $L['paymentTypes']['active']] : ['level' => 'off', 'text' => $L['paymentTypes']['inactive']],
             'count' => sprintf($L['setupUnits']['invoices'][1 === $invoices ? 0 : 1], number_format($invoices)),
-        ];
-
-        $tiles[] = [
-            'title' => $L['paymentTypes']['addTitle'],
-            'description' => $L['paymentTypes']['addText'],
-            'icon' => 'new.svg',
-            'href' => $router->generate('contao_backend', ['do' => 'event_payment_providers', 'act' => 'create', 'rt' => $container->get('contao.csrf.token_manager')->getDefaultTokenValue()]),
-            'dashed' => true,
         ];
 
         return TileGrid::html($tiles);

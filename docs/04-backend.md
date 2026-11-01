@@ -108,6 +108,8 @@ separately in the user group permissions:
 - **Settings**: a "Booking settings" section with a tile for each of the five settings pages, the registration
   fields, the venues and trainers (once switched on) and the payment providers (once payments are on), and a "Tools and data" section with the e-mail templates,
   the reports, the health check, old booking data and (when switched on) the calendar groups
+  Every page opened from a tile has a Back button (to Settings, or to the Payments page for the provider list and the
+  Pay by invoice page).
   Every tile has a small bar along the bottom: the state on the left (On or Off, "All fine" or "Needs
   attention", "Signature set") and a number on the right (fields, venues, trainers, providers, payments, attended, e-mails, checks or
   events).
@@ -134,8 +136,11 @@ separately in the user group permissions:
     - **Pay by invoice** has its own page: an Active switch (on unless switched off) and the instructions people see on
       the booking form, also available as the e-mail tag `##payment_invoice_text##`.
     - An event with a price and payment methods, none of which can be offered right now (the provider is inactive or
-      has no details, invoice is switched off), takes no bookings until one is available again. It never turns into a
-      free event.
+      has no details, invoice is switched off, or Payments itself is switched off), takes no bookings until one is
+      available again: the booking form says "Booking is not available at the moment" (templates: the variable
+      `isPaymentUnavailable`, text `events_subscriptions.paymentUnavailableEvent`). It never turns into a free event;
+      set its price to 0 to make it free. The health check lists these events. Events without a price are not
+      affected. With Payments off, prices and payment fields do not show on the booking form at all.
   - **E-mail signatures**: the sender of all event e-mails (saving updates them) and the signature for the `##signature##` tag.
   - **Certificates**: certificates of attendance on or off, the organisation name and who signs.
   - **Before and after events**: the trainer pack and after-the-event e-mails, and the hour the trainer pack goes out.

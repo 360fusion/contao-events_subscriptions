@@ -92,11 +92,11 @@ class EventConfig
 
     /**
      * The event has a price and payment methods, but none of them can be offered right now (provider switched off, invoice switched
-     * off): it must not turn into a free event, so booking waits until a method is available again
+     * off, or Payments itself switched off): it must not turn into a free event, so booking waits until a method is available again
      */
     public function isPaymentUnavailable(): bool
     {
-        return Features::payments() && $this->getPrice() > 0 && [] !== StringUtil::deserialize($this->getSettingsSource('subscription_customPayment')->subscription_paymentMethods, true) && [] === $this->getAvailablePaymentMethods();
+        return $this->getPrice() > 0 && [] !== StringUtil::deserialize($this->getSettingsSource('subscription_customPayment')->subscription_paymentMethods, true) && [] === $this->getAvailablePaymentMethods();
     }
 
     /**

@@ -25,6 +25,11 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment_provider'] = [
             'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;limit',
         ],
+        'global_operations' => [
+            'back' => ['label' => &$GLOBALS['TL_LANG']['MSC']['backBT'], 'href' => '', 'class' => 'header_back', 'primary' => true, 'button_callback' => ['Codefog\\EventsSubscriptionsBundle\\Backend\\BackLink', 'toPayments']],
+            'new',
+            'all',
+        ],
         'label' => [
             'fields' => ['title'],
             'label_callback' => ['Codefog\EventsSubscriptionsBundle\DataContainer\PaymentContainer', 'generateProviderLabel'],
@@ -56,11 +61,14 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment_provider'] = [
             'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
         ],
         'title' => [
+            // A new provider opened from a tile of the Payments page starts with its kind's name
+            'default' => static fn () => $GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['typeRef'][\Contao\Input::get('type')] ?? '',
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'maxlength' => 255, 'tl_class' => 'w50'],
             'sql' => ['type' => Types::STRING, 'length' => 255, 'default' => ''],
         ],
         'type' => [
+            'default' => static fn () => isset(\Codefog\EventsSubscriptionsBundle\Payment\ProviderFactory::TYPES[\Contao\Input::get('type')]) ? \Contao\Input::get('type') : '',
             'inputType' => 'select',
             'options' => array_keys(\Codefog\EventsSubscriptionsBundle\Payment\ProviderFactory::TYPES),
             'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['typeRef'],

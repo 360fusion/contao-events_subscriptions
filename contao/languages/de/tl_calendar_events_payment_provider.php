@@ -19,3 +19,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['inactive'] = 'inakti
 $GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['toggle'] = ['Aktiv oder inaktiv', 'Anbieter ID %s ein- oder ausschalten'];
 $GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['detailsMissing'] = 'Zugangsdaten fehlen';
 $GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['activeNeedsDetails'] = 'Tragen Sie zuerst die Zugangsdaten ein (%s), dann kann dieser Anbieter aktiviert werden.';
+$GLOBALS['TL_LANG']['tl_calendar_events_payment_provider']['typeText'] = ['stripe' => 'Karten, Apple Pay und Google Pay', 'paypal' => 'PayPal-Kasse', 'mollie' => 'Karten und weitere Zahlarten über Mollie', 'govukpay' => 'Der Zahlungsdienst der britischen Regierung'];

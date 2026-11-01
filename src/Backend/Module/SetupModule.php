@@ -58,12 +58,6 @@ class SetupModule
                 };
             }
 
-            // The payment providers, once payments are on, right after Payments
-            if ('event_settings_payments' === $module && Features::payments() && $can('event_payment_providers')) {
-                $active = $count('tl_calendar_events_payment_provider', 'published=1');
-                $settings[] = $tile($L['event_payment_providers'][0], $L['event_payment_providers'][1], 'settings.svg', $url(['do' => 'event_payment_providers']), $active ? $state('on', sprintf($S['setupBar']['providersActive'], $active)) : $state('off', $S['setupBar']['providersNone']), $unit('providers', $count('tl_calendar_events_payment_provider')));
-            }
-
             // The registration fields are a list of their own, so a tile rather than a page of the form; right after General
             if ('event_settings' === $module && $can('event_fields')) {
                 $settings[] = $tile($L['event_fields'][0], $L['event_fields'][1], 'modules.svg', $url(['do' => 'event_fields']), null, $unit('fields', $count('tl_calendar_events_subscription_field', 'disabled=0')));
