@@ -117,3 +117,5 @@ $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.dynamicSearchHelp'] =
 $GLOBALS['TL_LANG']['tl_calendar']['alias'] = ['Alias', 'Wird in den Links der Veranstaltungsnavigation verwendet (?calendar=alias). Wird aus dem Titel erzeugt, wenn leer.'];
 $GLOBALS['TL_LANG']['tl_calendar']['event_groups'] = ['Veranstaltungsgruppen', 'Die Veranstaltungsgruppen von Kalender ID %s verwalten'];
 $GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.eventGroup'] = 'Veranstaltungsgruppe';
+$GLOBALS['TL_LANG']['tl_calendar']['payments'] = ['Zahlungen', 'Alle Zahlungen anzeigen'];
+$GLOBALS['TL_LANG']['tl_calendar']['payment_providers'] = ['Zahlungsanbieter', 'Die Zahlungsanbieter einrichten'];

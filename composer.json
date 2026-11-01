@@ -25,6 +25,7 @@
         "terminal42/notification_center": "^2.4",
         "league/csv": "^9.23",
         "phpoffice/phpspreadsheet": "^4.3 || ^5.0",
+        "symfony/http-client": "^6.4 || ^7.3",
         "symfony/mime": "^6.4 || ^7.3"
     },
     "require-dev": {

@@ -111,7 +111,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
         ],
         'addedBy' => [
             // TODO
-            'default' => \Contao\BackendUser::getInstance()->id,
+            'default' => static fn () => \Contao\BackendUser::getInstance()?->id ?? 0,
             'filter' => true,
             'inputType' => 'select',
             'foreignKey' => 'tl_user.name',
@@ -129,6 +129,15 @@ $GLOBALS['TL_DCA']['tl_calendar_events_subscription'] = [
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'w50 m12'],
             'sql' => ['type' => Types::BOOLEAN, 'default' => false],
+        ],
+        'paymentStatus' => [
+            'filter' => true,
+            'options' => \Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus::ALL,
+            'reference' => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'],
+            'sql' => ['type' => Types::STRING, 'length' => 16, 'default' => ''],
+        ],
+        'payment' => [
+            'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
         ],
         'attended' => [
             'filter' => true,

@@ -4,10 +4,13 @@ namespace Codefog\EventsSubscriptionsBundle\Subscription;
 
 use Codefog\EventsSubscriptionsBundle\EventConfig;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentRequest;
 use Codefog\EventsSubscriptionsBundle\RegistrationFields;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Codefog\HasteBundle\Form\Form;
 use Codefog\HasteBundle\Util\ArrayPosition;
+use Contao\CoreBundle\Exception\RedirectResponseException;
+use Contao\Input;
 use Contao\System;
 
 class GuestSubscription extends AbstractSubscription implements ExportAwareInterface,  NotificationAwareInterface
@@ -132,6 +135,8 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
             $form->addFormField($registrationFields->virtualFieldName($field['key']), $registrationFields->formFieldConfig($field), $position);
         }
 
+        $this->addPaymentFields($form, $event, $position);
+
         $form
             ->addFormField(
                 'captcha_' . $event->getEvent()->id,
@@ -146,6 +151,78 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
     }
 
     /**
+     * The payment method chosen in the form ("card" or "invoice"), empty if there was no choice
+     */
+    public function getPaymentMethodChoice(): string
+    {
+        return $this->form instanceof Form && $this->form->hasFormField('paymentMethod') ? (string) $this->form->fetch('paymentMethod') : '';
+    }
+
+    /**
+     * The page to show after a successful payment (the module's subscribe redirect page)
+     */
+    public function getSuccessPageId(): int
+    {
+        return (int) ($this->moduleData['jumpTo_subscribe'] ?? 0);
+    }
+
+    public function getPurchaseOrder(): string
+    {
+        return $this->form instanceof Form && $this->form->hasFormField('purchaseOrder') ? trim((string) $this->form->fetch('purchaseOrder')) : '';
+    }
+
+    /**
+     * Price, payment method and purchase order fields of paid events
+     */
+    private function addPaymentFields(Form $form, EventConfig $event, $position): void
+    {
+        if (!($methods = $event->getAvailablePaymentMethods())) {
+            return;
+        }
+
+        System::loadLanguageFile('tl_calendar_events');
+
+        $price = sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.price'], PaymentRequest::format($event->getPrice(), $event->getPaymentProvider()?->currency ?: 'GBP', str_replace('-', '_', $GLOBALS['TL_LANGUAGE'] ?? 'en')));
+
+        if ($freeDomains = $event->getFreeEmailDomains()) {
+            $price .= ' '.sprintf($GLOBALS['TL_LANG']['MSC']['events_subscriptions.priceFreeFor'], implode(', ', $freeDomains));
+        }
+
+        $form->addFormField('paymentInfo', ['inputType' => 'explanation', 'eval' => ['text' => '<p class="price">'.$price.'</p>']], $position);
+
+        if (\count($methods) > 1) {
+            $form->addFormField('paymentMethod', [
+                'label' => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMethod'],
+                'inputType' => 'radio',
+                'options' => array_combine($methods, array_map(static fn ($method) => $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'][$method] ?? $method, $methods)),
+                'default' => $methods[0],
+                'eval' => ['mandatory' => true],
+            ], $position);
+        }
+
+        if (\in_array('invoice', $methods, true)) {
+            $form->addFormField('purchaseOrder', [
+                'label' => &$GLOBALS['TL_LANG']['MSC']['events_subscriptions.purchaseOrder'],
+                'inputType' => 'text',
+                'eval' => ['maxlength' => 255],
+                'save_callback' => [
+                    static function ($value) use ($event, $methods) {
+                        $paysByInvoice = 'invoice' === (Input::post('paymentMethod') ?: $methods[0]);
+                        $isFree = $event->getFreeEmailDomains() && Services::getSubscriptionValidator()->isEmailDomainAllowed((string) Input::post('email'), $event->getFreeEmailDomains());
+
+                        // Required when paying by invoice
+                        if ($paysByInvoice && !$isFree && '' === trim((string) $value)) {
+                            throw new \RuntimeException($GLOBALS['TL_LANG']['MSC']['events_subscriptions.purchaseOrderRequired']);
+                        }
+
+                        return $value;
+                    },
+                ],
+            ], $position);
+        }
+    }
+
+    /**
      * @inheritDoc
      */
     public function processForm(Form $form, EventConfig $event)
@@ -156,7 +233,16 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                 return;
             }
 
-            $this->getSubscriber()->subscribe($event, $this);
+            try {
+                $this->getSubscriber()->subscribe($event, $this);
+            } catch (RedirectResponseException $e) {
+                throw $e; // to the payment page
+            } catch (\Throwable $e) {
+                // The payment provider could not be reached, the booking was removed again
+                System::getContainer()->get('monolog.logger.contao')->error('Payment checkout failed: '.$e->getMessage());
+                $this->throwRedirectException(null, $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'], $event->getEvent()->id);
+            }
+
             $this->throwRedirectException(
                 'subscribe',
                 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation'],

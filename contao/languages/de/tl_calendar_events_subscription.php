@@ -112,3 +112,4 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.confirmatio
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['notification.lastNotificationDate'] = 'Letzte Benachrichtigung gesendet am %s.';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['registration_fields_legend'] = 'Anmeldefelder';
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['attended'] = ['Teilgenommen', 'Ankreuzen, sobald die Person an der Veranstaltung teilgenommen hat. Wird in den Exporten angezeigt.', 'Anmeldung ID %s als teilgenommen markieren', 'Teilgenommen', 'Nicht teilgenommen'];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['paymentStatus'] = ['Zahlungsstatus', ''];

@@ -12,6 +12,8 @@
 namespace Codefog\EventsSubscriptionsBundle;
 
 use Codefog\EventsSubscriptionsBundle\Model\EventGroupModel;
+use Codefog\EventsSubscriptionsBundle\Model\PaymentProviderModel;
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentDecision;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\StringUtil;
@@ -63,6 +65,42 @@ class EventConfig
     public function getNotification(string $field): int
     {
         return (int) ($this->getSettingsSource('subscription_customNotifications')->$field ?: $this->calendar->$field);
+    }
+
+    /**
+     * Price in pence, 0 for free
+     */
+    public function getPrice(): int
+    {
+        return (int) $this->getSettingsSource('subscription_customPayment')->subscription_price;
+    }
+
+    /**
+     * The payment methods that can be offered (card only with a provider), empty if the event is free
+     *
+     * @return list<string>
+     */
+    public function getAvailablePaymentMethods(): array
+    {
+        return PaymentDecision::availableMethods($this->getPrice(), StringUtil::deserialize($this->getSettingsSource('subscription_customPayment')->subscription_paymentMethods, true), null !== $this->getPaymentProvider());
+    }
+
+    /**
+     * The payment provider, falling back to the calendar's
+     */
+    public function getPaymentProvider(): PaymentProviderModel|null
+    {
+        $id = (int) ($this->getSettingsSource('subscription_customPayment')->subscription_paymentProvider ?: $this->calendar->subscription_paymentProvider);
+
+        return $id ? PaymentProviderModel::findByPk($id) : null;
+    }
+
+    /**
+     * @return list<string>
+     */
+    public function getFreeEmailDomains(): array
+    {
+        return array_values(array_filter(StringUtil::trimsplit(',', (string) $this->getSettingsSource('subscription_customPayment')->subscription_freeEmailDomains)));
     }
 
     /**

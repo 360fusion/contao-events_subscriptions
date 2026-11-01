@@ -101,3 +101,11 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_listUpdateNotification']
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_notification'] = ['Erinnerungs-Benachrichtigung', 'Die Erinnerungs-Benachrichtigung, sofern der Kalender Erinnerungen sendet. Leer lassen, um die des Kalenders zu verwenden.'];
 
 $GLOBALS['TL_LANG']['tl_calendar_events']['eventGroup'] = ['Veranstaltungsgruppe', 'Die Veranstaltungsgruppe (zum Beispiel der Kurs) in diesem Kalender. Die Gruppen werden über das Ordnersymbol in der Kalenderliste verwaltet.'];
+
+// Payments
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_customPayment'] = ['Eigener Preis und Zahlung', 'Für diese Veranstaltung einen anderen Preis oder andere Zahlungseinstellungen als die des Kalenders verwenden.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_price'] = ['Preis pro Person', 'Der Preis in der Währung des Anbieters, z. B. 12.50. Leer oder 0 für kostenlos.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethods'] = ['Zahlungsarten', 'Wie bezahlt werden kann. Kartenzahlungen benötigen einen Zahlungsanbieter.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'] = ['card' => 'Karte (online)', 'invoice' => 'Rechnung / Bestellnummer / Kostenstelle'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentProvider'] = ['Zahlungsanbieter', 'Der Anbieter für Kartenzahlungen, eingerichtet über "Zahlungsanbieter" über der Kalenderliste.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_freeEmailDomains'] = ['Kostenlos für diese E-Mail-Domains', 'Gäste mit einer E-Mail-Adresse dieser Domains melden sich kostenlos an, z. B. nhs.net (auch Subdomains) oder @nhs.net (nur genau diese Domain).'];

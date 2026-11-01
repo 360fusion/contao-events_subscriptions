@@ -11,6 +11,9 @@
 
 namespace Codefog\EventsSubscriptionsBundle;
 
+use Codefog\EventsSubscriptionsBundle\Model\PaymentModel;
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentRequest;
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\Subscription\NotificationAwareInterface;
 use Codefog\EventsSubscriptionsBundle\Subscription\SubscriptionInterface;
@@ -178,6 +181,36 @@ class NotificationSender
         // Waiting list token
         if ($subscription instanceof SubscriptionInterface) {
             $tokens['subscription_waitingList'] = $subscription->isOnWaitingList();
+            $tokens = array_merge($tokens, $this->getPaymentTokens($subscription->getSubscriptionModel(), $tokens['event_link']));
+        }
+
+        return $tokens;
+    }
+
+    /**
+     * Payment tokens, empty for free events
+     */
+    private function getPaymentTokens(SubscriptionModel|null $model, string $eventLink): array
+    {
+        $tokens = ['payment_status' => '', 'payment_amount' => '', 'payment_method' => '', 'purchase_order' => '', 'payment_link' => ''];
+
+        if (null === $model || !$model->paymentStatus) {
+            return $tokens;
+        }
+
+        System::loadLanguageFile('tl_calendar_events');
+
+        $tokens['payment_status'] = $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'][$model->paymentStatus] ?? $model->paymentStatus;
+
+        if (null !== ($payment = PaymentModel::findByPk($model->payment))) {
+            $tokens['payment_amount'] = PaymentRequest::format((int) $payment->amount, (string) $payment->currency);
+            $tokens['payment_method'] = $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'][$payment->method] ?? $payment->method;
+            $tokens['purchase_order'] = $payment->purchaseOrder;
+        }
+
+        // Waiting list bookings pay once they get a place
+        if (\in_array($model->paymentStatus, [PaymentStatus::PENDING, PaymentStatus::UNPAID], true)) {
+            $tokens['payment_link'] = $eventLink.(str_contains($eventLink, '?') ? '&' : '?').http_build_query(['payment' => 'pay', 'booking' => $model->unsubscribeToken]);
         }
 
         return $tokens;

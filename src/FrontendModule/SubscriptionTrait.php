@@ -69,6 +69,11 @@ trait SubscriptionTrait
             $form = $subscription->getForm($config);
 
             if ($form !== null && $form->validate()) {
+                // The payment return goes to the module's success page
+                if ($subscription instanceof ModuleDataAwareInterface) {
+                    $subscription->setModuleData($moduleData);
+                }
+
                 try {
                     $subscription->processForm($form, $config);
                 } catch (RedirectException $e) {

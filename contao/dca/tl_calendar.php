@@ -17,6 +17,21 @@ use Doctrine\DBAL\Types\Types;
     ],
 ]);
 
+\Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 1, [
+    'payments' => [
+        'href' => 'table=tl_calendar_events_payment',
+        'icon' => 'tablewizard.svg',
+        'primary' => true,
+        'attributes' => 'data-action="contao--scroll-offset#store"',
+    ],
+    'payment_providers' => [
+        'href' => 'table=tl_calendar_events_payment_provider',
+        'icon' => 'settings.svg',
+        'primary' => true,
+        'attributes' => 'data-action="contao--scroll-offset#store"',
+    ],
+]);
+
 // Calendar groups (System › Settings)
 if (\Contao\Config::get('eventsSubscriptionsCalendarGroups')) {
     \Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_calendar']['list']['global_operations'], 0, [
@@ -99,7 +114,7 @@ PaletteManipulator::create()
     ->addField('subscription_enable', 'subscription_legend', PaletteManipulator::POSITION_APPEND)
     ->applyToPalette('default', 'tl_calendar');
 
-$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable'] = 'subscription_types,subscription_emailDomains,subscription_memberGroupsLimit,subscription_maximum,subscription_uniqueEmails,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_fields,subscription_waitingList,subscription_reminders,subscription_unsubscribeLinkPage,subscription_subscribeNotification,subscription_unsubscribeNotification,subscription_listUpdateNotification';
+$GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_enable'] = 'subscription_types,subscription_emailDomains,subscription_memberGroupsLimit,subscription_maximum,subscription_uniqueEmails,subscription_subscribeEndTime,subscription_unsubscribeEndTime,subscription_numberOfParticipants,subscription_fields,subscription_waitingList,subscription_reminders,subscription_unsubscribeLinkPage,subscription_subscribeNotification,subscription_unsubscribeNotification,subscription_listUpdateNotification,subscription_price,subscription_paymentMethods,subscription_paymentProvider,subscription_freeEmailDomains';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 $GLOBALS['TL_DCA']['tl_calendar']['subpalettes']['subscription_numberOfParticipants'] = 'subscription_numberOfParticipantsLimit';
@@ -115,6 +130,10 @@ $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_enable'] = [
 
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_types'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_emailDomains'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_emailDomains'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_price'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_price'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_paymentMethods'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_paymentMethods'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_paymentProvider'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_paymentProvider'];
+$GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_freeEmailDomains'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_freeEmailDomains'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_uniqueEmails'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_uniqueEmails'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_disableReminders'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_disableReminders'];
 $GLOBALS['TL_DCA']['tl_calendar']['fields']['subscription_maximum'] = &$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_maximum'];

@@ -11,6 +11,9 @@
 
 namespace Codefog\EventsSubscriptionsBundle;
 
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentManager;
+use Codefog\EventsSubscriptionsBundle\Subscription\GuestSubscription;
+use Contao\CoreBundle\Exception\RedirectResponseException;
 use Codefog\EventsSubscriptionsBundle\Event\SubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
@@ -88,6 +91,11 @@ class Subscriber
             sprintf($logMessage, strip_tags($subscription->getFrontendLabel()), $event->getEvent()->title, $event->getEvent()->id),
             ['contao' => new ContaoContext(__METHOD__, ContaoContext::GENERAL)],
         );
+
+        // Paid events: the booker pays by card first, the confirmation is sent once the payment succeeded
+        if ($subscription instanceof GuestSubscription && null !== ($checkoutUrl = (new PaymentManager())->handleNewSubscription($event, $model, $subscription->getPaymentMethodChoice(), $subscription->getPurchaseOrder(), (bool) $subscription->isOnWaitingList(), $subscription->getSuccessPageId()))) {
+            throw new RedirectResponseException($checkoutUrl, 303);
+        }
 
         // Dispatch the event
         $dispatchEvent = new SubscribeEvent($model, $subscription);

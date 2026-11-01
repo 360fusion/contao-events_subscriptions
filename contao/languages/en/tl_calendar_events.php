@@ -104,3 +104,11 @@ $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_listUpdateNotification']
 $GLOBALS['TL_LANG']['tl_calendar_events']['subscription_notification'] = ['Reminder notification', 'The reminder notification, if the calendar sends reminders. Leave empty to use the calendar\'s.'];
 
 $GLOBALS['TL_LANG']['tl_calendar_events']['eventGroup'] = ['Event group', 'The event group (for example the course) within this calendar. Manage the groups with the folder icon in the calendar list.'];
+
+// Payments
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_customPayment'] = ['Custom price and payment', 'Use another price or other payment settings for this event than the calendar\'s.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_price'] = ['Price per person', 'The price in the provider\'s currency, e.g. 12.50. Leave empty or 0 for free.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethods'] = ['Payment methods', 'How people can pay. Card payments need a payment provider.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'] = ['card' => 'Card (online)', 'invoice' => 'Invoice / purchase order / cost centre'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentProvider'] = ['Payment provider', 'The provider for card payments, set up with "Payment providers" above the calendar list.'];
+$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_freeEmailDomains'] = ['Free for these e-mail domains', 'Guests with an e-mail address of these domains book free, e.g. nhs.net (also allows subdomains) or @nhs.net (exact domain only).'];

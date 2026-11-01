@@ -33,6 +33,11 @@ class EventsSubscriptionsListUpdateType implements NotificationTypeInterface
             $this->factory->create(TextTokenDefinition::class, 'days_before_event', ''),
             $this->factory->create(TextTokenDefinition::class, 'event_link', ''),
             $this->factory->create(TextTokenDefinition::class, 'event_ics_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_status', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_amount', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_method', ''),
+            $this->factory->create(TextTokenDefinition::class, 'purchase_order', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_link', ''),
             $this->factory->create(TextTokenDefinition::class, 'unsubscribe_link', ''),
         ];
     }

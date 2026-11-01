@@ -16,3 +16,4 @@ $GLOBALS['TL_LANG']['tl_calendar_event_group']['subscription_customNotifications
 $GLOBALS['TL_LANG']['tl_calendar_event_group']['export'] = ['Export subscriptions', 'Export the subscriptions of all events in event group ID %s'];
 $GLOBALS['TL_LANG']['tl_calendar_event_group']['export.explanation'] = 'You are about to export the subscriptions data for all events of the event group:';
 $GLOBALS['TL_LANG']['tl_calendar_event_group']['subscriptions_exportEventGroup'] = ['Export subscriptions', 'Export subscriptions'];
+$GLOBALS['TL_LANG']['tl_calendar_event_group']['subscription_customPayment'] = ['Custom price and payment', 'Use another price or other payment settings for the events of this group.'];

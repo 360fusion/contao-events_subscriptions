@@ -53,6 +53,11 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.exportHeaderFields'] = [
     'subscription_type'        => 'Subscription type',
     'subscription_waitingList' => 'Waiting list',
     'subscription_attended'    => 'Attended',
+    'payment_status'           => 'Payment status',
+    'payment_amount'           => 'Amount',
+    'payment_method'           => 'Payment method',
+    'purchase_order'           => 'Purchase order / cost centre',
+    'payment_reference'        => 'Payment reference',
     'subscription_firstname'   => 'Firstname',
     'subscription_lastname'    => 'Lastname',
     'subscription_email'       => 'E-mail address',
@@ -85,3 +90,18 @@ $GLOBALS['TL_LANG']['MSC']['eventNavigation.anyMonth'] = 'Any month';
 $GLOBALS['TL_LANG']['MSC']['eventNavigation.filter'] = 'Filter';
 $GLOBALS['TL_LANG']['MSC']['eventNavigation.reset'] = 'Reset';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.addToCalendar'] = 'Add to calendar';
+
+// Payments
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'] = ['free' => 'Free', 'pending' => 'Awaiting payment', 'unpaid' => 'Unpaid (waiting list)', 'paid' => 'Paid', 'invoice' => 'To invoice', 'refunded' => 'Refunded', 'failed' => 'Failed'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.price'] = 'Price: %s per person.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.priceFreeFor'] = 'Free for %s e-mail addresses.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMethod'] = ['How will you pay?', ''];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.purchaseOrder'] = ['Purchase order or cost centre', 'Required when paying by invoice.'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.purchaseOrderRequired'] = 'Please enter a purchase order or cost centre to pay by invoice.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMessage'] = [
+    'paid' => 'Thank you, your payment was received and your place is confirmed.',
+    'failed' => 'The payment was not completed, so the booking was cancelled. You can book again.',
+    'pending' => 'Your payment has not been completed yet. <a href="%s">Pay now</a> to keep your place.',
+    'unpaid' => 'Your payment has not been completed yet. <a href="%s">Pay now</a>.',
+];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'] = 'Card payments are not available at the moment, please try again later or choose another payment method.';

@@ -4,7 +4,9 @@ namespace Codefog\EventsSubscriptionsBundle;
 
 use Codefog\EventsSubscriptionsBundle\Event\ExportCalendarEvent;
 use Codefog\EventsSubscriptionsBundle\Event\ExportEvent;
+use Codefog\EventsSubscriptionsBundle\Model\PaymentModel;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentRequest;
 use Codefog\EventsSubscriptionsBundle\Subscription\ExportAwareInterface;
 use Codefog\EventsSubscriptionsBundle\Subscription\SubscriptionInterface;
 use Codefog\EventsSubscriptionsBundle\Model\EventGroupModel;
@@ -263,6 +265,11 @@ class Exporter
             'subscription_type'        => $headerFields['subscription_type'],
             'subscription_waitingList' => $headerFields['subscription_waitingList'],
             'subscription_attended'    => $headerFields['subscription_attended'],
+            'payment_status'           => $headerFields['payment_status'],
+            'payment_amount'           => $headerFields['payment_amount'],
+            'payment_method'           => $headerFields['payment_method'],
+            'purchase_order'           => $headerFields['purchase_order'],
+            'payment_reference'        => $headerFields['payment_reference'],
             'subscription_firstname'   => $headerFields['subscription_firstname'],
             'subscription_lastname'    => $headerFields['subscription_lastname'],
             'subscription_email'       => $headerFields['subscription_email'],
@@ -324,12 +331,29 @@ class Exporter
                     'subscription_type'        => $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_types']['reference'][$model->type],
                     'subscription_waitingList' => $subscription->isOnWaitingList() ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'],
                     'subscription_attended'    => $model->attended ? $GLOBALS['TL_LANG']['MSC']['yes'] : $GLOBALS['TL_LANG']['MSC']['no'],
-                ]
+                ],
+                $this->getPaymentData($model),
             );
 
             $data[] = array_merge($columns, array_intersect_key($tmp, $columns));
         }
 
         return $data;
+    }
+
+    /**
+     * Payment columns of a subscription, empty for free events
+     */
+    private function getPaymentData(SubscriptionModel $model): array
+    {
+        $payment = $model->payment ? PaymentModel::findByPk($model->payment) : null;
+
+        return [
+            'payment_status' => $model->paymentStatus ? ($GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'][$model->paymentStatus] ?? $model->paymentStatus) : '',
+            'payment_amount' => $payment ? PaymentRequest::decimal((int) $payment->amount) : '',
+            'payment_method' => $payment ? ($GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'][$payment->method] ?? $payment->method) : '',
+            'purchase_order' => $payment?->purchaseOrder ?? '',
+            'payment_reference' => $payment?->reference ?? '',
+        ];
     }
 }

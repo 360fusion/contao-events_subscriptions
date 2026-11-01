@@ -52,6 +52,11 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.exportHeaderFields'] = [
     'subscription_type'        => 'Typ der Anmeldung',
     'subscription_waitingList' => 'Warteliste',
     'subscription_attended'    => 'Teilgenommen',
+    'payment_status'           => 'Zahlungsstatus',
+    'payment_amount'           => 'Betrag',
+    'payment_method'           => 'Zahlungsart',
+    'purchase_order'           => 'Bestellnummer / Kostenstelle',
+    'payment_reference'        => 'Zahlungsreferenz',
     'subscription_firstname'   => 'Vorname',
     'subscription_lastname'    => 'Nachname',
     'subscription_email'       => 'E-Mail-Adresse',
@@ -84,3 +89,18 @@ $GLOBALS['TL_LANG']['MSC']['eventNavigation.anyMonth'] = 'Alle Monate';
 $GLOBALS['TL_LANG']['MSC']['eventNavigation.filter'] = 'Filtern';
 $GLOBALS['TL_LANG']['MSC']['eventNavigation.reset'] = 'Zurücksetzen';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.addToCalendar'] = 'Zum Kalender hinzufügen';
+
+// Payments
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'] = ['free' => 'Kostenlos', 'pending' => 'Zahlung ausstehend', 'unpaid' => 'Unbezahlt (Warteliste)', 'paid' => 'Bezahlt', 'invoice' => 'Rechnung', 'refunded' => 'Erstattet', 'failed' => 'Fehlgeschlagen'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.price'] = 'Preis: %s pro Person.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.priceFreeFor'] = 'Kostenlos für E-Mail-Adressen von %s.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMethod'] = ['Wie möchten Sie bezahlen?', ''];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.purchaseOrder'] = ['Bestellnummer oder Kostenstelle', 'Erforderlich bei Zahlung auf Rechnung.'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.purchaseOrderRequired'] = 'Bitte geben Sie eine Bestellnummer oder Kostenstelle für die Zahlung auf Rechnung an.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMessage'] = [
+    'paid' => 'Vielen Dank, Ihre Zahlung ist eingegangen und Ihr Platz ist bestätigt.',
+    'failed' => 'Die Zahlung wurde nicht abgeschlossen, daher wurde die Anmeldung storniert. Sie können sich erneut anmelden.',
+    'pending' => 'Ihre Zahlung ist noch nicht abgeschlossen. <a href="%s">Jetzt bezahlen</a>, um Ihren Platz zu behalten.',
+    'unpaid' => 'Ihre Zahlung ist noch nicht abgeschlossen. <a href="%s">Jetzt bezahlen</a>.',
+];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'] = 'Kartenzahlungen sind im Moment nicht möglich. Bitte versuchen Sie es später erneut oder wählen Sie eine andere Zahlungsart.';

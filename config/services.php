@@ -20,6 +20,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services->load('Codefog\\EventsSubscriptionsBundle\\NotificationCenter\\', __DIR__ . '/../src/NotificationCenter');
 
     $services
+        ->load('Codefog\\EventsSubscriptionsBundle\\Controller\\', __DIR__ . '/../src/Controller')
+        ->tag('controller.service_arguments')
+    ;
+
+    $services
         ->set(NotificationCenterHelper::class)
         ->public()
     ;

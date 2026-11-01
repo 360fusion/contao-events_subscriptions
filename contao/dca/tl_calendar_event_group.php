@@ -108,7 +108,7 @@ foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['fields'] as $name => $field) 
         $GLOBALS['TL_DCA']['tl_calendar_event_group']['fields'][$name] = $field;
 
         // The override toggles have their own wording, the other fields use the event labels
-        if (\in_array($name, ['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_override'], true)) {
+        if (\in_array($name, ['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_customPayment', 'subscription_override'], true)) {
             $GLOBALS['TL_DCA']['tl_calendar_event_group']['fields'][$name]['label'] = &$GLOBALS['TL_LANG']['tl_calendar_event_group'][$name];
         } else {
             $GLOBALS['TL_DCA']['tl_calendar_event_group']['fields'][$name]['label'] = $GLOBALS['TL_LANG']['tl_calendar_events'][$name] ?? $field['label'] ?? null;
@@ -123,7 +123,7 @@ foreach ($GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes'] as $selector =>
     }
 }
 
-$overrides = array_intersect(['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_override'], array_keys($GLOBALS['TL_DCA']['tl_calendar_event_group']['fields']));
+$overrides = array_intersect(['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_customPayment', 'subscription_override'], array_keys($GLOBALS['TL_DCA']['tl_calendar_event_group']['fields']));
 
 if ($overrides) {
     $GLOBALS['TL_DCA']['tl_calendar_event_group']['palettes']['default'] = str_replace('{publish_legend}', '{subscription_legend},'.implode(',', $overrides).';{publish_legend}', $GLOBALS['TL_DCA']['tl_calendar_event_group']['palettes']['default']);

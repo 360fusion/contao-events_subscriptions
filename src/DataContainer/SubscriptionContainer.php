@@ -198,7 +198,14 @@ class SubscriptionContainer
             return '';
         }
 
-        return $subscription->getBackendLabel();
+        $label = $subscription->getBackendLabel();
+
+        // Payment status of paid events
+        if ($row['paymentStatus'] ?? '') {
+            $label .= sprintf(' <span class="label-info">[%s]</span>', $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'][$row['paymentStatus']] ?? $row['paymentStatus']);
+        }
+
+        return $label;
     }
 
     /**

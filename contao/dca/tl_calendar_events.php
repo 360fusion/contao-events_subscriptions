@@ -65,6 +65,8 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_override']
 $GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_customNotifications';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_customNotifications'] = 'subscription_subscribeNotification,subscription_unsubscribeNotification,subscription_listUpdateNotification,subscription_notification';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_waitingList'] = 'subscription_waitingListLimit';
+$GLOBALS['TL_DCA']['tl_calendar_events']['palettes']['__selector__'][] = 'subscription_customPayment';
+$GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_customPayment'] = 'subscription_price,subscription_paymentMethods,subscription_paymentProvider,subscription_freeEmailDomains';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_memberGroupsLimit'] = 'subscription_memberGroups';
 $GLOBALS['TL_DCA']['tl_calendar_events']['subpalettes']['subscription_numberOfParticipants'] = 'subscription_numberOfParticipantsLimit';
 
@@ -119,6 +121,47 @@ $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_customNotificat
     'inputType' => 'checkbox',
     'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
     'sql' => ['type' => Types::BOOLEAN, 'default' => false],
+];
+
+// Payment: price (stored in pence), how people can pay, the provider and the domains that book free
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_customPayment'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_customPayment'],
+    'inputType' => 'checkbox',
+    'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
+    'sql' => ['type' => Types::BOOLEAN, 'default' => false],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_price'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_price'],
+    'inputType' => 'text',
+    'eval' => ['rgxp' => 'digit', 'minval' => 0, 'maxlength' => 10, 'tl_class' => 'w50'],
+    'load_callback' => [['Codefog\EventsSubscriptionsBundle\DataContainer\PaymentContainer', 'loadPrice']],
+    'save_callback' => [['Codefog\EventsSubscriptionsBundle\DataContainer\PaymentContainer', 'savePrice']],
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_paymentMethods'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethods'],
+    'inputType' => 'checkbox',
+    'options' => ['card', 'invoice'],
+    'reference' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentMethodsRef'],
+    'eval' => ['multiple' => true, 'tl_class' => 'w50'],
+    'sql' => ['type' => Types::BLOB, 'notnull' => false],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_paymentProvider'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_paymentProvider'],
+    'inputType' => 'select',
+    'foreignKey' => 'tl_calendar_events_payment_provider.title',
+    'eval' => ['includeBlankOption' => true, 'tl_class' => 'w50 clr'],
+    'sql' => ['type' => Types::INTEGER, 'unsigned' => true, 'default' => 0],
+];
+
+$GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_freeEmailDomains'] = [
+    'label' => &$GLOBALS['TL_LANG']['tl_calendar_events']['subscription_freeEmailDomains'],
+    'inputType' => 'listWizard',
+    'eval' => ['multiple' => true, 'csv' => ',', 'tl_class' => 'clr'],
+    'sql' => ['type' => Types::TEXT, 'notnull' => false],
 ];
 
 $GLOBALS['TL_DCA']['tl_calendar_events']['fields']['subscription_emailDomains'] = [

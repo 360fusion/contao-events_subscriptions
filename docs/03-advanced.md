@@ -167,3 +167,34 @@ in the same month. However he will be able to subscribe to the event that takes 
 month, e.g. February.
 
 > If member is assigned to multiple groups, the limit value of the first member group will be used.
+
+## Payments
+
+Events can have a price. Guests then pay by card online, or by invoice with a purchase order or cost centre.
+
+1. Click "Payment providers" above the calendar list and add a provider: Stripe, PayPal, Mollie or GOV.UK Pay.
+   Enter the provider's test keys first. Card details are entered on the provider's own payment page, never on
+   the site. Copy the webhook URL shown in the provider list into the provider's webhook settings (Stripe:
+   `checkout.session.completed` and `checkout.session.expired`; PayPal: `CHECKOUT.ORDER.APPROVED` and
+   `PAYMENT.CAPTURE.COMPLETED`; Mollie sets it per payment; GOV.UK Pay: payment succeeded/failed).
+2. In the calendar settings, set the price per person, the payment methods, the provider and, optionally, the
+   e-mail domains that book free. Event groups and events can use their own price ("Custom price and payment").
+
+What happens when a guest books:
+
+- **Card:** the booking is saved as "Awaiting payment" and holds the place, and the guest is sent to the
+  provider's payment page. When the payment succeeds (return page or webhook, whichever comes first) the booking
+  is "Paid" and the confirmation e-mail is sent. Checkouts not completed within 30 minutes are cancelled by the
+  minutely cron job and the place is free again.
+- **Invoice:** the purchase order or cost centre is required, the booking is "To invoice" and confirmed straight
+  away. Mark it as paid in the payments list once the money arrived.
+- **Free e-mail domain:** the booking is "Free", nothing to pay.
+- **Waiting list:** no payment is taken. The `##payment_link##` token in the waiting list promotion e-mail lets the
+  guest pay once they have a place.
+
+"Payments" above the calendar list shows every payment, also of cancelled bookings, with refund (full refunds
+through the provider) and "Mark as paid" buttons. Cancelling a booking never refunds automatically. The webhook body
+is never trusted: the status is always fetched from the provider's API.
+
+Notification tokens: `##payment_status##`, `##payment_amount##`, `##payment_method##`, `##purchase_order##`,
+`##payment_link##`. The exports have the payment columns too.

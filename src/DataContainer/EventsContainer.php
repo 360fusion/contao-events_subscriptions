@@ -52,7 +52,7 @@ class EventsContainer
 
         PaletteManipulator::create()
             ->addLegend('subscription_legend', 'title_legend', PaletteManipulator::POSITION_AFTER, true)
-            ->addField(['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_override'], 'subscription_legend', PaletteManipulator::POSITION_APPEND)
+            ->addField(['subscription_customEmailDomains', 'subscription_customNotifications', 'subscription_customPayment', 'subscription_override'], 'subscription_legend', PaletteManipulator::POSITION_APPEND)
             ->applyToPalette('internal', 'tl_calendar_events')
             ->applyToPalette('article', 'tl_calendar_events')
             ->applyToPalette('external', 'tl_calendar_events')

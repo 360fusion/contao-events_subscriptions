@@ -12,6 +12,7 @@
 namespace Codefog\EventsSubscriptionsBundle\EventListener;
 
 use Codefog\EventsSubscriptionsBundle\Automator;
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentManager;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
@@ -41,6 +42,21 @@ class CronListener
         if ($remindersSent > 0) {
             System::getContainer()->get('monolog.logger.contao')->info(
                 sprintf('A total number of %s event reminders have been sent', $remindersSent),
+                ['contao' => new ContaoContext(__METHOD__, ContaoContext::CRON)],
+            );
+        }
+    }
+
+    /**
+     * Free the places of card checkouts that were not completed within 30 minutes
+     */
+    public function onMinutelyJob(): void
+    {
+        $expired = (new PaymentManager())->expirePending();
+
+        if ($expired > 0) {
+            System::getContainer()->get('monolog.logger.contao')->info(
+                sprintf('%s unpaid bookings were cancelled because the payment was not completed', $expired),
                 ['contao' => new ContaoContext(__METHOD__, ContaoContext::CRON)],
             );
         }
