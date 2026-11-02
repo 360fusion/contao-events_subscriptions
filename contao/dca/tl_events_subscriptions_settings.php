@@ -19,7 +19,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
     // One page for each area of Events › Settings › Booking settings, chosen by the module (see SettingsContainer::selectPalette())
     'palettes' => [
         '__selector__' => ['eventsSubscriptionsRetention', 'eventsSubscriptionsPayments', 'eventsSubscriptionsVenues', 'eventsSubscriptionsTrainers'],
-        'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse,eventsSubscriptionsVenues,eventsSubscriptionsTrainers;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation;{retention_legend},eventsSubscriptionsRetention',
+        'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse,eventsSubscriptionsVenues,eventsSubscriptionsTrainers;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation,eventsSubscriptionsTextConfirmationWaitingList;{retention_legend},eventsSubscriptionsRetention',
         'payments' => '{payments_legend},eventsSubscriptionsPayments',
         'invoice' => '{invoice_legend},eventsSubscriptionsInvoice,eventsSubscriptionsInvoiceText',
         'emails' => '{emails_legend},eventsSubscriptionsSenderName,eventsSubscriptionsSenderAddress,eventsSubscriptionsSignature',
@@ -146,6 +146,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
         'eventsSubscriptionsTextFull' => ['inputType' => 'textarea', 'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:56px']],
         'eventsSubscriptionsTextWaitingList' => ['inputType' => 'textarea', 'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:56px']],
         'eventsSubscriptionsTextConfirmation' => ['inputType' => 'textarea', 'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:56px']],
+        'eventsSubscriptionsTextConfirmationWaitingList' => ['inputType' => 'textarea', 'eval' => ['decodeEntities' => true, 'tl_class' => 'clr', 'style' => 'height:56px']],
         'eventsSubscriptionsRetention' => [
             'inputType' => 'checkbox',
             'eval' => ['submitOnChange' => true, 'tl_class' => 'clr'],
@@ -164,7 +165,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
 ];
 
 // The system configuration cannot store line breaks: keep them as "\n" in the multi-line settings
-foreach (['eventsSubscriptionsInvoiceText', 'eventsSubscriptionsSignature', 'eventsSubscriptionsTextIntro', 'eventsSubscriptionsTextClosed', 'eventsSubscriptionsTextFull', 'eventsSubscriptionsTextWaitingList', 'eventsSubscriptionsTextConfirmation'] as $field) {
+foreach (['eventsSubscriptionsInvoiceText', 'eventsSubscriptionsSignature', 'eventsSubscriptionsTextIntro', 'eventsSubscriptionsTextClosed', 'eventsSubscriptionsTextFull', 'eventsSubscriptionsTextWaitingList', 'eventsSubscriptionsTextConfirmation', 'eventsSubscriptionsTextConfirmationWaitingList'] as $field) {
     $GLOBALS['TL_DCA']['tl_events_subscriptions_settings']['fields'][$field]['load_callback'][] = static fn ($value) => str_replace('\\n', "\n", (string) $value);
     $GLOBALS['TL_DCA']['tl_events_subscriptions_settings']['fields'][$field]['save_callback'][] = static fn ($value) => str_replace(["\r\n", "\n"], '\\n', (string) $value);
 }

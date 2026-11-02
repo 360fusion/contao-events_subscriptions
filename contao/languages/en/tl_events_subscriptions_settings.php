@@ -18,6 +18,7 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsText
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextFull'] = ['Event is full', 'Leave empty to use the default text shown in grey.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextWaitingList'] = ['Event is full, waiting list open', 'Leave empty to use the default text shown in grey.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextConfirmation'] = ['After booking', 'Shown after booking when no thank-you page is set. Leave empty to use the default text shown in grey.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextConfirmationWaitingList'] = ['After joining the waiting list', 'Shown after a booking that is on the waiting list, when no thank-you page is set. Leave empty to use the default text shown in grey.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['features_legend'] = 'Features';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['emails_legend'] = 'Sender and signature';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['wording_legend'] = 'Booking form texts';

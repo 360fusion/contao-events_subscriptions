@@ -138,5 +138,6 @@ final class Features
         'events_subscriptions.eventFull' => 'eventsSubscriptionsTextFull',
         'events_subscriptions.eventFullWaitingList' => 'eventsSubscriptionsTextWaitingList',
         'events_subscriptions.subscribeConfirmation' => 'eventsSubscriptionsTextConfirmation',
+        'events_subscriptions.subscribeConfirmationWaitingList' => 'eventsSubscriptionsTextConfirmationWaitingList',
     ];
 }

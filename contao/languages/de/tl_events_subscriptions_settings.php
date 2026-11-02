@@ -18,6 +18,7 @@ $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsText
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextFull'] = ['Veranstaltung ausgebucht', 'Leer lassen, um den grau angezeigten Standardtext zu verwenden.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextWaitingList'] = ['Ausgebucht, Warteliste offen', 'Leer lassen, um den grau angezeigten Standardtext zu verwenden.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextConfirmation'] = ['Nach der Anmeldung', 'Wird nach der Anmeldung angezeigt, wenn keine Dankeseite gesetzt ist. Leer lassen, um den grau angezeigten Standardtext zu verwenden.'];
+$GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['eventsSubscriptionsTextConfirmationWaitingList'] = ['Nach Eintrag auf der Warteliste', 'Wird nach einer Anmeldung auf der Warteliste angezeigt, wenn keine Dankeseite gesetzt ist. Leer lassen, um den grau angezeigten Standardtext zu verwenden.'];
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['features_legend'] = 'Funktionen';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['emails_legend'] = 'Absender und Signatur';
 $GLOBALS['TL_LANG']['tl_events_subscriptions_settings']['wording_legend'] = 'Texte des Anmeldeformulars';

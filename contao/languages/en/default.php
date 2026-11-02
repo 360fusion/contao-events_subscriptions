@@ -17,6 +17,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeWaitingList']    = 'Su
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribe']             = 'Unsubscribe';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeWaitingList']  = 'Unsubscribe from a waiting list';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmation']   = 'You have subscribed to the event.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeConfirmationWaitingList'] = 'You are on the waiting list. We will e-mail you if a place becomes free.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeConfirmation'] = 'You have unsubscribed from the event.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.subscribeNotAllowed']     = 'It is no longer possible to subscribe to this event.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.unsubscribeNotAllowed']   = 'It is no longer possible to unsubscribe from this event.';
