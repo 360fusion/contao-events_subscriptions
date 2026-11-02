@@ -30,6 +30,13 @@ later, so the module never needs editing. The event list (and Contao's own event
 `?month=YYYYMM` in the URL. An alias that does not exist shows no events.
 
 
+### Confirmation pages
+
+The booking modules can send the visitor to a page after booking ("Subscribe confirmation page"), after joining the
+waiting list ("Waiting list confirmation page") and after cancelling. Without a waiting list page, waiting-list
+bookings use the subscribe page. Without any page, the event page reloads and shows the matching message
+("After booking" or "After joining the waiting list" in Booking settings › Wording).
+
 ### Add to calendar
 
 The event reader (`?ics=1` on the event URL) returns the event as an iCalendar file. The `event_full_subscribe`

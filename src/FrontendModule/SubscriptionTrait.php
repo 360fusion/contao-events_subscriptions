@@ -86,7 +86,15 @@ trait SubscriptionTrait
 
                         Controller::reload();
                     } else {
-                        $this->handleRedirect($moduleData['jumpTo_'.$e->getPage()], $e->getMessage(), $e->getEventId());
+                        $pageId = (int) ($moduleData['jumpTo_'.$e->getPage()] ?? 0);
+
+                        // Waiting-list bookings use the subscribe page when the module has no waiting
+                        // list page
+                        if (!$pageId && 'waitingList' === $e->getPage()) {
+                            $pageId = (int) ($moduleData['jumpTo_subscribe'] ?? 0);
+                        }
+
+                        $this->handleRedirect($pageId, $e->getMessage(), $e->getEventId());
                     }
                 }
 

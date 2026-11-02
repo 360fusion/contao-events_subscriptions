@@ -256,9 +256,10 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                 $this->throwRedirectException(null, $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'], $event->getEvent()->id);
             }
 
+            $waitingList = $this->isOnWaitingList();
             $this->throwRedirectException(
-                'subscribe',
-                $GLOBALS['TL_LANG']['MSC'][$this->isOnWaitingList() ? 'events_subscriptions.subscribeConfirmationWaitingList' : 'events_subscriptions.subscribeConfirmation'],
+                $waitingList ? 'waitingList' : 'subscribe',
+                $GLOBALS['TL_LANG']['MSC'][$waitingList ? 'events_subscriptions.subscribeConfirmationWaitingList' : 'events_subscriptions.subscribeConfirmation'],
                 $event->getEvent()->id
             );
         }

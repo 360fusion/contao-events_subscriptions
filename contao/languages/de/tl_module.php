@@ -16,6 +16,10 @@ $GLOBALS['TL_LANG']['tl_module']['jumpTo_subscribe']   = [
     'Anmeldung Bestätigungsseite',
     'Bitte wählen Sie die Bestätigungsseite, auf die der Besucher nach der Anmeldung zum Event weitergeleitet wird.',
 ];
+$GLOBALS['TL_LANG']['tl_module']['jumpTo_waitingList'] = [
+    'Warteliste Bestätigungsseite',
+    'Die Seite nach einer Anmeldung auf der Warteliste. Leer lassen, um die Anmeldung Bestätigungsseite zu verwenden.',
+];
 $GLOBALS['TL_LANG']['tl_module']['jumpTo_unsubscribe'] = [
     'Abmeldung Bestätigungsseite',
     'Bitte wählen Sie die Bestätigungsseite, auf die der Besucher nach der Abmeldung vom Event weitergeleitet wird.',

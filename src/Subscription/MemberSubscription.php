@@ -153,9 +153,10 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
             }
 
             $this->getSubscriber()->subscribe($event, $this);
+            $waitingList = $this->isOnWaitingList();
             $this->throwRedirectException(
-                'subscribe',
-                $GLOBALS['TL_LANG']['MSC'][$this->isOnWaitingList() ? 'events_subscriptions.subscribeConfirmationWaitingList' : 'events_subscriptions.subscribeConfirmation'],
+                $waitingList ? 'waitingList' : 'subscribe',
+                $GLOBALS['TL_LANG']['MSC'][$waitingList ? 'events_subscriptions.subscribeConfirmationWaitingList' : 'events_subscriptions.subscribeConfirmation'],
                 $eventModel->id
             );
         }

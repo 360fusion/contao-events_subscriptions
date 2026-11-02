@@ -16,6 +16,10 @@ $GLOBALS['TL_LANG']['tl_module']['jumpTo_subscribe']   = [
     'Subscribe confirmation page',
     'Please choose the subscribe confirmation page where the user will be taken after subscribing to event.',
 ];
+$GLOBALS['TL_LANG']['tl_module']['jumpTo_waitingList'] = [
+    'Waiting list confirmation page',
+    'The page shown after a booking that is on the waiting list. Leave empty to use the subscribe confirmation page.',
+];
 $GLOBALS['TL_LANG']['tl_module']['jumpTo_unsubscribe'] = [
     'Unsubscribe confirmation page',
     'Please choose the unsubscribe confirmation page where the user will be taken after unsubscribing from event.',
