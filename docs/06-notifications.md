@@ -134,14 +134,32 @@ attachments).
 every registration field of the event. Empty answers are left out. Registration fields added later appear without
 changing the e-mail. Meant for plain text e-mails.
 
+### Ready-made e-mails
+
+`contao:migrate` creates one e-mail for every e-mail type as soon as the Notification Center has an e-mail gateway,
+with the standard e-mail fields: sender from Booking settings (or from an existing event e-mail, or the
+administrator), recipient `##recipient_email##`, English as the fallback language, plain text and the `##signature##`
+tag of Booking settings › E-mail signatures.
+
+| E-mail | Type | Sent |
+|---|---|---|
+| Booking confirmation | `events_subscriptions_subscribe` | On booking. Says so when the booking is on the waiting list; payment lines only for priced bookings. |
+| Booking cancelled | `events_subscriptions_unsubscribe` | On cancelling. |
+| Place from the waiting list | `events_subscriptions_listUpdate` | When a waiting-list booking gets a place; with the payment link if it still has to pay. |
+| Event reminder | `events_subscriptions_reminder` | Before the event, for calendars with reminders on. |
+| New event invitation (sent by hand) | `events_subscription_event` | From the "Send a new event notification" button. |
+| Trainer pack the day before | `events_subscriptions_trainer` | See below. |
+| After the event: certificate and feedback | `events_subscriptions_followUp` | See below. |
+
+A calendar that chooses no e-mail sends every e-mail of the type, so bookings send these without further setup.
+A type that already has an e-mail gets none, and existing e-mails are never changed: edit them freely.
+
 ### Trainer pack and after-the-event e-mails
 
 Two more e-mail types are sent by the site on its own once an e-mail of that type is chosen under Events › Settings ›
 Booking settings › Before and after events. Each is sent once for every event or booking, from the hourly cron job.
 
-Both e-mails are created by `contao:migrate` with the standard e-mail fields (sender from Booking settings or from an
-existing event e-mail, recipient `##recipient_email##`, subject, plain text, signature) as soon as the Notification
-Center has an e-mail gateway. An e-mail that already exists is never created again or changed.
+Both come ready-made (see Ready-made e-mails).
 
 - **Trainer pack the day before** (`events_subscriptions_trainer`): goes to the trainer of the event (chosen from
   Trainers, or an e-mail address typed on it), or of its course when the event has none, at the chosen hour (16:00 by default) for events starting tomorrow. An

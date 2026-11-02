@@ -7,16 +7,47 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Migration\AbstractMigration;
 use Contao\CoreBundle\Migration\MigrationResult;
 use Contao\StringUtil;
+use Doctrine\DBAL\ArrayParameterType;
 use Doctrine\DBAL\Connection;
 
 /**
- * The two e-mails the site sends by itself around an event (the trainer pack and the thank-you) exist from the start, with the
- * standard e-mail fields, ready to be chosen in Events › Settings › Booking settings › Before and after events. Needs an e-mail
- * gateway of the Notification Center; an e-mail that already exists is never created again or changed.
+ * One ready-made e-mail for every e-mail type of the booking app (confirmation,
+ * cancellation, place from the waiting list, reminder, invitation sent by hand,
+ * trainer pack, after the event), with the standard e-mail fields. A calendar
+ * that chooses no e-mail sends every e-mail of the type, so bookings send these
+ * straight away. Needs an e-mail gateway of the Notification Center; a type that
+ * already has an e-mail gets none, and existing e-mails are never changed.
  */
 class DefaultEmailsMigration extends AbstractMigration
 {
+    private const EVENT = "Event: ##event_title##\nDate: ##event_startDate##, ##event_startTime##\nLocation: ##event_location##\nDetails: ##event_link##";
+
     private const EMAILS = [
+        'events_subscriptions_subscribe' => [
+            'title' => 'Booking confirmation',
+            'subject' => '{if subscription_waitingList=="1"}On the waiting list{else}Booking confirmed{endif}: ##event_title##',
+            'text' => "Dear ##subscription_firstname##,\n\n{if subscription_waitingList==\"1\"}The event is full, so you are on the waiting list. We will e-mail you if a place becomes free.{else}Thank you, your place is booked.{endif}\n\n\n".self::EVENT."\nAdd it to your calendar: ##event_ics_link##\n\nYour details:\n##subscription_details##\n\n{if payment_amount!=\"\"}Payment: ##payment_amount##, ##payment_method## (##payment_status##)\n{if payment_link!=\"\"}Pay here: ##payment_link##\n{endif}\n{if payment_invoice_text!=\"\"}##payment_invoice_text##\n{endif}\n\n{endif}\nTo see or change your booking, or to cancel it: ##booking_link##\n\n##signature##",
+        ],
+        'events_subscriptions_unsubscribe' => [
+            'title' => 'Booking cancelled',
+            'subject' => 'Booking cancelled: ##event_title##',
+            'text' => "Dear ##subscription_firstname##,\n\nYour {if subscription_waitingList==\"1\"}place on the waiting list{else}booking{endif} has been cancelled.\n\n".self::EVENT."\n\nIf this was a mistake, you can book again while places are left: ##event_link##\n\n##signature##",
+        ],
+        'events_subscriptions_listUpdate' => [
+            'title' => 'Place from the waiting list',
+            'subject' => 'You have a place: ##event_title##',
+            'text' => "Dear ##subscription_firstname##,\n\nA place has become free and it is now yours: you are booked.\n\n".self::EVENT."\nAdd it to your calendar: ##event_ics_link##\n\n{if payment_link!=\"\"}To keep your place, please pay here: ##payment_link##\n\n{endif}Can't come any more? Please cancel, so someone else can have the place: ##booking_link##\n\n##signature##",
+        ],
+        'events_subscriptions_reminder' => [
+            'title' => 'Event reminder',
+            'subject' => 'Reminder: ##event_title## on ##event_startDate##',
+            'text' => "Dear ##subscription_firstname##,\n\n{if subscription_waitingList==\"1\"}A reminder that you are on the waiting list for this event. We will e-mail you if a place becomes free.{else}A reminder that you are booked on this event, in ##days_before_event## days.{endif}\n\n\n".self::EVENT."\n\nCan't come any more? Please cancel, so someone else can have the place: ##booking_link##\n\n##signature##",
+        ],
+        'events_subscription_event' => [
+            'title' => 'New event invitation (sent by hand)',
+            'subject' => 'New event: ##event_title##',
+            'text' => "Dear ##member_firstname##,\n\nA new event is open for booking.\n\n".self::EVENT."\n\nBook your place here: ##event_link##\n\n##signature##",
+        ],
         'events_subscriptions_trainer' => [
             'title' => 'Trainer pack the day before',
             'subject' => 'Attendees for ##event_title## (##event_startDate##)',
@@ -85,7 +116,7 @@ class DefaultEmailsMigration extends AbstractMigration
      */
     private function getMissingTypes(): array
     {
-        $existing = $this->connection->fetchFirstColumn('SELECT DISTINCT type FROM tl_nc_notification WHERE type IN (?, ?)', array_keys(self::EMAILS));
+        $existing = $this->connection->fetchFirstColumn('SELECT DISTINCT type FROM tl_nc_notification WHERE type IN (?)', [array_keys(self::EMAILS)], [ArrayParameterType::STRING]);
 
         return array_values(array_diff(array_keys(self::EMAILS), $existing));
     }
