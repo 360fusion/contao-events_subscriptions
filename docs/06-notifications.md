@@ -146,12 +146,14 @@ tag of Booking settings › E-mail signatures.
 | Booking confirmation | `events_subscriptions_subscribe` | On booking. Says so when the booking is on the waiting list; payment lines only for priced bookings. |
 | Booking cancelled | `events_subscriptions_unsubscribe` | On cancelling. |
 | Place from the waiting list | `events_subscriptions_listUpdate` | When a waiting-list booking gets a place; with the payment link if it still has to pay. |
-| Event reminder | `events_subscriptions_reminder` | Before the event, for calendars with reminders on. |
+| Event reminder | `events_subscriptions_reminder` | Before the event, for calendars with reminders on and this e-mail chosen (reminders always need a chosen e-mail). |
 | New event invitation (sent by hand) | `events_subscription_event` | From the "Send a new event notification" button. |
 | Trainer pack the day before | `events_subscriptions_trainer` | See below. |
 | After the event: certificate and feedback | `events_subscriptions_followUp` | See below. |
 
-A calendar that chooses no e-mail sends every e-mail of the type, so bookings send these without further setup.
+A calendar that chooses no booking e-mail sends every e-mail of the type, so confirmations, cancellations and
+waiting-list e-mails go out without further setup. Reminders, the trainer pack and the after-the-event e-mail have to
+be chosen (calendar reminders; Booking settings › Before and after events).
 A type that already has an e-mail gets none, and existing e-mails are never changed: edit them freely.
 
 ### Trainer pack and after-the-event e-mails

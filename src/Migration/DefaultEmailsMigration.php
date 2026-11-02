@@ -41,17 +41,17 @@ class DefaultEmailsMigration extends AbstractMigration
         'events_subscriptions_reminder' => [
             'title' => 'Event reminder',
             'subject' => 'Reminder: ##event_title## on ##event_startDate##',
-            'text' => "Dear ##subscription_firstname##,\n\n{if subscription_waitingList==\"1\"}A reminder that you are on the waiting list for this event. We will e-mail you if a place becomes free.{else}A reminder that you are booked on this event, in ##days_before_event## days.{endif}\n\n\n".self::EVENT."\n\nCan't come any more? Please cancel, so someone else can have the place: ##booking_link##\n\n##signature##",
+            'text' => "Dear ##subscription_firstname##,\n\n{if subscription_waitingList==\"1\"}A reminder that you are on the waiting list for this event. We will e-mail you if a place becomes free.{else}A reminder that you are booked on this event on ##event_startDate##.{endif}\n\n\n".self::EVENT."\n\nCan't come any more? Please cancel, so someone else can have the place: ##booking_link##\n\n##signature##",
         ],
         'events_subscription_event' => [
             'title' => 'New event invitation (sent by hand)',
             'subject' => 'New event: ##event_title##',
-            'text' => "Dear ##member_firstname##,\n\nA new event is open for booking.\n\n".self::EVENT."\n\nBook your place here: ##event_link##\n\n##signature##",
+            'text' => "Hello,\n\nA new event is open for booking.\n\n".self::EVENT."\n\nBook your place here: ##event_link##\n\n##signature##",
         ],
         'events_subscriptions_trainer' => [
             'title' => 'Trainer pack the day before',
             'subject' => 'Attendees for ##event_title## (##event_startDate##)',
-            'text' => "Hello,\n\nHere is everyone booked on ##event_title## on ##event_startDate## at ##event_startTime## (##event_location##).\n\n##attendee_count## bookings, ##attendee_places## places:\n\n##attendee_list##\n\n##signature##",
+            'text' => "Hello,\n\nHere is everyone booked on ##event_title## on ##event_startDate## at ##event_startTime## (##event_location##).\n\nBookings: ##attendee_count##, places: ##attendee_places##\n\n##attendee_list##\n\n##signature##",
         ],
         'events_subscriptions_followUp' => [
             'title' => 'After the event: certificate and feedback',
