@@ -44,6 +44,7 @@ class SubscribersController extends OverviewController
             'when' => \in_array(Input::get('when'), ['upcoming', 'past'], true) ? Input::get('when') : '',
             'attended' => \in_array(Input::get('attended'), ['yes', 'no'], true) ? Input::get('attended') : '',
             'payment' => \in_array(Input::get('payment'), PaymentStatus::ALL, true) ? Input::get('payment') : '',
+            'status' => \in_array(Input::get('status'), ['booked', 'waiting'], true) ? Input::get('status') : '',
         ];
 
         // Members' names and e-mail addresses are in tl_member
@@ -84,8 +85,20 @@ class SubscribersController extends OverviewController
             $values[] = $filters['payment'];
         }
 
+        // The same rule as AbstractSubscription::isOnWaitingList(): settings of the
+        // event, its event group or the calendar
+        if ($filters['status']) {
+            $setting = static fn (string $field): string => "CASE WHEN e.subscription_override=1 THEN e.$field WHEN g.subscription_override=1 THEN g.$field ELSE c.$field END";
+            $waiting = \sprintf(
+                '(%s=1 AND %2$s>0 AND s.numberOfParticipants+(SELECT COALESCE(SUM(o.numberOfParticipants), 0) FROM tl_calendar_events_subscription o WHERE o.pid=s.pid AND o.dateCreated<s.dateCreated AND o.id!=s.id)>%2$s)',
+                $setting('subscription_waitingList'),
+                $setting('subscription_maximum'),
+            );
+            $where[] = 'waiting' === $filters['status'] ? $waiting : "NOT $waiting";
+        }
+
         $db = Database::getInstance();
-        $from = 'FROM tl_calendar_events_subscription s JOIN tl_calendar_events e ON e.id=s.pid LEFT JOIN tl_member m ON m.id=s.member WHERE '.implode(' AND ', $where);
+        $from = 'FROM tl_calendar_events_subscription s JOIN tl_calendar_events e ON e.id=s.pid JOIN tl_calendar c ON c.id=e.pid LEFT JOIN tl_calendar_event_group g ON g.id=e.eventGroup LEFT JOIN tl_member m ON m.id=s.member WHERE '.implode(' AND ', $where);
         $totals = $db->prepare("SELECT COUNT(*) AS bookings, COALESCE(SUM(s.numberOfParticipants), 0) AS places $from")->execute(...$values);
 
         $limit = (int) Config::get('resultsPerPage');

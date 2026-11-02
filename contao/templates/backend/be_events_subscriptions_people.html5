@@ -29,6 +29,13 @@
                 <option value="past"<?= 'past' === $f['when'] ? ' selected' : '' ?>><?= $L['subscriptions_upcoming.whenPast'] ?></option>
             </select>
         </label>
+        <label style="flex:1 1 140px"><?= $L['subscribers.status'] ?><br>
+            <select name="status" class="tl_select">
+                <option value="">-</option>
+                <option value="booked"<?= 'booked' === $f['status'] ? ' selected' : '' ?>><?= $L['subscribers.booked'] ?></option>
+                <option value="waiting"<?= 'waiting' === $f['status'] ? ' selected' : '' ?>><?= $L['subscribers.waitingList'] ?></option>
+            </select>
+        </label>
         <?php if ($this->attendance): ?>
         <label style="flex:1 1 140px"><?= $L['subscribers.attended'] ?><br>
             <select name="attended" class="tl_select">

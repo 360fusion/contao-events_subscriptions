@@ -103,7 +103,7 @@ separately in the user group permissions:
 - **Calendars**: the calendars, their events and bookings (the core events module, same URL `do=calendar`)
 - **Upcoming events**: the upcoming events of all calendars with filters and search
 - **Subscribers**: everyone booked, across all calendars, with filters and search (each calendar has a person icon
-  for its own subscribers)
+  for its own subscribers). The Status filter lists only the bookings that have a place, or only the waiting list
 - **Payments**: payments, refunds and invoices (when switched on)
 - **Settings**: a "Booking settings" section with a tile for each of the five settings pages, the registration
   fields, the venues and trainers (once switched on) and the payment providers (once payments are on), and a "Tools and data" section with the e-mail templates,
