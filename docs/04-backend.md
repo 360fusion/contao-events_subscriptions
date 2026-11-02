@@ -230,6 +230,8 @@ Tick **Show Trainers in the left menu** under the Trainers switch (off by defaul
 
 ## Settings
 
+![](images/fork-settings-overview.png)
+
 - *One booking per course* (off by default): stops someone booking a second upcoming date of a course they are
   already booked on, matched by e-mail address (guest and member bookings, waiting list included).
 - *Certificates of attendance* (on by default, needs Attendance): name of the organisation and who signs.

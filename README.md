@@ -12,8 +12,6 @@ for users subscribed to the events that will be sent a certain amount of days be
 
 The extension allows the registered members as well as anonymous users to subscribe.
 
-![](docs/images/preview.png)
-
 ## What this fork adds
 
 - **Events and calendars:** event groups and calendar groups, with booking defaults per group; one booking per course;
@@ -44,6 +42,22 @@ Requires PHP 8.3 and Contao 5.7. In your site's `composer.json`:
 
 Then run `composer update codefog/contao-events_subscriptions`, check what the database update will do with
 `contao:migrate --dry-run`, and run `contao:migrate`.
+
+## Screenshots
+
+**Events › Settings**: every booking setting on its own page.
+
+![Settings overview](docs/images/fork-settings-overview.png)
+
+**Payments**: card providers and pay by invoice, each switched on once set up.
+
+![Payments settings](docs/images/fork-settings-payments.png)
+
+**General** (features) and **E-mail templates** (the e-mails the site sends):
+
+![General settings](docs/images/fork-settings-general.png)
+
+![E-mail templates](docs/images/fork-email-templates.png)
 
 ## Getting started
 
