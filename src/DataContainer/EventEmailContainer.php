@@ -12,6 +12,7 @@ use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\Events
 use Codefog\EventsSubscriptionsBundle\NotificationCenterHelper;
 use Codefog\EventsSubscriptionsBundle\RegistrationFields;
 use Contao\BackendUser;
+use Contao\Config;
 use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\CoreBundle\Security\ContaoCorePermissions;
 use Contao\Database;
@@ -460,6 +461,11 @@ class EventEmailContainer
             if ($db->tableExists($table) && $db->fieldExists('subscription_notification', $table) && $db->fieldExists('subscription_subscribeNotification', $table)) {
                 $count += (int) $db->prepare("SELECT COUNT(*) AS n FROM $table WHERE $where")->execute(...$values)->n;
             }
+        }
+
+        // The trainer pack and after-the-event e-mails are chosen in Booking settings
+        foreach (['eventsSubscriptionsTrainerNotification', 'eventsSubscriptionsFollowUpNotification'] as $key) {
+            $count += (int) Config::get($key) === $notificationId ? 1 : 0;
         }
 
         return $count;

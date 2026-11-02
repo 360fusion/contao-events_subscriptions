@@ -208,3 +208,6 @@ $GLOBALS['TL_LANG']['tl_calendar']['export.pdf'] = 'PDF';
 $GLOBALS['TL_LANG']['tl_calendar']['export.print'] = 'Print or save as PDF';
 $GLOBALS['TL_LANG']['tl_calendar']['export.printHelp'] = 'In the print dialog, choose "Save as PDF" as the printer.';
 $GLOBALS['TL_LANG']['tl_calendar']['reports.period'] = 'From %s to %s';
+
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_person'] = ['Booking history', 'Booking history'];
+$GLOBALS['TL_LANG']['tl_calendar']['subscriptions_register'] = ['Sign-in sheet', 'Sign-in sheet'];

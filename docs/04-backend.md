@@ -163,7 +163,7 @@ separately in the user group permissions:
   with everyone booked in alphabetical order, their e-mail address, places and an empty column to sign, a few blank
   lines for people who turn up without a booking, and the waiting list underneath. "Show their answers" adds their
   registration field answers.
-- **QR check-in.** The booking page of the booker shows a QR code on the day of the event. Scanning it with a phone
+- **QR check-in.** The booking page of the booker shows a QR code from the moment they book until the end of the event day. Scanning it with a phone
   that is signed in to the back end opens a page with the name and a "Check in" button, which marks the booking as
   attended. Anyone who is not signed in to the back end gets a "staff only" page, so nobody can check themselves in.
 - **Trainer e-mail.** Events and event groups have a "Trainer e-mail address" for the trainer pack (see Notifications).

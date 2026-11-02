@@ -58,8 +58,8 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.exportHeaderFields'] = [
     'payment_method'           => 'Payment method',
     'purchase_order'           => 'Purchase order / cost centre',
     'payment_reference'        => 'Payment reference',
-    'subscription_firstname'   => 'Firstname',
-    'subscription_lastname'    => 'Lastname',
+    'subscription_firstname'   => 'First name',
+    'subscription_lastname'    => 'Last name',
     'subscription_email'       => 'E-mail address',
     'subscription_numberOfParticipants' => 'Number of participants',
 ];

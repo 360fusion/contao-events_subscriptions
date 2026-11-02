@@ -8,6 +8,7 @@ use Contao\Database;
 use Contao\DataContainer;
 use Contao\Input;
 use Contao\StringUtil;
+use Contao\System;
 
 class VenueContainer
 {
@@ -16,6 +17,7 @@ class VenueContainer
      */
     public function getOptions(DataContainer|null $dc = null): array
     {
+        System::loadLanguageFile('tl_calendar_events_venue');
         $current = (int) ($dc?->activeRecord?->venue ?? 0);
         $options = [];
 

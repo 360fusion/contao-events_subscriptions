@@ -37,7 +37,7 @@ $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['member']       = [
     'Please choose the member you want to subscribe to the event.',
 ];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['firstname']    = ['First name', 'Please enter the first name.'];
-$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastname']     = ['Lastname', 'Please enter the last name.'];
+$GLOBALS['TL_LANG']['tl_calendar_events_subscription']['lastname']     = ['Last name', 'Please enter the last name.'];
 $GLOBALS['TL_LANG']['tl_calendar_events_subscription']['email']        = [
     'E-mail address',
     'Please enter the e-mail address.',

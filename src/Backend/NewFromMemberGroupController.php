@@ -190,7 +190,7 @@ class NewFromMemberGroupController
         }
 
         Message::addConfirmation(sprintf($GLOBALS['TL_LANG']['tl_calendar_events_subscription']['newFromMemberGroup.confirmation'], $count));
-        Controller::redirect(Backend::getReferer());
+        Controller::redirect('contao?do=calendar&table=tl_calendar_events_subscription&id='.$eventModel->id);
     }
 
     /**
