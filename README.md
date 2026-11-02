@@ -45,6 +45,21 @@ Requires PHP 8.3 and Contao 5.7. In your site's `composer.json`:
 Then run `composer update codefog/contao-events_subscriptions`, check what the database update will do with
 `contao:migrate --dry-run`, and run `contao:migrate`.
 
+## Getting started
+
+1. **Install** the fork (see above). Haste and Notification Center are installed with it.
+2. **Switch bookings on** for a calendar: Events › Calendars › edit the calendar › *Subscription settings* › tick
+   *Enable subscriptions*.
+3. **Show the booking form:** add the *Event reader subscribe* module to your event reader page, and use *Event list
+   subscribe* for the list, in place of the standard event modules.
+4. **Check the e-mails:** the ready-made e-mails (confirmation, cancellation, waiting list, reminder, invitation, trainer
+   pack, thank-you) are under Events › Settings › E-mail templates. Read them and change the wording, then choose the
+   ones you want in Booking settings and in each calendar.
+5. **Look through Events › Settings:** *General* switches features on or off, *Payments* connects a card provider (Stripe,
+   PayPal, Mollie or GOV.UK Pay) or pay by invoice, and the other pages cover e-mail signatures, certificates and the
+   before and after e-mails. Each page explains itself at the top.
+6. **Try a booking** with a test e-mail address. Payments have a test mode for each provider: use it first.
+
 ## Documentation
 
 1. [Installation](docs/01-installation.md)

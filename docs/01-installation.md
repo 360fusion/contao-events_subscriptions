@@ -14,24 +14,25 @@
 
 Minimum requirements:
 
- - Contao 3.5 or Contao 4.1
- - Haste 4.16
- - Notifcation Center 1.4
+ - PHP 8.3
+ - Contao 5.7 with the Calendar bundle
+ - Haste 5.2 and Notification Center 2.4 (installed by Composer)
 
 
-### Install using Composer (recommended)
+### Install using Composer
 
-[Composer][1] is the recommended way to install Contao modules.
-The Contao plugin will take care of copying the files to the correct place.
+This fork is not on Packagist. Add it as a repository in your site's `composer.json`:
 
-    $ composer.phar require codefog/contao-events_subscriptions ^2.0
+    "repositories": [
+        { "type": "vcs", "url": "https://github.com/360fusion/contao-events_subscriptions" }
+    ]
 
+then require the branch, or a tagged version such as `v3.3.0-360`:
 
-### Manual installation
+    $ composer require codefog/contao-events_subscriptions:dev-booking-suite
 
-Download [`codefog/contao-events_subscriptions`][3] and copy the folder to your Contao
-installation in `system/modules/events_subscriptions`. You must also download and
-install [`codefog/contao-haste`][4] and [`terminal42/contao-notification_center`][5].
+It takes the place of Codefog's package of the same name. Run `contao:migrate --dry-run` to see what the database update
+will do, then `contao:migrate`.
 
 
 ## Upgrading from 1.x to 2.x
