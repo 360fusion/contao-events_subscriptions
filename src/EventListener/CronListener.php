@@ -11,36 +11,31 @@
 
 namespace Codefog\EventsSubscriptionsBundle\EventListener;
 
-use Codefog\EventsSubscriptionsBundle\Automator;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentManager;
 use Codefog\EventsSubscriptionsBundle\Mailings;
 use Codefog\EventsSubscriptionsBundle\Retention;
 use Contao\Config;
 use Codefog\EventsSubscriptionsBundle\Services;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsCronJob;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\System;
 
 class CronListener
 {
-    /**
-     * @var Automator
-     */
-    private $automator;
-
-    /**
-     * CronListener constructor.
-     */
-    public function __construct()
+    public function __construct(private readonly ContaoFramework $framework)
     {
-        $this->automator = Services::getAutomator();
     }
 
     /**
      * Execute the tasks on hourly job
      */
-    public function onHourlyJob()
+    #[AsCronJob('hourly')]
+    public function onHourlyJob(): void
     {
-        $remindersSent = $this->automator->sendReminders();
+        $this->framework->initialize();
+
+        $remindersSent = Services::getAutomator()->sendReminders();
         $mailings = new Mailings();
 
         foreach (['trainer packs' => $mailings->sendTrainerPacks(), 'after-the-event e-mails' => $mailings->sendFollowUps()] as $label => $count) {
@@ -63,8 +58,11 @@ class CronListener
     /**
      * Free the places of card checkouts that were not completed within the hold time of Booking settings › Payments
      */
+    #[AsCronJob('minutely')]
     public function onMinutelyJob(): void
     {
+        $this->framework->initialize();
+
         $expired = (new PaymentManager())->expirePending();
 
         if ($expired > 0) {
@@ -78,8 +76,11 @@ class CronListener
     /**
      * Anonymise or delete old bookings, if switched on in Events › Settings › Booking settings
      */
+    #[AsCronJob('daily')]
     public function onDailyJob(): void
     {
+        $this->framework->initialize();
+
         if (null !== ($cutoff = Retention::cutoff())) {
             (new Retention())->run($cutoff, (string) Config::get('eventsSubscriptionsRetentionAction') ?: 'anonymise');
         }

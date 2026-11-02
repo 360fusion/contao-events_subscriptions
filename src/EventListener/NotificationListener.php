@@ -121,12 +121,8 @@ class NotificationListener
             return null;
         }
 
+        // Zero when the oldest booking is cancelled, which still frees a place
         $olderSubscriptions = SubscriptionModel::countBy(['pid=?', 'dateCreated<?', 'numberOfParticipants>?'], [$unsubscribedModel->pid, $unsubscribedModel->dateCreated, 0]);
-
-        // Return null if there are completely no other subscriptions
-        if ($olderSubscriptions === 0) {
-            return null;
-        }
 
         // Return null if the limit is smaller or equal than the current number of subscriptions (can happen if the existing limit is changed)
         if ($maxSubscriptions <= $olderSubscriptions) {

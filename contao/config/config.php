@@ -206,11 +206,6 @@ $GLOBALS['TL_MODELS']['tl_calendar_event_group'] = 'Codefog\EventsSubscriptionsB
 $GLOBALS['TL_MODELS']['tl_calendar_events_payment_provider'] = 'Codefog\EventsSubscriptionsBundle\Model\PaymentProviderModel';
 $GLOBALS['TL_MODELS']['tl_calendar_events_payment'] = 'Codefog\EventsSubscriptionsBundle\Model\PaymentModel';
 
-// Cron jobs
-$GLOBALS['TL_CRON']['hourly'][] = ['Codefog\EventsSubscriptionsBundle\EventListener\CronListener', 'onHourlyJob'];
-$GLOBALS['TL_CRON']['minutely'][] = ['Codefog\EventsSubscriptionsBundle\EventListener\CronListener', 'onMinutelyJob'];
-$GLOBALS['TL_CRON']['daily'][] = ['Codefog\EventsSubscriptionsBundle\EventListener\CronListener', 'onDailyJob'];
-
 /**
  * Add the subscription types
  */

@@ -11,41 +11,55 @@
 
 namespace Codefog\EventsSubscriptionsBundle;
 
+use Contao\System;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
+
+/**
+ * Booking messages shown after the page reload, in the Symfony session's flash
+ * bag (Contao 5 does not keep $_SESSION).
+ */
 class FlashMessage
 {
-    /**
-     * Session key
-     * @var string
-     */
-    private $sessionKey = 'event-subscribe-message';
+    private string $sessionKey = 'event-subscribe-message';
 
     /**
-     * Set the message
-     *
-     * @param string $message
-     * @param string $id
+     * Messages already read in this request, by event ID.
      */
-    public function set($message, $id)
+    private array $messages = [];
+
+    public function set($message, $id): void
     {
-        $_SESSION[$this->sessionKey][$id] = $message;
+        unset($this->messages[$id]);
+
+        if (null !== ($session = $this->getSession(true))) {
+            $session->getFlashBag()->set($this->sessionKey.'-'.$id, (string) $message);
+        }
+    }
+
+    public function puke($id): string|null
+    {
+        // Kept for the request, so every module of the page shows it (e.g. the event
+        // reader and the booking form)
+        return $this->messages[$id] ??= $this->getSession(false)?->getFlashBag()->get($this->sessionKey.'-'.$id)[0] ?? null;
     }
 
     /**
-     * Puke the message
-     *
-     * @param string $id
-     *
-     * @return string|null
+     * Only reads an existing session, so event pages do not start one for every visitor.
      */
-    public function puke($id)
+    private function getSession(bool $start): FlashBagAwareSessionInterface|null
     {
-        $message = null;
+        $request = System::getContainer()->get('request_stack')->getCurrentRequest();
 
-        if (isset($_SESSION[$this->sessionKey][$id])) {
-            $message = $_SESSION[$this->sessionKey][$id];
-            unset($_SESSION[$this->sessionKey][$id]);
+        if (null === $request || !$request->hasSession()) {
+            return null;
         }
 
-        return $message;
+        $session = $request->getSession();
+
+        if (!$session instanceof FlashBagAwareSessionInterface || (!$start && !$session->isStarted() && !$request->hasPreviousSession())) {
+            return null;
+        }
+
+        return $session;
     }
 }

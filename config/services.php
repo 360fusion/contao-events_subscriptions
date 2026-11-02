@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Codefog\EventsSubscriptionsBundle\Cache\RegistrationFieldsCacheWarmer;
 use Codefog\EventsSubscriptionsBundle\EventListener\BackendMenuListener;
+use Codefog\EventsSubscriptionsBundle\EventListener\CronListener;
 use Codefog\EventsSubscriptionsBundle\EventListener\EventEmailsListener;
 use Codefog\EventsSubscriptionsBundle\EventListener\NewCalendarPermissionsListener;
 use Codefog\EventsSubscriptionsBundle\EventListener\PageListener;
@@ -27,6 +28,11 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $services
         ->load('Codefog\\EventsSubscriptionsBundle\\Controller\\', __DIR__ . '/../src/Controller')
         ->tag('controller.service_arguments')
+    ;
+
+    // Reminders, trainer packs, follow-ups, payment expiry and retention (#[AsCronJob])
+    $services
+        ->set(CronListener::class)
     ;
 
     $services

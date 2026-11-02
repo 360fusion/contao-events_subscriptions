@@ -147,7 +147,7 @@ class NewFromMemberGroupController
         $members = [];
         $memberRecords = Database::getInstance()
             ->prepare("SELECT * FROM tl_member WHERE id NOT IN (SELECT member FROM tl_calendar_events_subscription WHERE pid=?)" . ($where ? (" AND " . $where) : ''))
-            ->execute(array_merge([$eventModel->id], $values))
+            ->execute($eventModel->id, ...$values)
         ;
 
         // Get only the members that belong to selected groups
