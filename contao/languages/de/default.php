@@ -93,7 +93,7 @@ $GLOBALS['TL_LANG']['MSC']['eventNavigation.reset'] = 'Zurücksetzen';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.addToCalendar'] = 'Zum Kalender hinzufügen';
 
 // Payments
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'] = ['free' => 'Kostenlos', 'pending' => 'Zahlung ausstehend', 'unpaid' => 'Unbezahlt (Warteliste)', 'paid' => 'Bezahlt', 'invoice' => 'Rechnung', 'refunded' => 'Erstattet', 'failed' => 'Fehlgeschlagen'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'] = ['free' => 'Kostenlos', 'pending' => 'Zahlung ausstehend', 'unpaid' => 'Unbezahlt (Warteliste)', 'confirm' => 'E-Mail-Bestätigung ausstehend', 'paid' => 'Bezahlt', 'invoice' => 'Rechnung', 'refunded' => 'Erstattet', 'failed' => 'Fehlgeschlagen'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.price'] = 'Preis: %s pro Person.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.priceFreeFor'] = 'Kostenlos für E-Mail-Adressen von %s.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMethod'] = ['Wie möchten Sie bezahlen?', ''];
@@ -106,6 +106,8 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMessage'] = [
     'unpaid' => 'Ihre Zahlung ist noch nicht abgeschlossen. <a href="%s">Jetzt bezahlen</a>.',
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'] = 'Kartenzahlungen sind im Moment nicht möglich. Bitte versuchen Sie es später erneut oder wählen Sie eine andere Zahlungsart.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.confirmPending'] = 'Vielen Dank. Wir haben Ihnen eine E-Mail geschickt: Bitte klicken Sie auf den Link darin, um Ihre Buchung zu bestätigen. Ihr Platz ist 24 Stunden reserviert.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.tooManyBookings'] = 'Von Ihrem Netzwerk wurden in den letzten Minuten zu viele Buchungen vorgenommen. Bitte versuchen Sie es in Kürze erneut.';
 
 // Veranstaltungen › E-Mails
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
@@ -114,6 +116,7 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
     'events_subscriptions_subscribe' => 'Bei einer Anmeldung',
     'events_subscriptions_unsubscribe' => 'Bei einer Abmeldung',
     'events_subscriptions_listUpdate' => 'Beim Nachrücken von der Warteliste',
+    'events_subscriptions_confirm' => 'E-Mail-Adresse bestätigen (kostenlose E-Mail-Domains)',
     'events_subscriptions_reminder' => 'Erinnerung vor der Veranstaltung',
     'events_subscription_event' => 'Manuell aus der Anmeldeliste gesendet',
 ];
@@ -212,6 +215,11 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.public'] = [
     'rating5' => '5 - Ausgezeichnet',
     'checkinPage' => 'Check-in',
     'checkinStaffOnly' => 'Nur für Mitarbeitende. Im Backend anmelden und den Code erneut scannen.',
+    'confirmTitle' => 'Buchung bestätigen',
+    'confirmIntro' => 'Bitte bestätigen Sie Ihre Buchung. Ihr Platz bleibt bis dahin reserviert.',
+    'confirmButton' => 'Meine Buchung bestätigen',
+    'confirmDone' => 'Vielen Dank, Ihre Buchung ist bestätigt. Eine Bestätigungs-E-Mail ist unterwegs.',
+    'confirmAlready' => 'Diese Buchung ist bereits bestätigt.',
     'signIn' => 'Anmelden',
     'checkinButton' => 'Einchecken',
     'checkinDone' => '%s ist eingecheckt.',

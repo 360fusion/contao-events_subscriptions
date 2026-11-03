@@ -80,7 +80,7 @@ class Mailings
 
         // Ended before today, within the last few days
         $bookings = Database::getInstance()
-            ->prepare("SELECT s.id FROM tl_calendar_events_subscription s JOIN tl_calendar_events e ON e.id=s.pid JOIN tl_calendar c ON c.id=e.pid WHERE c.subscription_enable=1 AND s.followUpSent=0 AND s.unsubscribeToken!='' AND s.lastname!=? AND GREATEST(e.startTime, e.endTime)<? AND GREATEST(e.startTime, e.endTime)>=?".(Features::attendance() ? ' AND s.attended=1' : '')." AND s.paymentStatus NOT IN ('pending', 'failed', 'refunded') ORDER BY s.id")
+            ->prepare("SELECT s.id FROM tl_calendar_events_subscription s JOIN tl_calendar_events e ON e.id=s.pid JOIN tl_calendar c ON c.id=e.pid WHERE c.subscription_enable=1 AND s.followUpSent=0 AND s.unsubscribeToken!='' AND s.lastname!=? AND GREATEST(e.startTime, e.endTime)<? AND GREATEST(e.startTime, e.endTime)>=?".(Features::attendance() ? ' AND s.attended=1' : '')." AND s.paymentStatus NOT IN ('pending', 'failed', 'refunded', 'confirm') ORDER BY s.id")
             ->limit(self::FOLLOW_UP_PER_RUN)
             ->execute(Retention::ANONYMISED, strtotime('today'), strtotime('-'.self::FOLLOW_UP_DAYS.' days', strtotime('today')));
         $factory = Services::getSubscriptionFactory();

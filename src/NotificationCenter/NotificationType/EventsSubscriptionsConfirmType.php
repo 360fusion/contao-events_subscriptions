@@ -1,0 +1,51 @@
+<?php
+
+namespace Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType;
+
+use Terminal42\NotificationCenterBundle\NotificationType\NotificationTypeInterface;
+use Terminal42\NotificationCenterBundle\Token\Definition\AnythingTokenDefinition;
+use Terminal42\NotificationCenterBundle\Token\Definition\EmailTokenDefinition;
+use Terminal42\NotificationCenterBundle\Token\Definition\Factory\TokenDefinitionFactoryInterface;
+use Terminal42\NotificationCenterBundle\Token\Definition\TextTokenDefinition;
+
+class EventsSubscriptionsConfirmType implements NotificationTypeInterface
+{
+    public const NAME = 'events_subscriptions_confirm';
+
+    public function __construct(private TokenDefinitionFactoryInterface $factory)
+    {
+    }
+
+    public function getName(): string
+    {
+        return self::NAME;
+    }
+
+    public function getTokenDefinitions(): array
+    {
+        return [
+            $this->factory->create(AnythingTokenDefinition::class, 'calendar_*', ''),
+            $this->factory->create(AnythingTokenDefinition::class, 'event_*', ''),
+            $this->factory->create(AnythingTokenDefinition::class, 'subscription_*', ''),
+
+            $this->factory->create(EmailTokenDefinition::class, 'recipient_email', ''),
+
+            $this->factory->create(TextTokenDefinition::class, 'days_before_event', ''),
+            $this->factory->create(TextTokenDefinition::class, 'event_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'event_ics_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'signature', ''),
+            $this->factory->create(TextTokenDefinition::class, 'signature_html', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_status', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_amount', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_method', ''),
+            $this->factory->create(TextTokenDefinition::class, 'purchase_order', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_invoice_text', ''),
+            $this->factory->create(TextTokenDefinition::class, 'payment_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'unsubscribe_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'booking_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'confirm_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'certificate_link', ''),
+            $this->factory->create(TextTokenDefinition::class, 'feedback_link', ''),
+        ];
+    }
+}

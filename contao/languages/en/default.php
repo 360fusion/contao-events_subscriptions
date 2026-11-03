@@ -93,7 +93,7 @@ $GLOBALS['TL_LANG']['MSC']['eventNavigation.reset'] = 'Reset';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.addToCalendar'] = 'Add to calendar';
 
 // Payments
-$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'] = ['free' => 'Free', 'pending' => 'Awaiting payment', 'unpaid' => 'Unpaid (waiting list)', 'paid' => 'Paid', 'invoice' => 'To invoice', 'refunded' => 'Refunded', 'failed' => 'Failed'];
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentStatus'] = ['free' => 'Free', 'pending' => 'Awaiting payment', 'unpaid' => 'Unpaid (waiting list)', 'confirm' => 'Awaiting e-mail confirmation', 'paid' => 'Paid', 'invoice' => 'To invoice', 'refunded' => 'Refunded', 'failed' => 'Failed'];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.price'] = 'Price: %s per person.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.priceFreeFor'] = 'Free for %s e-mail addresses.';
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMethod'] = ['How will you pay?', ''];
@@ -106,12 +106,15 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentMessage'] = [
     'unpaid' => 'Your payment has not been completed yet. <a href="%s">Pay now</a>.',
 ];
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'] = 'Card payments are not available at the moment, please try again later or choose another payment method.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.confirmPending'] = 'Thank you. We have sent you an e-mail: please click the link in it to confirm your booking. Your place is held for 24 hours.';
+$GLOBALS['TL_LANG']['MSC']['events_subscriptions.tooManyBookings'] = 'Too many bookings were made from your network in the last few minutes. Please try again in a little while.';
 
 // Events › Settings › E-mail templates
 $GLOBALS['TL_LANG']['MSC']['events_subscriptions.emailTypes'] = [
     'events_subscriptions_trainer' => 'Trainer pack the day before',
     'events_subscriptions_followUp' => 'After the event (certificate, feedback)',
     'events_subscriptions_subscribe' => 'When someone books',
+    'events_subscriptions_confirm' => 'Confirm the e-mail address (free e-mail domains)',
     'events_subscriptions_unsubscribe' => 'When someone cancels',
     'events_subscriptions_listUpdate' => 'When someone gets a place from the waiting list',
     'events_subscriptions_reminder' => 'Reminder before the event',
@@ -212,6 +215,11 @@ $GLOBALS['TL_LANG']['MSC']['events_subscriptions.public'] = [
     'rating5' => '5 - Excellent',
     'checkinPage' => 'Check-in',
     'checkinStaffOnly' => 'Staff only. Sign in to the back end, then scan the code again.',
+    'confirmTitle' => 'Confirm your booking',
+    'confirmIntro' => 'Please confirm your booking. Your place is held until you do.',
+    'confirmButton' => 'Confirm my booking',
+    'confirmDone' => 'Thank you, your booking is confirmed. A confirmation e-mail is on its way.',
+    'confirmAlready' => 'This booking is already confirmed.',
     'signIn' => 'Sign in',
     'checkinButton' => 'Check in',
     'checkinDone' => '%s is checked in.',

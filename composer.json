@@ -27,7 +27,8 @@
         "league/csv": "^9.23",
         "phpoffice/phpspreadsheet": "^4.3 || ^5.0",
         "symfony/http-client": "^6.4 || ^7.3",
-        "symfony/mime": "^6.4 || ^7.3"
+        "symfony/mime": "^6.4 || ^7.3",
+        "symfony/rate-limiter": "^6.4 || ^7.3"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0",

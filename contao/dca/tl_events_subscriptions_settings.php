@@ -19,7 +19,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
     // One page for each area of Events › Settings › Booking settings, chosen by the module (see SettingsContainer::selectPalette())
     'palettes' => [
         '__selector__' => ['eventsSubscriptionsRetention', 'eventsSubscriptionsPayments', 'eventsSubscriptionsVenues', 'eventsSubscriptionsTrainers'],
-        'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse,eventsSubscriptionsVenues,eventsSubscriptionsTrainers;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation,eventsSubscriptionsTextConfirmationWaitingList;{retention_legend},eventsSubscriptionsRetention',
+        'default' => '{features_legend},eventsSubscriptionsAttendance,eventsSubscriptionsCalendarGroups,eventsSubscriptionsOneBookingPerCourse,eventsSubscriptionsVenues,eventsSubscriptionsTrainers,eventsSubscriptionsBookingLimit;{defaults_legend},eventsSubscriptionsTemplateCalendar;{reports_legend},eventsSubscriptionsNoShowLimit;{wording_legend},eventsSubscriptionsTextIntro,eventsSubscriptionsTextClosed,eventsSubscriptionsTextFull,eventsSubscriptionsTextWaitingList,eventsSubscriptionsTextConfirmation,eventsSubscriptionsTextConfirmationWaitingList;{retention_legend},eventsSubscriptionsRetention',
         'payments' => '{payments_legend},eventsSubscriptionsPayments',
         'invoice' => '{invoice_legend},eventsSubscriptionsInvoice,eventsSubscriptionsInvoiceText',
         'emails' => '{emails_legend},eventsSubscriptionsSenderName,eventsSubscriptionsSenderAddress,eventsSubscriptionsSignature',
@@ -29,7 +29,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
 
     'subpalettes' => [
         'eventsSubscriptionsRetention' => 'eventsSubscriptionsRetentionMonths,eventsSubscriptionsRetentionAction',
-        'eventsSubscriptionsPayments' => 'eventsSubscriptionsPaymentTypes,eventsSubscriptionsPaymentHold,eventsSubscriptionsPaymentsMenu',
+        'eventsSubscriptionsPayments' => 'eventsSubscriptionsPaymentTypes,eventsSubscriptionsPaymentHold,eventsSubscriptionsConfirmDomain,eventsSubscriptionsPaymentsMenu',
         'eventsSubscriptionsVenues' => 'eventsSubscriptionsVenuesMenu',
         'eventsSubscriptionsTrainers' => 'eventsSubscriptionsTrainersMenu',
     ],
@@ -42,6 +42,10 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
         'eventsSubscriptionsPaymentTypes' => [
             'inputType' => 'eventsPaymentTypes',
             'eval' => ['doNotSaveEmpty' => true, 'tl_class' => 'clr'],
+        ],
+        'eventsSubscriptionsConfirmDomain' => [
+            'inputType' => 'checkbox',
+            'eval' => ['tl_class' => 'clr'],
         ],
         'eventsSubscriptionsPaymentsMenu' => [
             'inputType' => 'checkbox',
@@ -86,6 +90,10 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
         'eventsSubscriptionsVenuesMenu' => [
             'inputType' => 'checkbox',
             'eval' => ['tl_class' => 'clr'],
+        ],
+        'eventsSubscriptionsBookingLimit' => [
+            'inputType' => 'text',
+            'eval' => ['rgxp' => 'natural', 'maxlength' => 4, 'tl_class' => 'w50'],
         ],
         'eventsSubscriptionsOneBookingPerCourse' => [
             'inputType' => 'checkbox',

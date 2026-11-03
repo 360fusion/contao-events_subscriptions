@@ -22,7 +22,7 @@ final class Attendees
         $factory = Services::getSubscriptionFactory();
         $rows = [];
 
-        foreach (SubscriptionModel::findBy(['pid=?', "paymentStatus NOT IN ('pending', 'failed', 'refunded')"], [$config->getEvent()->id], ['order' => 'dateCreated, id']) ?? [] as $model) {
+        foreach (SubscriptionModel::findBy(['pid=?', "paymentStatus NOT IN ('pending', 'failed', 'refunded', 'confirm')"], [$config->getEvent()->id], ['order' => 'dateCreated, id']) ?? [] as $model) {
             try {
                 $waiting = (bool) $factory->createFromModel($model)->isOnWaitingList();
             } catch (\InvalidArgumentException) {

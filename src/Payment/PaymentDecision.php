@@ -29,12 +29,18 @@ final class PaymentDecision
      * @param list<string> $availableMethods From availableMethods()
      * @param list<string> $freeEmailDomains
      *
-     * @return string PaymentStatus::FREE, ::INVOICE, ::PENDING (pay by card now) or ::UNPAID (on the waiting list)
+     * @param bool         $confirmDomain A free e-mail domain only counts once the booker confirmed the address
+     *
+     * @return string PaymentStatus::FREE, ::CONFIRM (free once the address is confirmed), ::INVOICE, ::PENDING (pay by card now) or ::UNPAID (on the waiting list)
      */
-    public static function decide(array $availableMethods, array $freeEmailDomains, string $email, string $chosenMethod, bool $onWaitingList): string
+    public static function decide(array $availableMethods, array $freeEmailDomains, string $email, string $chosenMethod, bool $onWaitingList, bool $confirmDomain = false): string
     {
-        if (!$availableMethods || ($freeEmailDomains && (new SubscriptionValidator())->isEmailDomainAllowed($email, $freeEmailDomains))) {
+        if (!$availableMethods) {
             return PaymentStatus::FREE;
+        }
+
+        if ($freeEmailDomains && (new SubscriptionValidator())->isEmailDomainAllowed($email, $freeEmailDomains)) {
+            return $confirmDomain ? PaymentStatus::CONFIRM : PaymentStatus::FREE;
         }
 
         $method = \in_array($chosenMethod, $availableMethods, true) ? $chosenMethod : $availableMethods[0];

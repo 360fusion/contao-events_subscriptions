@@ -40,10 +40,10 @@ class PaymentManager
             return null;
         }
 
-        $status = PaymentDecision::decide($methods, $config->getFreeEmailDomains(), (string) $model->email, $chosenMethod, $onWaitingList);
+        $status = PaymentDecision::decide($methods, $config->getFreeEmailDomains(), (string) $model->email, $chosenMethod, $onWaitingList, Features::confirmDomain());
         $model->paymentStatus = $status;
 
-        if (PaymentStatus::FREE === $status) {
+        if (\in_array($status, [PaymentStatus::FREE, PaymentStatus::CONFIRM], true)) {
             $model->save();
 
             return null;
@@ -240,6 +240,37 @@ class PaymentManager
     }
 
     /**
+     * Cancel the bookings of free e-mail domains whose address was not confirmed within a day, so their places are free again
+     *
+     * @return int The number of cancelled bookings
+     */
+    public function expireUnconfirmed(int $maxAge = 86400): int
+    {
+        $expired = 0;
+
+        foreach (SubscriptionModel::findBy(['paymentStatus=?', 'dateCreated<?'], [PaymentStatus::CONFIRM, time() - $maxAge]) ?? [] as $model) {
+            $this->release($model);
+            ++$expired;
+        }
+
+        return $expired;
+    }
+
+    /**
+     * Remove a booking that never became real and let the next people on the waiting list move up
+     */
+    private function release(SubscriptionModel $model): void
+    {
+        try {
+            (new NotificationListener())->promoteFromWaitingList(new UnsubscribeEvent($model, Services::getSubscriptionFactory()->createFromModel($model)));
+        } catch (\Throwable $e) {
+            $this->log(sprintf('The waiting list could not be updated after the booking of %s expired: %s', trim($model->firstname.' '.$model->lastname), $e->getMessage()));
+        }
+
+        $model->delete();
+    }
+
+    /**
      * The payment failed or was abandoned: remove the waiting booking without notifications
      */
     private function fail(PaymentModel $payment): void
@@ -258,13 +289,7 @@ class PaymentManager
 
         if (null !== ($model = SubscriptionModel::findByPk($payment->subscription)) && PaymentStatus::PENDING === $model->paymentStatus) {
             // The place is free again: the next people on the waiting list move up (no cancellation e-mail to someone who never paid)
-            try {
-                (new NotificationListener())->promoteFromWaitingList(new UnsubscribeEvent($model, Services::getSubscriptionFactory()->createFromModel($model)));
-            } catch (\Throwable $e) {
-                $this->log(sprintf('The waiting list could not be updated after the unpaid booking of %s for "%s" expired: %s', $payment->name, $payment->eventTitle, $e->getMessage()));
-            }
-
-            $model->delete();
+            $this->release($model);
         }
     }
 

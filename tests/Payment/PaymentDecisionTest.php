@@ -24,6 +24,10 @@ class PaymentDecisionTest extends TestCase
 
         $this->assertSame(PaymentStatus::FREE, PaymentDecision::decide([], [], 'a@b.com', 'card', false));
         $this->assertSame(PaymentStatus::FREE, PaymentDecision::decide($both, ['nhs.net'], 'ann@trust.nhs.net', 'card', false));
+        // With "confirm the address", a free e-mail domain only holds the place until the booker clicks the link
+        $this->assertSame(PaymentStatus::CONFIRM, PaymentDecision::decide($both, ['nhs.net'], 'ann@trust.nhs.net', 'card', false, true));
+        $this->assertSame(PaymentStatus::PENDING, PaymentDecision::decide($both, ['nhs.net'], 'ann@gmail.com', 'card', false, true));
+        $this->assertSame(PaymentStatus::FREE, PaymentDecision::decide([], ['nhs.net'], 'ann@trust.nhs.net', 'card', false, true));
         $this->assertSame(PaymentStatus::PENDING, PaymentDecision::decide($both, ['nhs.net'], 'ann@gmail.com', 'card', false));
         $this->assertSame(PaymentStatus::INVOICE, PaymentDecision::decide($both, [], 'ann@gmail.com', 'invoice', false));
         $this->assertSame(PaymentStatus::UNPAID, PaymentDecision::decide($both, [], 'ann@gmail.com', 'card', true));

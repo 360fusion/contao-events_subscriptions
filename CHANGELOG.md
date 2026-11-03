@@ -2,6 +2,14 @@
 
 This fork follows Codefog's `master` (last merged: `9cb728cb`, "Fix the backend forms not working in Contao 5.7").
 
+## Unreleased
+
+- Free e-mail domains: optional confirmation of the e-mail address (Booking settings › Payments). The booker clicks a link
+  and presses a button before the booking counts as free; unconfirmed bookings expire after 24 hours. New e-mail "Confirm
+  your booking" and the status "Awaiting e-mail confirmation".
+
+- Optional limit of bookings per IP address in ten minutes (Booking settings › General), against bots and mass bookings.
+
 ## 3.4.0-360
 
 Security and reliability fixes from a code audit and a security review:

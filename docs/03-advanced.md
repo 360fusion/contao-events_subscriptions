@@ -189,9 +189,12 @@ What happens when a guest books:
   default, set in Booking settings › Payments) are cancelled by the minutely cron job and the place is free again.
 - **Invoice:** the purchase order or cost centre is required, the booking is "To invoice" and confirmed straight
   away. Mark it as paid in the payments list once the money arrived.
-- **Free e-mail domain:** the booking is "Free", nothing to pay. The address is not checked, so anyone can type an
-  address of that domain: use it for people you can recognise on the day (the sign-in sheet shows the address), not as
-  the only control for an expensive course.
+- **Free e-mail domain:** the booking is "Free", nothing to pay. By default the address is not checked, so anyone can
+  type an address of that domain. Tick *Confirm the e-mail address of free e-mail domains* in Booking settings ›
+  Payments to close that gap: the booker gets the e-mail "Confirm your booking", the place is held for 24 hours, and the
+  booking is only "Free" (and the usual confirmation e-mail sent) after they click the link and press *Confirm my
+  booking*. Unconfirmed bookings are cancelled after 24 hours and the waiting list moves up. It needs the e-mail
+  "Confirm your booking" in E-mail templates (created by the update).
 - **Waiting list:** no payment is taken. The `##payment_link##` token in the waiting list promotion e-mail lets the
   guest pay once they have a place.
 
@@ -206,7 +209,9 @@ book the person in again. When an unpaid card booking expires, the next person o
 the promotion e-mail.
 
 Before going live: set `framework.trusted_hosts` (or give the root page a domain) so links in e-mails always use your
-domain, and put a rate limit or a stronger spam check in front of the booking form if it is open to the public.
+domain. If the booking form is open to the public, set *Bookings per IP address in 10 minutes* in Booking settings ›
+General (everyone on one office or hospital network shares an address, so keep it high or off there) and consider a
+stronger spam check.
 
 Notification tokens: `##payment_status##`, `##payment_amount##`, `##payment_method##`, `##purchase_order##`,
 `##payment_link##`. The exports have the payment columns too.

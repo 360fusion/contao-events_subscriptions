@@ -63,7 +63,15 @@ class CronListener
     {
         $this->framework->initialize();
 
-        $expired = (new PaymentManager())->expirePending();
+        $manager = new PaymentManager();
+        $expired = $manager->expirePending();
+
+        if (($unconfirmed = $manager->expireUnconfirmed()) > 0) {
+            System::getContainer()->get('monolog.logger.contao')->info(
+                sprintf('%s bookings were cancelled because the e-mail address was not confirmed', $unconfirmed),
+                ['contao' => new ContaoContext(__METHOD__, ContaoContext::CRON)],
+            );
+        }
 
         if ($expired > 0) {
             System::getContainer()->get('monolog.logger.contao')->info(

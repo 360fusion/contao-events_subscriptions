@@ -169,7 +169,7 @@ class Automator
         $time = Date::floorToMinute();
 
         return Database::getInstance()->prepare(
-            "SELECT e.*, es.id AS subscriptionId FROM tl_calendar_events_subscription es JOIN tl_calendar_events e ON e.id=es.pid WHERE e.pid=? AND es.disableReminders='' AND es.paymentStatus NOT IN ('pending', 'failed', 'refunded') AND (e.start='' OR e.start<=?) AND (e.stop='' OR e.stop>?) AND e.published=?".$where
+            "SELECT e.*, es.id AS subscriptionId FROM tl_calendar_events_subscription es JOIN tl_calendar_events e ON e.id=es.pid WHERE e.pid=? AND es.disableReminders='' AND es.paymentStatus NOT IN ('pending', 'failed', 'refunded', 'confirm') AND (e.start='' OR e.start<=?) AND (e.stop='' OR e.stop>?) AND e.published=?".$where
         )
             ->execute($calendar->id, $time, ($time + 60), 1)
             ->fetchAllAssoc();

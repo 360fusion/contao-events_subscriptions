@@ -9,6 +9,9 @@ use BaconQrCode\Writer;
 use Codefog\EventsSubscriptionsBundle\Backend\Access;
 use Codefog\EventsSubscriptionsBundle\Booking\FieldForm;
 use Codefog\EventsSubscriptionsBundle\Booking\Links;
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus;
+use Codefog\EventsSubscriptionsBundle\EventDispatcher;
+use Codefog\EventsSubscriptionsBundle\Event\SubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\Booking\Page;
 use Codefog\EventsSubscriptionsBundle\EventConfig;
 use Codefog\EventsSubscriptionsBundle\Features;
@@ -256,6 +259,41 @@ class BookingController
             .'<div class="actions"><button type="submit">'.Page::e(Page::t('feedbackSend')).'</button></div></form>';
 
         return Page::render($title, $body);
+    }
+
+    /**
+     * Confirm the e-mail address of a booking with a free e-mail domain. A page with a button, so that link checkers and
+     * previews that open the e-mail's link cannot confirm for the booker.
+     */
+    #[Route('/confirm/{token}', name: Links::CONFIRM, requirements: self::TOKEN, methods: ['GET', 'POST'])]
+    public function confirm(Request $request, string $token): Response
+    {
+        if (null === ($booking = $this->load($token))) {
+            return $this->notFound();
+        }
+
+        [$model, $event, $config, $subscription] = $booking;
+        $title = Page::t('confirmTitle');
+        $card = '<dl class="card"><dt>'.Page::e(Page::t('event')).'</dt><dd>'.Page::e($event->title).'</dd><dt>'.Page::e(Page::t('date')).'</dt><dd>'.Page::e($this->when($event)).'</dd></dl>';
+
+        if (PaymentStatus::CONFIRM !== $model->paymentStatus) {
+            return Page::render($title, $card.'<div class="notice"><p>'.Page::e(Page::t('confirmAlready')).'</p></div>');
+        }
+
+        if ($request->isMethod('POST')) {
+            $model->paymentStatus = PaymentStatus::FREE;
+            $model->tstamp = time();
+            $model->save();
+
+            // Now the booking is real: the usual confirmation e-mail
+            $dispatch = new SubscribeEvent($model, $subscription);
+            $dispatch->setExtras($config->getExtras());
+            Services::getEventDispatcher()->dispatch(EventDispatcher::EVENT_ON_SUBSCRIBE, $dispatch);
+
+            return Page::render($title, $card.'<div class="notice"><p>'.Page::e(Page::t('confirmDone')).'</p></div>');
+        }
+
+        return Page::render($title, $card.'<p>'.Page::e(Page::t('confirmIntro')).'</p><form method="post">'.$this->hidden('').'<div class="actions"><button type="submit">'.Page::e(Page::t('confirmButton')).'</button></div></form>');
     }
 
     /**

@@ -28,6 +28,11 @@ class DefaultEmailsMigration extends AbstractMigration
             'subject' => '{if subscription_waitingList=="1"}On the waiting list{else}Booking confirmed{endif}: ##event_title##',
             'text' => "Dear ##subscription_firstname##,\n\n{if subscription_waitingList==\"1\"}The event is full, so you are on the waiting list. We will e-mail you if a place becomes free.{else}Thank you, your place is booked.{endif}\n\n\n".self::EVENT."\nAdd it to your calendar: ##event_ics_link##\n\nYour details:\n##subscription_details##\n\n{if payment_amount!=\"\"}Payment: ##payment_amount##, ##payment_method## (##payment_status##)\n{if payment_link!=\"\"}Pay here: ##payment_link##\n{endif}\n{if payment_invoice_text!=\"\"}##payment_invoice_text##\n{endif}\n\n{endif}\nTo see or change your booking, or to cancel it: ##booking_link##\n\n##signature##",
         ],
+        'events_subscriptions_confirm' => [
+            'title' => 'Confirm your booking',
+            'subject' => 'Please confirm your booking: ##event_title##',
+            'text' => "Dear ##subscription_firstname##,\n\nThank you for booking. Please confirm your booking with this link, your place is held for 24 hours:\n##confirm_link##\n\n".self::EVENT."\n\nIf you did not book, ignore this e-mail and the place is released.\n\n##signature##",
+        ],
         'events_subscriptions_unsubscribe' => [
             'title' => 'Booking cancelled',
             'subject' => 'Booking cancelled: ##event_title##',

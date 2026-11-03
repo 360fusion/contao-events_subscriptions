@@ -3,6 +3,7 @@
 namespace Codefog\EventsSubscriptionsBundle;
 
 use Contao\Config;
+use Contao\Database;
 
 /**
  * Feature switches of Events › Settings › Booking settings
@@ -94,6 +95,24 @@ final class Features
         $value = Config::get('eventsSubscriptionsPaymentsMenu');
 
         return null === $value || (bool) $value;
+    }
+
+    /**
+     * Bookings allowed per IP address in ten minutes, 0 for no limit
+     */
+    public static function bookingLimit(): int
+    {
+        return max(0, (int) Config::get('eventsSubscriptionsBookingLimit'));
+    }
+
+    /**
+     * Bookings with an address of a free e-mail domain are only confirmed once the booker clicks the link in an e-mail
+     */
+    public static function confirmDomain(): bool
+    {
+        // Without the e-mail nobody could confirm: the booking would only expire
+        return (bool) Config::get('eventsSubscriptionsConfirmDomain')
+            && null !== Database::getInstance()->prepare('SELECT id FROM tl_nc_notification WHERE type=?')->limit(1)->execute('events_subscriptions_confirm')->id;
     }
 
     /**

@@ -4,6 +4,7 @@ namespace Codefog\EventsSubscriptionsBundle\DataContainer;
 
 use Codefog\EventsSubscriptionsBundle\Email\EmailTags;
 use Codefog\EventsSubscriptionsBundle\Features;
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsConfirmType;
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsEventType;
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsListUpdateType;
 use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsReminderType;
@@ -29,6 +30,7 @@ class EventEmailContainer
 {
     public const TYPES = [
         EventsSubscriptionsSubscribeType::NAME,
+        EventsSubscriptionsConfirmType::NAME,
         EventsSubscriptionsUnsubscribeType::NAME,
         EventsSubscriptionsListUpdateType::NAME,
         EventsSubscriptionsReminderType::NAME,

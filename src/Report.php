@@ -11,7 +11,7 @@ use Contao\Database;
  */
 final class Report
 {
-    private const BOOKED = "s.paymentStatus NOT IN ('pending', 'failed')";
+    private const BOOKED = "s.paymentStatus NOT IN ('pending', 'failed', 'confirm')";
 
     /**
      * The events of the period with their sums, one entry for each event

@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\Subscription;
 
+use Codefog\EventsSubscriptionsBundle\BookingRateLimit;
 use Codefog\EventsSubscriptionsBundle\EventConfig;
 use Codefog\EventsSubscriptionsBundle\Features;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
@@ -10,6 +11,7 @@ use Codefog\EventsSubscriptionsBundle\RegistrationFields;
 use Codefog\EventsSubscriptionsBundle\Services;
 use Codefog\HasteBundle\Form\Form;
 use Codefog\HasteBundle\Util\ArrayPosition;
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus;
 use Contao\CoreBundle\Exception\RedirectResponseException;
 use Contao\Config;
 use Contao\Date;
@@ -246,6 +248,10 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                 return;
             }
 
+            if (!BookingRateLimit::allowRequest()) {
+                $this->throwRedirectException(null, $GLOBALS['TL_LANG']['MSC']['events_subscriptions.tooManyBookings'], $event->getEvent()->id);
+            }
+
             try {
                 $this->getSubscriber()->subscribe($event, $this);
             } catch (RedirectResponseException $e) {
@@ -254,6 +260,11 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
                 // The payment provider could not be reached, the booking was removed again
                 System::getContainer()->get('monolog.logger.contao')->error('Payment checkout failed: '.$e->getMessage());
                 $this->throwRedirectException(null, $GLOBALS['TL_LANG']['MSC']['events_subscriptions.paymentUnavailable'], $event->getEvent()->id);
+            }
+
+            // Free e-mail domain: nothing is confirmed until the booker clicks the link in the e-mail
+            if (PaymentStatus::CONFIRM === $this->getSubscriptionModel()?->paymentStatus) {
+                $this->throwRedirectException(null, $GLOBALS['TL_LANG']['MSC']['events_subscriptions.confirmPending'], $event->getEvent()->id);
             }
 
             $waitingList = $this->isOnWaitingList();

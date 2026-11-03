@@ -14,6 +14,7 @@ final class Links
     public const CERTIFICATE = 'events_subscriptions_certificate';
     public const FEEDBACK = 'events_subscriptions_feedback';
     public const CHECKIN = 'events_subscriptions_checkin';
+    public const CONFIRM = 'events_subscriptions_confirm';
 
     /**
      * The e-mail tokens ##booking_link##, ##certificate_link## and ##feedback_link##
@@ -32,6 +33,7 @@ final class Links
             'booking_link' => $base.self::path(self::BOOKING, $bookingToken),
             'certificate_link' => $base.self::path(self::CERTIFICATE, $bookingToken),
             'feedback_link' => $base.self::path(self::FEEDBACK, $bookingToken),
+            'confirm_link' => $base.self::path(self::CONFIRM, $bookingToken),
         ];
     }
 

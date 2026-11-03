@@ -11,6 +11,8 @@
 
 namespace Codefog\EventsSubscriptionsBundle;
 
+use Codefog\EventsSubscriptionsBundle\NotificationCenter\NotificationType\EventsSubscriptionsConfirmType;
+use Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentManager;
 use Codefog\EventsSubscriptionsBundle\Subscription\GuestSubscription;
 use Contao\CoreBundle\Exception\RedirectResponseException;
@@ -96,6 +98,13 @@ class Subscriber
         // Paid events: the booker pays by card first, the confirmation is sent once the payment succeeded
         if ($subscription instanceof GuestSubscription && null !== ($checkoutUrl = (new PaymentManager())->handleNewSubscription($event, $model, $subscription->getPaymentMethodChoice(), $subscription->getPurchaseOrder(), (bool) $subscription->isOnWaitingList(), $subscription->getSuccessPageId()))) {
             throw new RedirectResponseException($checkoutUrl, 303);
+        }
+
+        // Free e-mail domain: the booker confirms the address first, then the normal confirmation follows (see BookingController)
+        if (PaymentStatus::CONFIRM === $model->paymentStatus) {
+            Services::getNotificationSender()->sendByType(EventsSubscriptionsConfirmType::NAME, $model);
+
+            return $model;
         }
 
         // Dispatch the event
