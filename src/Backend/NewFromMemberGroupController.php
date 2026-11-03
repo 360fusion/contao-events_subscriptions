@@ -34,6 +34,8 @@ class NewFromMemberGroupController
             Controller::redirect('contao?act=error');
         }
 
+        Access::requireCalendar((int) $eventModel->pid);
+
         System::loadLanguageFile('tl_calendar_events_subscription');
 
         $formSubmit = 'events-subscriptions-new-from-member-group';

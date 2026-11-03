@@ -3,6 +3,7 @@
 namespace Codefog\EventsSubscriptionsBundle\Backend\Module;
 
 use Codefog\EventsSubscriptionsBundle\Backend\BackendPagination;
+use Codefog\EventsSubscriptionsBundle\Backend\Access;
 use Codefog\EventsSubscriptionsBundle\Retention;
 use Contao\BackendTemplate;
 use Contao\Config;
@@ -33,17 +34,17 @@ class RetentionModule
         $months = max(1, (int) Input::get('months') ?: Retention::months());
         $cutoff = strtotime(sprintf('-%d months', $months));
         $db = Database::getInstance();
-        $from = "FROM tl_calendar_events e JOIN tl_calendar_events_subscription s ON s.pid=e.id AND s.lastname!='".Retention::ANONYMISED."' WHERE GREATEST(e.startTime, e.endTime)<?";
+        $from = "FROM tl_calendar_events e JOIN tl_calendar_events_subscription s ON s.pid=e.id AND s.lastname!='".Retention::ANONYMISED."' WHERE GREATEST(e.startTime, e.endTime)<?".(($access = Access::calendarSql('e.pid')) ? ' AND '.$access : '');
 
         if ('events_retention' === Input::post('FORM_SUBMIT')) {
-            $action = 'anonymise' === Input::post('action') ? 'anonymise' : 'delete';
+            $action = 'delete' === Input::post('action') ? 'delete' : 'anonymise';
 
             // All matching events, or the ticked ones of this page
             $ids = Input::post('allMatching')
                 ? $db->prepare("SELECT DISTINCT e.id $from")->execute($cutoff)->fetchEach('id')
                 : array_map('intval', (array) Input::post('events'));
 
-            $changed = (new Retention())->runForEvents($ids, $action);
+            $changed = (new Retention())->runForEvents($ids, $action, $cutoff);
             Message::addConfirmation(sprintf($L['retentionDone'][$action], number_format($changed), number_format(\count($ids))));
             Controller::reload();
         }

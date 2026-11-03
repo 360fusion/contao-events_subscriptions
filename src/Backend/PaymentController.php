@@ -5,6 +5,7 @@ namespace Codefog\EventsSubscriptionsBundle\Backend;
 use Codefog\EventsSubscriptionsBundle\Model\PaymentModel;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentManager;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentRequest;
+use Contao\CalendarEventsModel;
 use Contao\Controller;
 use Contao\Input;
 use Contao\Message;
@@ -29,6 +30,10 @@ class PaymentController
         if (null === ($payment = PaymentModel::findByPk(Input::get('id')))) {
             Controller::redirect($backUrl);
         }
+
+        // Refunds and mark-as-paid only for the calendars the user may work with (payments of deleted events: admins only)
+        $event = CalendarEventsModel::findByPk($payment->event);
+        Access::requireCalendar($event ? (int) $event->pid : 0);
 
         System::loadLanguageFile('tl_calendar_events_payment');
         $amount = PaymentRequest::format((int) $payment->amount, (string) $payment->currency);

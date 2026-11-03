@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\DataContainer;
 
+use Codefog\EventsSubscriptionsBundle\Backend\Access;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentRequest;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentStatus;
 use Codefog\EventsSubscriptionsBundle\Payment\ProviderFactory;
@@ -19,6 +20,17 @@ use Codefog\EventsSubscriptionsBundle\Payment\WebhookUrl;
 
 class PaymentContainer
 {
+    /**
+     * Only the payments of events in calendars the user may work with (admins see all)
+     */
+    public function restrictToUserCalendars(): void
+    {
+        if ($access = Access::calendarSql('e.pid')) {
+            $ids = Database::getInstance()->query('SELECT p.id FROM tl_calendar_events_payment p JOIN tl_calendar_events e ON e.id=p.event WHERE '.$access)->fetchEach('id');
+            $GLOBALS['TL_DCA']['tl_calendar_events_payment']['list']['sorting']['root'] = $ids ?: [0];
+        }
+    }
+
     /**
      * Show the price in pounds, it is stored in pence
      */

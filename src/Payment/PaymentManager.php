@@ -91,6 +91,11 @@ class PaymentManager
         $eventUrl = Events::generateEventUrl($config->getEvent(), true);
         $returnUrl = $eventUrl.(str_contains($eventUrl, '?') ? '&' : '?').http_build_query(['payment' => 'return', 'booking' => $model->unsubscribeToken] + ($successPageId ? ['next' => $successPageId] : []));
 
+        // A new checkout replaces the reference: if the earlier one was paid, do not lose that payment
+        if ($payment->reference && PaymentStatus::PAID === $this->sync($payment)) {
+            return $returnUrl;
+        }
+
         $checkout = $this->getProvider($providerModel)->createCheckout(new PaymentRequest(
             (int) $payment->amount,
             (string) $payment->currency,
@@ -99,6 +104,7 @@ class PaymentManager
             $returnUrl,
             WebhookUrl::generate((int) $providerModel->id),
             (string) $model->email,
+            Features::paymentHoldMinutes() * 60,
         ));
 
         $payment->provider = $providerModel->id;
@@ -116,7 +122,7 @@ class PaymentManager
      */
     public function sync(PaymentModel $payment): string
     {
-        if (!\in_array($payment->status, [PaymentStatus::PENDING, PaymentStatus::UNPAID], true) || !$payment->reference || null === ($providerModel = PaymentProviderModel::findByPk($payment->provider))) {
+        if (!\in_array($payment->status, [PaymentStatus::PENDING, PaymentStatus::UNPAID, PaymentStatus::FAILED], true) || !$payment->reference || null === ($providerModel = PaymentProviderModel::findByPk($payment->provider))) {
             return (string) $payment->status;
         }
 
@@ -146,7 +152,7 @@ class PaymentManager
 
         // Only once, also when the return page and the webhook arrive at the same time
         $updated = Database::getInstance()
-            ->prepare("UPDATE tl_calendar_events_payment SET status=?, paidAt=?, tstamp=? WHERE id=? AND status IN ('pending', 'unpaid', 'invoice')")
+            ->prepare("UPDATE tl_calendar_events_payment SET status=?, paidAt=?, tstamp=? WHERE id=? AND status IN ('pending', 'unpaid', 'invoice', 'failed')")
             ->execute(PaymentStatus::PAID, time(), time(), $payment->id)
             ->affectedRows;
 
@@ -156,6 +162,11 @@ class PaymentManager
 
         $payment->refresh();
         $this->log(sprintf('Payment ID %s of %s for "%s" was paid', $payment->id, $payment->name, $payment->eventTitle));
+
+        // The booking was cancelled when the hold ran out: the money was taken, so someone must refund it or book the person in again
+        if (PaymentStatus::FAILED === $previous) {
+            $this->log(sprintf('Payment ID %s of %s for "%s" was paid after the booking expired: refund it in Events › Payments, or book the person in', $payment->id, $payment->name, $payment->eventTitle));
+        }
 
         if (null === ($model = SubscriptionModel::findByPk($payment->subscription))) {
             return;
@@ -231,9 +242,17 @@ class PaymentManager
      */
     private function fail(PaymentModel $payment): void
     {
-        $payment->status = PaymentStatus::FAILED;
-        $payment->tstamp = time();
-        $payment->save();
+        // Only a payment that is still pending: if it was paid a moment ago, the booking stays
+        $updated = Database::getInstance()
+            ->prepare("UPDATE tl_calendar_events_payment SET status=?, tstamp=? WHERE id=? AND status='pending'")
+            ->execute(PaymentStatus::FAILED, time(), $payment->id)
+            ->affectedRows;
+
+        if (!$updated) {
+            return;
+        }
+
+        $payment->refresh();
 
         if (null !== ($model = SubscriptionModel::findByPk($payment->subscription)) && PaymentStatus::PENDING === $model->paymentStatus) {
             $model->delete();

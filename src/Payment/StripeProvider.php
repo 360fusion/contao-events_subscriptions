@@ -34,7 +34,9 @@ class StripeProvider implements ProviderInterface
             'cancel_url' => $request->returnUrl,
             'client_reference_id' => $request->bookingToken,
             'metadata' => ['booking' => $request->bookingToken],
-        ] + ('' !== $request->email ? ['customer_email' => $request->email] : []));
+        ] + ('' !== $request->email ? ['customer_email' => $request->email] : [])
+            // Stripe allows 30 minutes to 24 hours: the payment page closes with the hold on the place (a minute later, to stay in range)
+            + ($request->holdSeconds > 0 ? ['expires_at' => time() + min(max($request->holdSeconds + 60, 1860), 86340)] : []));
 
         return new Checkout($session['url'], $session['id']);
     }

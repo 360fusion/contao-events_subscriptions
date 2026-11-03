@@ -107,7 +107,7 @@ final class Features
     }
 
     /**
-     * How long an unpaid card booking keeps its place: 30 minutes (the shortest a provider's payment page lasts) up to a day
+     * How long an unpaid card booking keeps its place: 30 minutes up to a day. A payment made after that is still recorded as paid and logged, so it can be refunded.
      */
     public static function paymentHoldMinutes(): int
     {

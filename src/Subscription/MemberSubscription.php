@@ -9,6 +9,7 @@ use Codefog\HasteBundle\Form\Form;
 use Codefog\HasteBundle\Formatter;
 use Contao\FrontendUser;
 use Contao\MemberModel;
+use Contao\StringUtil;
 use Contao\System;
 
 class MemberSubscription extends AbstractSubscription implements ExportAwareInterface, NotificationAwareInterface
@@ -198,10 +199,10 @@ class MemberSubscription extends AbstractSubscription implements ExportAwareInte
 
         $label = sprintf(
             '%s %s <span style="padding-left:3px;color:#b3b3b3;">[%s – %s]</span> <span style="padding-left:3px;color:#b3b3b3;">[%s: %s]</span>',
-            $member->firstname,
-            $member->lastname,
-            $member->username,
-            $member->email,
+            StringUtil::specialchars((string) $member->firstname),
+            StringUtil::specialchars((string) $member->lastname),
+            StringUtil::specialchars((string) $member->username),
+            StringUtil::specialchars((string) $member->email),
             $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants'],
             $this->subscriptionModel->numberOfParticipants
         );

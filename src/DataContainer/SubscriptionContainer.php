@@ -16,6 +16,7 @@ use Codefog\EventsSubscriptionsBundle\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\EventDispatcher;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\Services;
+use Codefog\EventsSubscriptionsBundle\Backend\Access;
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\CoreBundle\Monolog\ContaoContext;
 use Contao\Database;
@@ -27,6 +28,26 @@ use Contao\System;
 
 class SubscriptionContainer
 {
+    /**
+     * The bookings of an event, or one booking: only for the calendars the user may work with
+     */
+    public function checkPermission(): void
+    {
+        $act = (string) Input::get('act');
+        $db = Database::getInstance();
+
+        // Lists, select mode and new bookings have the event in the address; the rest has the booking
+        if (\in_array($act, ['edit', 'show', 'delete', 'copy', 'cut', 'toggle', 'attended'], true) || Input::get('key')) {
+            $eventId = (int) $db->prepare('SELECT pid FROM tl_calendar_events_subscription WHERE id=?')->execute((int) Input::get('id'))->pid ?: (int) Input::get('id');
+        } else {
+            $eventId = (int) (Input::get('pid') ?: Input::get('id'));
+        }
+
+        if ($eventId && ($calendarId = (int) $db->prepare('SELECT pid FROM tl_calendar_events WHERE id=?')->execute($eventId)->pid)) {
+            Access::requireCalendar($calendarId);
+        }
+    }
+
     /**
      * Display the summary of subscriptions
      */

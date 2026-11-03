@@ -35,6 +35,8 @@ class OverviewController
             Controller::redirect('contao/main.php?act=error');
         }
 
+        Access::requireCalendar((int) $calendarModel->id);
+
         System::loadLanguageFile('tl_calendar');
         System::loadLanguageFile('tl_calendar_events');
 

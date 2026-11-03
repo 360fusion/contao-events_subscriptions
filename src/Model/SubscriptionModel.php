@@ -26,7 +26,7 @@ class SubscriptionModel extends Model
 
     public static function generateUnsubscribeToken(): string
     {
-        return md5(uniqid('', true));
+        return bin2hex(random_bytes(16));
     }
 
     public static function findByPidAndMember($pid, $member): static|null

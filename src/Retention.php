@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle;
 
+use Codefog\EventsSubscriptionsBundle\Backend\Access;
 use Contao\Config;
 use Contao\Controller;
 use Contao\CoreBundle\Monolog\ContaoContext;
@@ -63,9 +64,17 @@ class Retention
      *
      * @param list<int> $eventIds
      */
-    public function runForEvents(array $eventIds, string $action): int
+    public function runForEvents(array $eventIds, string $action, int $cutoff): int
     {
-        if (!$eventIds = array_filter(array_map('intval', $eventIds))) {
+        // Only events that really ended before the cutoff, in calendars the user may work with
+        $eventIds = array_filter(array_map('intval', $eventIds));
+        $access = Access::calendarSql('pid');
+
+        if ($eventIds) {
+            $eventIds = Database::getInstance()->query('SELECT id FROM tl_calendar_events WHERE id IN ('.implode(',', $eventIds).') AND GREATEST(startTime, endTime)<'.$cutoff.($access ? ' AND '.$access : ''))->fetchEach('id');
+        }
+
+        if (!$eventIds) {
             return 0;
         }
 
@@ -118,7 +127,7 @@ class Retention
 
         $db = Database::getInstance();
         $defined = array_keys($GLOBALS['TL_DCA']['tl_calendar_events_subscription']['fields'] ?? []);
-        $set = ["firstname=''", "lastname='".self::ANONYMISED."'", "email=''", 'registrationFields=NULL', "unsubscribeToken=''", 'tstamp='.time()];
+        $set = ["firstname=''", "lastname='".self::ANONYMISED."'", "email=''", 'member=0', 'registrationFields=NULL', "unsubscribeToken=''", 'tstamp='.time()];
 
         $columns = $db->query("SELECT COLUMN_NAME AS name, DATA_TYPE AS type, IS_NULLABLE AS nullable FROM information_schema.columns WHERE table_schema=DATABASE() AND table_name='tl_calendar_events_subscription'")->fetchAllAssoc();
 

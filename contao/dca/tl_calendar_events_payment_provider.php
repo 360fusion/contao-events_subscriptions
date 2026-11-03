@@ -9,7 +9,7 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment_provider'] = [
     // Config
     'config' => [
         'dataContainer' => DC_Table::class,
-        'enableVersioning' => true,
+        'enableVersioning' => false, // the keys must not be copied into tl_version
         'sql' => [
             'keys' => [
                 'id' => 'primary',

@@ -110,8 +110,11 @@ class PageListener
             $calendar = $config->getCalendar();
             $subscription = Services::getSubscriptionFactory()->createFromModel($subscriptionModel);
 
-            // Unsubscribe
-            Services::getSubscriber()->unsubscribe($config, $subscription);
+            // The cancel deadline of the calendar also applies to this link: it is a plain GET, so link checkers and previews that open the
+            // e-mail's link must not be able to cancel a booking on the day
+            if (Services::getSubscriptionValidator()->canUnsubscribe($config)) {
+                Services::getSubscriber()->unsubscribe($config, $subscription);
+            }
 
             // Redirect if we have a special page for that
             if ($calendar->subscription_unsubscribeLinkPage && ($page = PageModel::findPublishedById($calendar->subscription_unsubscribeLinkPage)) !== null) {

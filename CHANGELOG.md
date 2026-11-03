@@ -2,6 +2,24 @@
 
 This fork follows Codefog's `master` (last merged: `9cb728cb`, "Fix the backend forms not working in Contao 5.7").
 
+## Unreleased
+
+Security and reliability fixes from a code audit and a security review:
+
+- Names and answers a guest edits on the booking page can no longer carry markup into the back end lists (stored XSS);
+  back end labels escape names and e-mail addresses.
+- The event, calendar and group exports no longer let a name such as `=HYPERLINK(...)` run as a formula in Excel.
+- Back end tools check the user's calendar permissions: bookings, exports, sign-in sheet, notifications, overview,
+  subscribers, upcoming events, payments (list, refund, mark as paid) and old booking data only for calendars the user may use.
+- Old booking data: only events that really ended before the cutoff can be changed; the default action is anonymise, not
+  delete; anonymising member bookings also detaches the member.
+- Payments: a payment made after the hold ran out is recorded as paid and logged (it used to be ignored); the hold can no
+  longer overwrite a payment that was just paid; a second "pay" link does not lose a payment made on the first; the Stripe
+  payment page closes with the hold; provider keys are no longer copied into the version history.
+- The e-mail cancel link follows the calendar's cancel deadline; booking tokens come from a secure random source.
+- Reminders are not sent for unpaid, failed or refunded bookings, and no longer an hour early.
+- Booking export: the end date includes that whole day. Test notification to a member: language is read correctly.
+
 ## 3.3.0-360
 
 - Ready-made e-mails for every e-mail type: confirmation, cancellation, place from the waiting list, reminder and new

@@ -72,6 +72,22 @@ class ProviderTest extends TestCase
         }
     }
 
+    public function testStripePaymentPageClosesWithTheHold(): void
+    {
+        $request = new PaymentRequest(1250, 'GBP', 'x', 'tok', 'https://example.test/r', 'https://example.test/h', '', 1800);
+        (new StripeProvider($this->client([['id' => 'cs_1', 'url' => 'https://checkout.stripe.test/cs_1']]), 'sk_test_x'))->createCheckout($request);
+        parse_str($this->sent[0]['body'], $body);
+
+        // Stripe only accepts 30 minutes to 24 hours from now
+        $this->assertGreaterThanOrEqual(time() + 1800, (int) $body['expires_at']);
+        $this->assertLessThanOrEqual(time() + 86400, (int) $body['expires_at']);
+
+        $day = new PaymentRequest(1250, 'GBP', 'x', 'tok', 'https://example.test/r', 'https://example.test/h', '', 86400);
+        (new StripeProvider($this->client([['id' => 'cs_2', 'url' => 'u']]), 'sk_test_x'))->createCheckout($day);
+        parse_str($this->sent[0]['body'], $body);
+        $this->assertLessThan(time() + 86400, (int) $body['expires_at']);
+    }
+
     public function testStripeRefundsTheWholePaymentIntent(): void
     {
         $provider = new StripeProvider($this->client([['payment_intent' => 'pi_9'], []]), 'sk_test_x');

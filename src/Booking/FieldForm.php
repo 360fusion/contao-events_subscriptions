@@ -54,7 +54,8 @@ final class FieldForm
 
         foreach ($fields as $field) {
             $raw = $post['field_'.$field['key']] ?? '';
-            $value = \is_string($raw) ? trim($raw) : '';
+            // No markup in answers: they are shown in the back end, where the front end form's input encoding does not apply here
+            $value = \is_string($raw) ? trim(strip_tags($raw)) : '';
 
             if ('checkbox' === $field['type']) {
                 $value = $value ? '1' : '';

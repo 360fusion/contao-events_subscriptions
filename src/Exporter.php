@@ -20,6 +20,7 @@ use Contao\Date;
 use Contao\File;
 use Contao\System;
 use League\Csv\Writer;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\Filesystem\Filesystem;
@@ -95,7 +96,8 @@ class Exporter
         $csv = Writer::createFromString();
 
         foreach ($data as $row) {
-            $csv->insertOne($row);
+            // A text starting with = + - @ would run as a formula when opened in Excel
+            $csv->insertOne(array_map(static fn ($value) => \is_string($value) && preg_match('/^[=+\-@\t\r]/', $value) ? "'".$value : $value, $row));
         }
 
         $fileInfo = new \SplFileInfo(sprintf('%s.csv', tempnam(sys_get_temp_dir(), 'export')));
@@ -111,7 +113,18 @@ class Exporter
         $rowIndex = 1;
 
         foreach ($data as $row) {
-            $sheet->fromArray(array_values($row), null, 'A' . $rowIndex++);
+            foreach (array_values($row) as $column => $value) {
+                $cell = $sheet->getCell([$column + 1, $rowIndex]);
+
+                // Text always stays text, so a name like "=1+1" is never run as a formula
+                if (\is_int($value) || \is_float($value)) {
+                    $cell->setValue($value);
+                } else {
+                    $cell->setValueExplicit((string) $value, DataType::TYPE_STRING);
+                }
+            }
+
+            ++$rowIndex;
         }
 
         $fileInfo = new \SplFileInfo(sprintf('%s.xlsx', tempnam(sys_get_temp_dir(), 'export')));

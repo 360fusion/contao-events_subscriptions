@@ -32,6 +32,11 @@ class UpcomingController extends OverviewController
 
         $where = [self::LIVE_EVENTS_WHERE];
         $values = [];
+
+        if ($access = Access::calendarSql('tl_calendar_events.pid')) {
+            $where[] = $access;
+        }
+
         $this->addFilterConditions($filters, $where, $values);
 
         if ($filters['calendar']) {
@@ -60,7 +65,7 @@ class UpcomingController extends OverviewController
         $template->filters = $filters;
         $template->filterAction = strtok(Environment::get('requestUri'), '?');
         $template->filterHidden = ['do' => Input::get('do'), 'key' => Input::get('key'), 'rt' => Input::get('rt')];
-        $template->calendarOptions = $this->getOptions('SELECT id, title FROM tl_calendar WHERE subscription_enable=1 ORDER BY title');
+        $template->calendarOptions = $this->getOptions('SELECT id, title FROM tl_calendar WHERE subscription_enable=1'.(($access = Access::calendarSql('id')) ? ' AND '.$access : '').' ORDER BY title');
         $template->eventGroupOptions = $this->getEventGroupOptions();
         $template->groupOptions = Config::get('eventsSubscriptionsCalendarGroups') ? $this->getOptions('SELECT id, title FROM tl_calendar_group ORDER BY title') : [];
         $template->summary = sprintf($GLOBALS['TL_LANG']['tl_calendar']['subscriptions_upcoming.summary'], number_format($total), number_format($subscriptions));

@@ -18,6 +18,9 @@ $GLOBALS['TL_DCA']['tl_calendar_events_payment'] = [
         'notEditable' => true,
         'notCopyable' => true,
         'notDeletable' => true,
+        'onload_callback' => [
+            ['Codefog\EventsSubscriptionsBundle\DataContainer\PaymentContainer', 'restrictToUserCalendars'],
+        ],
         'sql' => [
             'keys' => [
                 'id' => 'primary',

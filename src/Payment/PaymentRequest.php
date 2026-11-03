@@ -15,6 +15,7 @@ final class PaymentRequest
         public readonly string $returnUrl,
         public readonly string $webhookUrl,
         public readonly string $email = '',
+        public readonly int $holdSeconds = 0,
     ) {
     }
 

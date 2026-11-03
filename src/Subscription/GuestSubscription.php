@@ -304,9 +304,9 @@ class GuestSubscription extends AbstractSubscription implements ExportAwareInter
     {
         $label = sprintf(
             '%s %s <span style="padding-left:3px;color:#b3b3b3;">[%s]</span> <span style="padding-left:3px;color:#b3b3b3;">[%s: %s]</span>',
-            $this->subscriptionModel->firstname,
-            $this->subscriptionModel->lastname,
-            $this->subscriptionModel->email,
+            StringUtil::specialchars((string) $this->subscriptionModel->firstname),
+            StringUtil::specialchars((string) $this->subscriptionModel->lastname),
+            StringUtil::specialchars((string) $this->subscriptionModel->email),
             $GLOBALS['TL_LANG']['MSC']['events_subscriptions.numberOfParticipants'],
             $this->subscriptionModel->numberOfParticipants
         );

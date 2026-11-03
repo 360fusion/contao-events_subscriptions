@@ -54,6 +54,17 @@ class ExportCalendarController
             Controller::redirect('contao/main.php?act=error');
         }
 
+        // Only calendars the user may work with
+        if (\is_array($subject)) {
+            $subject = array_values(array_filter($subject, static fn ($calendar) => Access::calendar((int) $calendar->id)));
+
+            if (!$subject) {
+                Access::requireCalendar(0);
+            }
+        } else {
+            Access::requireCalendar((int) ($subject instanceof EventGroupModel ? $subject->pid : $subject->id));
+        }
+
         System::loadLanguageFile('tl_calendar');
         System::loadLanguageFile('tl_calendar_group');
         System::loadLanguageFile('tl_calendar_event_group');
@@ -143,7 +154,8 @@ class ExportCalendarController
         // Determine the end date
         if ($endDateWidget->value) {
             try {
-                $endTstamp = (new Date($endDateWidget->value, Date::getNumericDateFormat()))->tstamp;
+                // Until the end of that day
+                $endTstamp = (new Date($endDateWidget->value, Date::getNumericDateFormat()))->tstamp + 86399;
             } catch (\OutOfBoundsException $e) {}
         }
 

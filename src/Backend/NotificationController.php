@@ -52,6 +52,8 @@ class NotificationController
             Controller::redirect('contao/main.php?act=error');
         }
 
+        Access::requireCalendar((int) $eventModel->pid);
+
         System::loadLanguageFile('tl_calendar_events_subscription');
 
         $formSubmit = 'events-subscriptions-notification';
@@ -223,7 +225,7 @@ class NotificationController
             $tokens = array_merge($basicTokens, $this->notificationSender->getTokens($member, 'tl_member', 'member_'));
             $tokens['recipient_email'] = $member['email'];
 
-            $count += System::getContainer()->get(NotificationCenterHelper::class)->sendNotification($notificationId, $tokens, $member->language);
+            $count += System::getContainer()->get(NotificationCenterHelper::class)->sendNotification($notificationId, $tokens, $member['language'] ?? '');
         }
 
         return $count;

@@ -29,7 +29,6 @@ class ReportsModule
         System::loadLanguageFile('tl_calendar');
         System::loadLanguageFile('tl_events_subscriptions_settings');
 
-        $L = $GLOBALS['TL_LANG']['tl_calendar'];
         $from = $this->month(Input::get('from'), date('Y-m', strtotime('first day of -11 months')));
         $to = max($from, $this->month(Input::get('to'), date('Y-m')));
         $calendar = (int) Input::get('calendar');

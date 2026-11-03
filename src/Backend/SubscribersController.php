@@ -29,6 +29,10 @@ class SubscribersController extends OverviewController
         $all = 'subscriptions_peopleAll' === Input::get('key') || 'event_subscribers' === Input::get('do');
         $calendar = $all ? null : CalendarModel::findByPk(Input::get('id'));
 
+        if (!$all && $calendar) {
+            Access::requireCalendar((int) $calendar->id);
+        }
+
         if (!$all && (null === $calendar || !$calendar->subscription_enable)) {
             Controller::redirect('contao/main.php?act=error');
         }
@@ -52,6 +56,10 @@ class SubscribersController extends OverviewController
         $email = "IF(s.type='member', m.email, s.email)";
         $where = $all ? ['e.pid IN (SELECT id FROM tl_calendar WHERE subscription_enable=1)'] : ['e.pid=?'];
         $values = $all ? [] : [$calendar->id];
+
+        if ($access = Access::calendarSql('e.pid')) {
+            $where[] = $access;
+        }
 
         if ($filters['calendar']) {
             $where[] = 'e.pid=?';
@@ -140,7 +148,7 @@ class SubscribersController extends OverviewController
         $template->backUrl = Backend::getReferer();
         $template->headline = $all ? $L['subscribers.headlineAll'] : sprintf($L['subscribers.headline'], $calendar->title);
         $template->showCalendar = $all;
-        $template->calendarOptions = $all ? $db->query('SELECT id, title FROM tl_calendar WHERE subscription_enable=1 ORDER BY title')->fetchAllAssoc() : [];
+        $template->calendarOptions = $all ? $db->query('SELECT id, title FROM tl_calendar WHERE subscription_enable=1'.(($access = Access::calendarSql('id')) ? ' AND '.$access : '').' ORDER BY title')->fetchAllAssoc() : [];
         $template->rows = $rows;
         $template->summary = sprintf($L['subscribers.summary'], number_format((int) $totals->bookings), number_format((int) $totals->places));
         $template->pagination = BackendPagination::render((int) $totals->bookings, $limit, 'esp');

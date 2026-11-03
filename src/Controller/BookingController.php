@@ -67,7 +67,8 @@ class BookingController
             }
 
             if ('save' === $action && $guest) {
-                $posted = ['firstname' => trim((string) $request->request->get('firstname')), 'lastname' => trim((string) $request->request->get('lastname'))];
+                // No markup in names: the back end lists show them
+                $posted = ['firstname' => trim(strip_tags((string) $request->request->get('firstname'))), 'lastname' => trim(strip_tags((string) $request->request->get('lastname')))];
 
                 foreach ($posted as $name => $value) {
                     if ('' === $value) {
@@ -170,7 +171,7 @@ class BookingController
             return $this->notFound();
         }
 
-        [$model, $event, $config] = $booking;
+        [$model, $event] = $booking;
 
         if (!Features::certificates() || !$model->attended) {
             return Page::render(Page::t('certificateTitle'), '<div class="notice warning"><p>'.Page::e(Page::t('certificateNone')).'</p></div>', Response::HTTP_NOT_FOUND);

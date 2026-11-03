@@ -45,6 +45,8 @@ class ExportController
             Controller::redirect('contao/main.php?act=error');
         }
 
+        Access::requireCalendar((int) $eventModel->pid);
+
         System::loadLanguageFile('tl_calendar_events_subscription');
 
         $formSubmit = 'events-subscriptions-export';
