@@ -2,7 +2,7 @@
 
 This fork follows Codefog's `master` (last merged: `9cb728cb`, "Fix the backend forms not working in Contao 5.7").
 
-## Unreleased
+## 3.5.0-360
 
 - Free e-mail domains: optional confirmation of the e-mail address (Booking settings › Payments). The booker clicks a link
   and presses a button before the booking counts as free; unconfirmed bookings expire after 24 hours. New e-mail "Confirm
