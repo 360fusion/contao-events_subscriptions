@@ -16,6 +16,7 @@ class ExporterHelper
     public function download(\SplFileInfo $fileInfo, string $fileName): void
     {
         $response = new BinaryFileResponse($fileInfo->getPathname());
+        $response->deleteFileAfterSend(true); // the export is a temporary file with the guest list
         $response->setPrivate(); // public by default
         $response->setAutoEtag();
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);

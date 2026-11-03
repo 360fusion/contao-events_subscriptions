@@ -6,6 +6,7 @@ use BaconQrCode\Renderer\Image\SvgImageBackEnd;
 use BaconQrCode\Renderer\ImageRenderer;
 use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 use BaconQrCode\Writer;
+use Codefog\EventsSubscriptionsBundle\Backend\Access;
 use Codefog\EventsSubscriptionsBundle\Booking\FieldForm;
 use Codefog\EventsSubscriptionsBundle\Booking\Links;
 use Codefog\EventsSubscriptionsBundle\Booking\Page;
@@ -68,7 +69,10 @@ class BookingController
 
             if ('save' === $action && $guest) {
                 // No markup in names: the back end lists show them
-                $posted = ['firstname' => trim(strip_tags((string) $request->request->get('firstname'))), 'lastname' => trim(strip_tags((string) $request->request->get('lastname')))];
+                // Once someone has attended, the name on their certificate stays as it was
+                $posted = $model->attended
+                    ? ['firstname' => (string) $model->firstname, 'lastname' => (string) $model->lastname]
+                    : ['firstname' => trim(strip_tags((string) $request->request->get('firstname'))), 'lastname' => trim(strip_tags((string) $request->request->get('lastname')))];
 
                 foreach ($posted as $name => $value) {
                     if ('' === $value) {
@@ -271,6 +275,12 @@ class BookingController
         }
 
         [$model, $event, , $subscription] = $booking;
+
+        // Only staff who may work with this calendar
+        if (!Access::calendar((int) $event->pid)) {
+            return Page::render($title, '<div class="notice warning"><p>'.Page::e(Page::t('checkinStaffOnly')).'</p></div>', Response::HTTP_FORBIDDEN);
+        }
+
         $member = $model->getMember();
         $name = trim(($member ?? $model)->firstname.' '.($member ?? $model)->lastname);
         $head = '<dl class="card"><dt>'.Page::e(Page::t('name')).'</dt><dd><strong>'.Page::e($name).'</strong></dd><dt>'.Page::e(Page::t('event')).'</dt><dd>'.Page::e($event->title).'</dd><dt>'.Page::e(Page::t('date')).'</dt><dd>'.Page::e($this->when($event)).'</dd></dl>';

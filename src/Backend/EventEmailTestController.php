@@ -44,7 +44,14 @@ class EventEmailTestController
             Controller::redirect($backUrl);
         }
 
-        $booking = SubscriptionModel::findOneBy(['type=?'], ['guest'], ['order' => 'id DESC']);
+        // Sample data from the latest guest booking of a calendar the user may see
+        $columns = ['type=?'];
+
+        if ($access = Access::calendarSql('pid')) {
+            $columns[] = 'pid IN (SELECT id FROM tl_calendar_events WHERE '.$access.')';
+        }
+
+        $booking = SubscriptionModel::findOneBy($columns, ['guest'], ['order' => 'id DESC']);
         $tokens = $booking ? Services::getNotificationSender()->getTokensForSubscription($booking) : null;
 
         if (null === $tokens) {

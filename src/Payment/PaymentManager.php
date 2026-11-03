@@ -5,6 +5,8 @@ namespace Codefog\EventsSubscriptionsBundle\Payment;
 use Codefog\EventsSubscriptionsBundle\Event\SubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\EventConfig;
 use Codefog\EventsSubscriptionsBundle\EventDispatcher;
+use Codefog\EventsSubscriptionsBundle\EventListener\NotificationListener;
+use Codefog\EventsSubscriptionsBundle\Event\UnsubscribeEvent;
 use Codefog\EventsSubscriptionsBundle\Features;
 use Codefog\EventsSubscriptionsBundle\Model\PaymentModel;
 use Codefog\EventsSubscriptionsBundle\Model\PaymentProviderModel;
@@ -255,6 +257,13 @@ class PaymentManager
         $payment->refresh();
 
         if (null !== ($model = SubscriptionModel::findByPk($payment->subscription)) && PaymentStatus::PENDING === $model->paymentStatus) {
+            // The place is free again: the next people on the waiting list move up (no cancellation e-mail to someone who never paid)
+            try {
+                (new NotificationListener())->promoteFromWaitingList(new UnsubscribeEvent($model, Services::getSubscriptionFactory()->createFromModel($model)));
+            } catch (\Throwable $e) {
+                $this->log(sprintf('The waiting list could not be updated after the unpaid booking of %s for "%s" expired: %s', $payment->name, $payment->eventTitle, $e->getMessage()));
+            }
+
             $model->delete();
         }
     }

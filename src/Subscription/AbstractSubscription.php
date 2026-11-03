@@ -119,8 +119,8 @@ abstract class AbstractSubscription implements FrontendDataInterface, ModuleData
         }
 
         $total = Database::getInstance()
-            ->prepare('SELECT SUM(numberOfParticipants) AS total FROM tl_calendar_events_subscription WHERE pid=? AND dateCreated<? AND id!=?')
-            ->execute($event->getEvent()->id, $subscriptionModel->dateCreated, $subscriptionModel->id)
+            ->prepare('SELECT SUM(numberOfParticipants) AS total FROM tl_calendar_events_subscription WHERE pid=? AND (dateCreated<? OR (dateCreated=? AND id<?))')
+            ->execute($event->getEvent()->id, $subscriptionModel->dateCreated, $subscriptionModel->dateCreated, $subscriptionModel->id)
             ->total
         ;
 

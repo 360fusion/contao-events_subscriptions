@@ -10,7 +10,8 @@ use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 final class Attendees
 {
     /**
-     * Bookings in the order they were made. Unpaid card bookings (pending, failed) are not real bookings and are left out.
+     * Bookings in the order they were made. Unpaid card bookings (pending, failed) are not real bookings and refunded ones are
+     * treated as cancelled: both are left out.
      *
      * @return list<array{id: int, name: string, email: string, places: int, waiting: bool, attended: bool, answers: list<array{0: string, 1: string}>}>
      */
@@ -21,7 +22,7 @@ final class Attendees
         $factory = Services::getSubscriptionFactory();
         $rows = [];
 
-        foreach (SubscriptionModel::findBy(['pid=?', "paymentStatus NOT IN ('pending', 'failed')"], [$config->getEvent()->id], ['order' => 'dateCreated, id']) ?? [] as $model) {
+        foreach (SubscriptionModel::findBy(['pid=?', "paymentStatus NOT IN ('pending', 'failed', 'refunded')"], [$config->getEvent()->id], ['order' => 'dateCreated, id']) ?? [] as $model) {
             try {
                 $waiting = (bool) $factory->createFromModel($model)->isOnWaitingList();
             } catch (\InvalidArgumentException) {

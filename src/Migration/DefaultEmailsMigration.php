@@ -73,6 +73,8 @@ class DefaultEmailsMigration extends AbstractMigration
             return false;
         }
 
+        $this->framework->initialize();
+
         return false !== $this->getGateway() && [] !== $this->getMissingTypes();
     }
 
@@ -82,7 +84,7 @@ class DefaultEmailsMigration extends AbstractMigration
 
         $gateway = $this->getGateway();
         [$senderName, $senderAddress] = $this->getSender();
-        $created = [];
+        $created = $createdTypes = [];
 
         foreach ($this->getMissingTypes() as $type) {
             $email = self::EMAILS[$type];
@@ -106,7 +108,11 @@ class DefaultEmailsMigration extends AbstractMigration
             ]);
 
             $created[] = $email['title'];
+            $createdTypes[] = $type;
         }
+
+        // Remember them: an e-mail the administrator deletes later is not created again by the next update
+        Config::persist('eventsSubscriptionsDefaultEmails', implode(',', array_unique(array_merge($this->getCreatedTypes(), $createdTypes))));
 
         return $this->createResult(true, 'Created the e-mails: '.implode(', ', $created).'.');
     }
@@ -118,7 +124,15 @@ class DefaultEmailsMigration extends AbstractMigration
     {
         $existing = $this->connection->fetchFirstColumn('SELECT DISTINCT type FROM tl_nc_notification WHERE type IN (?)', [array_keys(self::EMAILS)], [ArrayParameterType::STRING]);
 
-        return array_values(array_diff(array_keys(self::EMAILS), $existing));
+        return array_values(array_diff(array_keys(self::EMAILS), $existing, $this->getCreatedTypes()));
+    }
+
+    /**
+     * @return list<string> The types this migration has created an e-mail for before
+     */
+    private function getCreatedTypes(): array
+    {
+        return array_values(array_filter(explode(',', (string) Config::get('eventsSubscriptionsDefaultEmails'))));
     }
 
     private function getGateway(): int|false

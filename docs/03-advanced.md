@@ -189,13 +189,24 @@ What happens when a guest books:
   default, set in Booking settings › Payments) are cancelled by the minutely cron job and the place is free again.
 - **Invoice:** the purchase order or cost centre is required, the booking is "To invoice" and confirmed straight
   away. Mark it as paid in the payments list once the money arrived.
-- **Free e-mail domain:** the booking is "Free", nothing to pay.
+- **Free e-mail domain:** the booking is "Free", nothing to pay. The address is not checked, so anyone can type an
+  address of that domain: use it for people you can recognise on the day (the sign-in sheet shows the address), not as
+  the only control for an expensive course.
 - **Waiting list:** no payment is taken. The `##payment_link##` token in the waiting list promotion e-mail lets the
   guest pay once they have a place.
 
 Events › Payments shows every payment, also of cancelled bookings, with refund (full refunds
 through the provider) and "Mark as paid" buttons. Cancelling a booking never refunds automatically. The webhook body
 is never trusted: the status is always fetched from the provider's API.
+
+A refunded booking is treated as cancelled for the trainer pack, the sign-in sheet and the thank-you e-mail, but it still
+holds its place: cancel or delete the booking to free the place. A card payment that arrives after the hold ran out is
+recorded as paid and written to the system log ("paid after the booking expired"): refund it in Events › Payments, or
+book the person in again. When an unpaid card booking expires, the next person on the waiting list moves up and gets
+the promotion e-mail.
+
+Before going live: set `framework.trusted_hosts` (or give the root page a domain) so links in e-mails always use your
+domain, and put a rate limit or a stronger spam check in front of the booking form if it is open to the public.
 
 Notification tokens: `##payment_status##`, `##payment_amount##`, `##payment_method##`, `##purchase_order##`,
 `##payment_link##`. The exports have the payment columns too.

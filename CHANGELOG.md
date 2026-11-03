@@ -2,7 +2,7 @@
 
 This fork follows Codefog's `master` (last merged: `9cb728cb`, "Fix the backend forms not working in Contao 5.7").
 
-## Unreleased
+## 3.4.0-360
 
 Security and reliability fixes from a code audit and a security review:
 
@@ -19,6 +19,12 @@ Security and reliability fixes from a code audit and a security review:
 - The e-mail cancel link follows the calendar's cancel deadline; booking tokens come from a secure random source.
 - Reminders are not sent for unpaid, failed or refunded bookings, and no longer an hour early.
 - Booking export: the end date includes that whole day. Test notification to a member: language is read correctly.
+- Waiting list: when an unpaid card booking expires, the next people move up and get the promotion e-mail. Several people
+  move up when several places free up, and bookings made in the same second keep a fixed order.
+- Refunded bookings are left out of the trainer pack, the sign-in sheet and the thank-you e-mail.
+- E-mail test: only uses sample data from calendars the user may see. Check-in needs access to the booking's calendar.
+- After a booker has attended, their name on the certificate can no longer be changed. Export files are deleted after the
+  download. The default e-mails an administrator deleted are not created again by the next update.
 
 ## 3.3.0-360
 
