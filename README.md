@@ -85,6 +85,7 @@ Then run `composer update codefog/contao-events_subscriptions`, check what the d
 7. [Insert tags](docs/07-insert-tags.md)
 8. [Developers](docs/08-developers.md)
 9. [Testing checklist](docs/09-testing-checklist.md)
+10. [Going live](docs/10-going-live.md)
 
 ## Copyright
 
