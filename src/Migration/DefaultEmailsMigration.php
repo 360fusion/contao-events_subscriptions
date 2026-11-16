@@ -20,6 +20,14 @@ use Doctrine\DBAL\Connection;
  */
 class DefaultEmailsMigration extends AbstractMigration
 {
+    /**
+     * Columns this migration writes, lower case as the schema manager lists them
+     */
+    private const REQUIRED_COLUMNS = [
+        'tl_nc_message' => ['pid', 'gateway', 'email_priority', 'email_template', 'published', 'sorting'],
+        'tl_nc_language' => ['pid', 'language', 'fallback', 'recipients', 'attachment_tokens', 'email_sender_name', 'email_sender_address', 'email_replyto', 'email_subject', 'email_mode', 'email_text'],
+    ];
+
     private const EVENT = "Event: ##event_title##\nDate: ##event_startDate##, ##event_startTime##\nLocation: ##event_location##\nDetails: ##event_link##";
 
     private const EMAILS = [
@@ -74,8 +82,17 @@ class DefaultEmailsMigration extends AbstractMigration
     public function shouldRun(): bool
     {
         // The Notification Center tables come with the schema update, the migration runs again after it
-        if (!$this->connection->createSchemaManager()->tablesExist(['tl_nc_notification', 'tl_nc_message', 'tl_nc_language', 'tl_nc_gateway'])) {
+        $schema = $this->connection->createSchemaManager();
+
+        if (!$schema->tablesExist(['tl_nc_notification', 'tl_nc_message', 'tl_nc_language', 'tl_nc_gateway'])) {
             return false;
+        }
+
+        // Upgrading from Notification Center 1: the tables exist, but the columns written below only come with the schema update
+        foreach (self::REQUIRED_COLUMNS as $table => $columns) {
+            if (array_diff($columns, array_keys($schema->listTableColumns($table)))) {
+                return false;
+            }
         }
 
         $this->framework->initialize();
@@ -90,6 +107,9 @@ class DefaultEmailsMigration extends AbstractMigration
         $gateway = $this->getGateway();
         [$senderName, $senderAddress] = $this->getSender();
         $created = $createdTypes = [];
+
+        // All or nothing: a notification without its message would count as existing and never be completed
+        $this->connection->beginTransaction();
 
         foreach ($this->getMissingTypes() as $type) {
             $email = self::EMAILS[$type];
@@ -115,6 +135,8 @@ class DefaultEmailsMigration extends AbstractMigration
             $created[] = $email['title'];
             $createdTypes[] = $type;
         }
+
+        $this->connection->commit();
 
         // Remember them: an e-mail the administrator deletes later is not created again by the next update
         Config::persist('eventsSubscriptionsDefaultEmails', implode(',', array_unique(array_merge($this->getCreatedTypes(), $createdTypes))));
