@@ -10,7 +10,6 @@ use Contao\BackendTemplate;
 use Contao\CalendarEventsModel;
 use Contao\CalendarModel;
 use Contao\Config;
-use Contao\Controller;
 use Contao\Database;
 use Contao\Database\Result;
 use Contao\Date;
@@ -32,7 +31,7 @@ class OverviewController
             || ($calendarModel = CalendarModel::findByPk(Input::get('id'))) === null
             || !$calendarModel->subscription_enable
         ) {
-            Controller::redirect('contao/main.php?act=error');
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         Access::requireCalendar((int) $calendarModel->id);

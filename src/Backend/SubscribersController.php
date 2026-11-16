@@ -11,7 +11,6 @@ use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\CalendarModel;
 use Contao\Config;
-use Contao\Controller;
 use Contao\Database;
 use Contao\Date;
 use Contao\Environment;
@@ -34,7 +33,7 @@ class SubscribersController extends OverviewController
         }
 
         if (!$all && (null === $calendar || !$calendar->subscription_enable)) {
-            Controller::redirect('contao/main.php?act=error');
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         System::loadLanguageFile('tl_calendar');

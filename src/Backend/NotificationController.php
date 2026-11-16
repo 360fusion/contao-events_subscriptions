@@ -49,7 +49,7 @@ class NotificationController
         if (Input::get('key') !== 'subscriptions_notification'
             || ($eventModel = CalendarEventsModel::findByPk(Input::get('id'))) === null
         ) {
-            Controller::redirect('contao/main.php?act=error');
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         Access::requireCalendar((int) $eventModel->pid);

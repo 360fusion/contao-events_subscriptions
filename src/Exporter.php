@@ -91,6 +91,17 @@ class Exporter
         };
     }
 
+    /**
+     * A unique temporary file name with the given extension. tempnam() creates an empty file, which is removed so it does not pile up.
+     */
+    private function tempPath(string $extension): string
+    {
+        $base = tempnam(sys_get_temp_dir(), 'export');
+        @unlink($base);
+
+        return $base.'.'.$extension;
+    }
+
     private function exportToCsv(array $data): \SplFileInfo
     {
         $csv = Writer::createFromString();
@@ -100,7 +111,7 @@ class Exporter
             $csv->insertOne(array_map(static fn ($value) => \is_string($value) && preg_match('/^[=+\-@\t\r]/', $value) ? "'".$value : $value, $row));
         }
 
-        $fileInfo = new \SplFileInfo(sprintf('%s.csv', tempnam(sys_get_temp_dir(), 'export')));
+        $fileInfo = new \SplFileInfo($this->tempPath('csv'));
         (new Filesystem())->dumpFile($fileInfo->getPathname(), $csv->toString());
 
         return $fileInfo;
@@ -127,7 +138,7 @@ class Exporter
             ++$rowIndex;
         }
 
-        $fileInfo = new \SplFileInfo(sprintf('%s.xlsx', tempnam(sys_get_temp_dir(), 'export')));
+        $fileInfo = new \SplFileInfo($this->tempPath('xlsx'));
 
         $writer = new Xlsx($spreadsheet);
         $writer->save($fileInfo->getPathname());

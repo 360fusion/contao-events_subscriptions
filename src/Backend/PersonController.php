@@ -8,10 +8,10 @@ use Contao\Backend;
 use Contao\BackendTemplate;
 use Contao\BackendUser;
 use Contao\Config;
-use Contao\Controller;
 use Contao\Date;
 use Contao\Input;
 use Contao\System;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Everything one person booked, from the name in the subscribers list. The booking ID opens it, so no e-mail address is in the address bar.
@@ -23,12 +23,16 @@ class PersonController
         System::loadLanguageFile('tl_calendar');
 
         $L = $GLOBALS['TL_LANG']['tl_calendar'];
-        $person = Report::person((int) Input::get('id'));
+        $id = (int) Input::get('id');
+        $person = Report::person($id);
         $user = BackendUser::getInstance();
 
         if (null === $person) {
-            Controller::redirect('contao/main.php?act=error');
+            throw new NotFoundHttpException(sprintf('Booking ID %d not found.', $id));
         }
+
+        // The name and e-mail are only shown to users who may see the calendar of the booking that was opened
+        Access::requireCalendar(Report::bookingCalendar($id));
 
         // Only the calendars this user may see
         $rows = array_values(array_filter($person['rows'], static fn (array $row) => $user->isAdmin || $user->hasAccess($row['pid'], 'calendars')));

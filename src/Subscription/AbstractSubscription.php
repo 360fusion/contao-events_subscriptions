@@ -2,6 +2,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\Subscription;
 
+use Codefog\EventsSubscriptionsBundle\Booking\Links;
 use Codefog\EventsSubscriptionsBundle\EventConfig;
 use Codefog\EventsSubscriptionsBundle\Exception\RedirectException;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
@@ -10,7 +11,6 @@ use Codefog\EventsSubscriptionsBundle\Subscriber;
 use Codefog\EventsSubscriptionsBundle\SubscriptionValidator;
 use Codefog\HasteBundle\Form\Form;
 use Contao\Database;
-use Contao\Environment;
 use Contao\Input;
 
 abstract class AbstractSubscription implements FrontendDataInterface, ModuleDataAwareInterface, SubscriptionInterface
@@ -292,7 +292,8 @@ abstract class AbstractSubscription implements FrontendDataInterface, ModuleData
             return null;
         }
 
-        return Environment::get('base') . '?event_unsubscribe=' . $this->subscriptionModel->unsubscribeToken;
+        // The booking page, where cancelling takes a button press: mail link scanners open every link in an e-mail
+        return Links::absolute(Links::BOOKING, (string) $this->subscriptionModel->unsubscribeToken);
     }
 
     /**

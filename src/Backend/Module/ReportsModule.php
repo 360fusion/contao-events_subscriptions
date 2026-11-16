@@ -3,6 +3,7 @@
 namespace Codefog\EventsSubscriptionsBundle\Backend\Module;
 
 use Codefog\EventsSubscriptionsBundle\Features;
+use Codefog\EventsSubscriptionsBundle\Backend\Access;
 use Codefog\EventsSubscriptionsBundle\Backend\TableExport;
 use Codefog\EventsSubscriptionsBundle\Report;
 use Contao\BackendTemplate;
@@ -32,7 +33,14 @@ class ReportsModule
         $from = $this->month(Input::get('from'), date('Y-m', strtotime('first day of -11 months')));
         $to = max($from, $this->month(Input::get('to'), date('Y-m')));
         $calendar = (int) Input::get('calendar');
-        $events = Report::events(strtotime($from.'-01'), strtotime($to.'-01 +1 month') - 1, $calendar);
+        // Only the calendars this user may see, in the figures, the no-show list and the calendar filter
+        $access = Access::calendarSql('e.pid');
+
+        if ($calendar) {
+            Access::requireCalendar($calendar);
+        }
+
+        $events = Report::events(strtotime($from.'-01'), strtotime($to.'-01 +1 month') - 1, $calendar, $access);
         $rows = Report::aggregate($events);
         $attendance = Features::attendance();
 
@@ -51,7 +59,7 @@ class ReportsModule
 
         if ($attendance) {
             $limit = Features::noShowLimit();
-            $people = array_filter(Report::missedCounts(), static fn (array $person) => $person['missed'] >= $limit);
+            $people = array_filter(Report::missedCounts(null, $access), static fn (array $person) => $person['missed'] >= $limit);
             uasort($people, static fn (array $a, array $b) => [$b['missed'], $b['last']] <=> [$a['missed'], $a['last']]);
 
             foreach (\array_slice($people, 0, self::MAX_NO_SHOWS, true) as $email => $person) {
@@ -64,7 +72,7 @@ class ReportsModule
         $template->from = $from;
         $template->to = $to;
         $template->calendar = $calendar;
-        $template->calendarOptions = Database::getInstance()->query('SELECT id, title FROM tl_calendar WHERE subscription_enable=1 ORDER BY title')->fetchAllAssoc();
+        $template->calendarOptions = Database::getInstance()->query('SELECT id, title FROM tl_calendar WHERE subscription_enable=1'.(($calendarAccess = Access::calendarSql('id')) ? ' AND '.$calendarAccess : '').' ORDER BY title')->fetchAllAssoc();
         $template->rows = $rows;
         $template->totals = Report::totals($events);
         $template->attendance = $attendance;

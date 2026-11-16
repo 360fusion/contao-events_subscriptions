@@ -42,7 +42,7 @@ class ExportController
         if (Input::get('key') !== 'subscriptions_export'
             || ($eventModel = CalendarEventsModel::findByPk(Input::get('id'))) === null
         ) {
-            Controller::redirect('contao/main.php?act=error');
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         Access::requireCalendar((int) $eventModel->pid);

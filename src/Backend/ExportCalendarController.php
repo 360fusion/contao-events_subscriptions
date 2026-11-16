@@ -51,7 +51,7 @@ class ExportCalendarController
         } elseif (Input::get('key') === 'subscriptions_exportCalendar' && ($subject = CalendarModel::findByPk(Input::get('id'))) !== null) {
             $title = $subject->title;
         } else {
-            Controller::redirect('contao/main.php?act=error');
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         // Only calendars the user may work with

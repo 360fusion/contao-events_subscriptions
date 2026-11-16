@@ -11,6 +11,7 @@
 
 namespace Codefog\EventsSubscriptionsBundle\EventListener;
 
+use Codefog\EventsSubscriptionsBundle\Booking\Links;
 use Codefog\EventsSubscriptionsBundle\Model\PaymentModel;
 use Codefog\EventsSubscriptionsBundle\Model\SubscriptionModel;
 use Codefog\EventsSubscriptionsBundle\Payment\PaymentManager;
@@ -99,27 +100,13 @@ class PageListener
     }
 
     /**
-     * Unsubscribe the user
-     *
-     * @param string $token
+     * Old cancel links (?event_unsubscribe=<token>, in e-mails sent before the booking page took over) open the booking page.
+     * A plain GET must not cancel: mail link scanners and previews open every link in an e-mail.
      */
     private function unsubscribe($token)
     {
-        if (($subscriptionModel = SubscriptionModel::findOneBy('unsubscribeToken', $token)) !== null) {
-            $config = Services::getEventConfigFactory()->create($subscriptionModel->pid);
-            $calendar = $config->getCalendar();
-            $subscription = Services::getSubscriptionFactory()->createFromModel($subscriptionModel);
-
-            // The cancel deadline of the calendar also applies to this link: it is a plain GET, so link checkers and previews that open the
-            // e-mail's link must not be able to cancel a booking on the day
-            if (Services::getSubscriptionValidator()->canUnsubscribe($config)) {
-                Services::getSubscriber()->unsubscribe($config, $subscription);
-            }
-
-            // Redirect if we have a special page for that
-            if ($calendar->subscription_unsubscribeLinkPage && ($page = PageModel::findPublishedById($calendar->subscription_unsubscribeLinkPage)) !== null) {
-                Controller::redirect($page->getFrontendUrl());
-            }
+        if (SubscriptionModel::findOneBy('unsubscribeToken', (string) $token) !== null) {
+            Controller::redirect(Links::path(Links::BOOKING, (string) $token));
         }
 
         // Simply reload the page without token parameter

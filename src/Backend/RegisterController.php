@@ -8,7 +8,6 @@ use Contao\BackendTemplate;
 use Contao\BackendUser;
 use Contao\CalendarEventsModel;
 use Contao\Config;
-use Contao\Controller;
 use Contao\CoreBundle\Exception\ResponseException;
 use Contao\Database;
 use Contao\Date;
@@ -29,7 +28,7 @@ class RegisterController
         $user = BackendUser::getInstance();
 
         if (null === $event || !($user->isAdmin || $user->hasAccess($event->pid, 'calendars'))) {
-            Controller::redirect('contao/main.php?act=error');
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
         $attendees = Attendees::forEvent(Services::getEventConfigFactory()->create((int) $event->id));

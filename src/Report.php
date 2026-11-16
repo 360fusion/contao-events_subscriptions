@@ -18,10 +18,13 @@ final class Report
      *
      * @return list<array{month: string, course: string, calendar: string, capacity: int, booked: int, attended: int, recorded: bool, cancelled: int, ratingSum: int, ratingCount: int}>
      */
-    public static function events(int $from, int $to, int $calendar = 0): array
+    /**
+     * @param string $restrict Extra SQL condition on the event table "e", e.g. Access::calendarSql('e.pid')
+     */
+    public static function events(int $from, int $to, int $calendar = 0, string $restrict = ''): array
     {
         $db = Database::getInstance();
-        $where = 'c.subscription_enable=1 AND e.published=1 AND e.startTime BETWEEN ? AND ?'.($calendar ? ' AND e.pid=?' : '');
+        $where = 'c.subscription_enable=1 AND e.published=1 AND e.startTime BETWEEN ? AND ?'.($calendar ? ' AND e.pid=?' : '').($restrict ? ' AND '.$restrict : '');
         $values = $calendar ? [$from, $to, $calendar] : [$from, $to];
         $join = 'JOIN tl_calendar_events e ON e.id=%1$s.pid JOIN tl_calendar c ON c.id=e.pid WHERE '.$where;
 
@@ -124,7 +127,10 @@ final class Report
      *
      * @return array<string, array{missed: int, last: int, name: string, booking: int}>
      */
-    public static function missedCounts(array|null $emails = null): array
+    /**
+     * @param string $restrict Extra SQL condition on the event table "e", e.g. Access::calendarSql('e.pid')
+     */
+    public static function missedCounts(array|null $emails = null, string $restrict = ''): array
     {
         if ([] === $emails) {
             return [];
@@ -134,6 +140,10 @@ final class Report
         $email = "LOWER(IF(s.type='member', m.email, s.email))";
         $where = ["$email!=''", 's.attended=0', 'GREATEST(e.startTime, e.endTime)<UNIX_TIMESTAMP()', 'e.startTime>=?', self::BOOKED, 'EXISTS (SELECT 1 FROM tl_calendar_events_subscription a WHERE a.pid=e.id AND a.attended=1)'];
         $values = [strtotime('-12 months')];
+
+        if ('' !== $restrict) {
+            $where[] = $restrict;
+        }
 
         if (null !== $emails) {
             $where[] = "$email IN (".implode(',', array_fill(0, \count($emails), '?')).')';
@@ -168,6 +178,14 @@ final class Report
      *
      * @return array{name: string, email: string, rows: list<array>}|null
      */
+    /**
+     * Calendar ID of the event a booking belongs to, 0 if the booking does not exist
+     */
+    public static function bookingCalendar(int $bookingId): int
+    {
+        return (int) Database::getInstance()->prepare('SELECT e.pid FROM tl_calendar_events_subscription s JOIN tl_calendar_events e ON e.id=s.pid WHERE s.id=?')->execute($bookingId)->pid;
+    }
+
     public static function person(int $bookingId): array|null
     {
         $db = Database::getInstance();

@@ -45,6 +45,7 @@ $GLOBALS['TL_DCA']['tl_events_subscriptions_settings'] = [
         ],
         'eventsSubscriptionsConfirmDomain' => [
             'inputType' => 'checkbox',
+            'load_callback' => [static fn ($value) => null === $value ? '1' : $value], // on unless switched off
             'eval' => ['tl_class' => 'clr'],
         ],
         'eventsSubscriptionsPaymentsMenu' => [

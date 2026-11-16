@@ -28,6 +28,8 @@ use Contao\System;
 
 class NotificationSender
 {
+    public const SECRET_FIELDS = ['password', 'session', 'secret', 'backupCodes', 'trustedTokenVersion', 'autologin', 'createdOn', 'activation'];
+
     /**
      * @var SubscriptionFactory
      */
@@ -130,6 +132,11 @@ class NotificationSender
         $tokens = [];
 
         foreach ($data as $k => $v) {
+            // Login secrets never become e-mail tokens: anyone who can edit a notification could otherwise mail them to themselves
+            if (\in_array($k, self::SECRET_FIELDS, true)) {
+                continue;
+            }
+
             $tokens[$prefix.$k] = System::getContainer()->get(Formatter::class)->dcaValue($table, $k, $v);
         }
 

@@ -23,6 +23,8 @@ use Contao\Config;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\Date;
+use Contao\PageModel;
+use Contao\StringUtil;
 use Contao\System;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,15 +69,21 @@ class BookingController
             if ('cancel' === $action && $canCancel) {
                 Services::getSubscriber()->unsubscribe($config, $subscription);
 
+                // The calendar's own "after cancelling" page, if it has one
+                if (($cancelPage = $config->getCalendar()->subscription_unsubscribeLinkPage) && null !== ($page = PageModel::findPublishedById($cancelPage))) {
+                    return new RedirectResponse($page->getAbsoluteUrl());
+                }
+
                 return Page::render(Page::t('bookingTitle'), '<div class="notice"><p>'.Page::e(Page::t('cancelled', $event->title)).'</p></div>');
             }
 
             if ('save' === $action && $guest) {
-                // No markup in names: the back end lists show them
+                // No markup and no insert tags in names: the back end lists and the front end subscriber lists show them
                 // Once someone has attended, the name on their certificate stays as it was
+                $clean = static fn (string $field): string => trim(StringUtil::stripInsertTags(strip_tags((string) $request->request->get($field))));
                 $posted = $model->attended
                     ? ['firstname' => (string) $model->firstname, 'lastname' => (string) $model->lastname]
-                    : ['firstname' => trim(strip_tags((string) $request->request->get('firstname'))), 'lastname' => trim(strip_tags((string) $request->request->get('lastname')))];
+                    : ['firstname' => $clean('firstname'), 'lastname' => $clean('lastname')];
 
                 foreach ($posted as $name => $value) {
                     if ('' === $value) {

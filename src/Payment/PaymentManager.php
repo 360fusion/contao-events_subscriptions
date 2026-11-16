@@ -24,6 +24,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class PaymentManager
 {
+    public const UNREACHABLE_RETRY_SECONDS = 3 * 86400;
+
     public function __construct(private readonly HttpClientInterface|null $client = null)
     {
     }
@@ -40,7 +42,10 @@ class PaymentManager
             return null;
         }
 
-        $status = PaymentDecision::decide($methods, $config->getFreeEmailDomains(), (string) $model->email, $chosenMethod, $onWaitingList, Features::confirmDomain());
+        // Free e-mail domains only give a free place when the booker can prove the address is theirs (or confirming was switched off on purpose)
+        $confirmDomain = Features::confirmDomain();
+        $freeDomains = $confirmDomain && !Features::canConfirmDomain() ? [] : $config->getFreeEmailDomains();
+        $status = PaymentDecision::decide($methods, $freeDomains, (string) $model->email, $chosenMethod, $onWaitingList, $confirmDomain);
         $model->paymentStatus = $status;
 
         if (\in_array($status, [PaymentStatus::FREE, PaymentStatus::CONFIRM], true)) {
@@ -228,8 +233,14 @@ class PaymentManager
                 if (PaymentStatus::PENDING !== $this->sync($payment)) {
                     continue;
                 }
-            } catch (\Throwable) {
-                // The provider cannot be reached, the booking expires anyway
+            } catch (\Throwable $e) {
+                // The provider cannot be reached: the booker may have paid, so try again on the next run instead of cancelling.
+                // Give up after three days, so a provider that is gone for good does not hold places forever.
+                if ((int) $payment->dateCreated > time() - self::UNREACHABLE_RETRY_SECONDS) {
+                    $this->log(sprintf('Payment %d could not be checked with the provider, trying again later: %s', $payment->id, $e->getMessage()));
+
+                    continue;
+                }
             }
 
             $this->fail($payment);

@@ -59,6 +59,11 @@ class EventEmailTestController
             Controller::redirect($backUrl);
         }
 
+        // The sample booking's private links (manage, cancel, pay) must not reach the test address: swap its token for a dummy one
+        if ($realToken = (string) $booking->unsubscribeToken) {
+            $tokens = array_map(static fn ($value) => \is_string($value) ? str_replace($realToken, str_repeat('0', 32), $value) : $value, $tokens);
+        }
+
         $tokens['recipient_email'] = $tokens['subscription_email'] = $email;
 
         try {
